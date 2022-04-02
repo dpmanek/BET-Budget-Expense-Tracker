@@ -7,6 +7,18 @@ const main_collection=
         "Date of Birth":"12/08/1997",
         "emailID":"",
         "password":"",//HASHED PASS
+        "Review":[
+            {
+            "Date":"04/02/2022",
+            "Ratings":5,
+            "Feedback":"The best budget app"
+            },
+            {
+                "Date":"04/02/2022",
+                "Ratings":4,
+                "Feedback":"Latest update of app is not that good so -1"
+            }
+        ],
         "Money":{
         "Income":{
             "Recurring":[income,income], //Income Object
