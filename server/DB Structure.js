@@ -45,7 +45,7 @@ const expense=
 "Name":"",
 "Description":"",
 "Tags":'',
-"TimeStamp":[],
+"Transaction Date":[],
 "Payment Mode":"",
 "Amount":0,
 }
@@ -59,6 +59,6 @@ const income=
     "Name":"",
     "Description":"",
     "Tags":'',
-    "TimeStamp":"",
+    "Transaction Date":"",
     "Amount":"",
 }
