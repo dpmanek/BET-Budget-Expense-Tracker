@@ -1,0 +1,7 @@
+{
+    "Food and Drinks": ["Bar","Cafe","Groceries","Restrauants","Fast-food","Home Delivery"],
+    "Shopping":["Clothes and Shows","Drug-store","Chemist","Electronics and Accessories",
+        "Free Time","Gifts","Health and Beauty","Home, Garden","Jewels and accessories","Kids",
+        "Pets and animals","Stationery and Tools"],
+    "Housing":["Energy and Utilities","Maintenance and repairs","Mortgae","Property insurance"]
+}
