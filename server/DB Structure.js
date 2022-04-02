@@ -5,9 +5,11 @@ const main_collection=
         "First Name":"Deep",
         "Last Name":"Manek",
         "Date of Birth":"12/08/1997",
+        "emailID":"",
+        "password":"",//HASHED PASS
         "Money":{
         "Income":{
-            "Recurring":[], //Income Object
+            "Recurring":[income,income], //Income Object
             "OneTime":[],   //Income Object
             "Total Income":0// Loop that adds all the Amount key from Recurring and OnetTime Payment
         },
@@ -23,12 +25,12 @@ const main_collection=
 
 
 //Expense Object
-const expens=
+const expense=
 {
 "_id":"object ID",
 "Name":"",
 "Description":"",
-"Tags":[],
+"Tags":'',
 "TimeStamp":[],
 "Payment Mode":"",
 "Amount":0,
@@ -37,3 +39,11 @@ const expens=
 //Income Object
 
 
+const income=
+{
+    "_id":"object ID",
+    "Name":"",
+    "Description":"",
+    "TimeStamp":"",
+    "Amount":"",
+}
