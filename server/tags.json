@@ -3,5 +3,12 @@
     "Shopping":["Clothes and Shows","Drug-store","Chemist","Electronics and Accessories",
         "Free Time","Gifts","Health and Beauty","Home, Garden","Jewels and accessories","Kids",
         "Pets and animals","Stationery and Tools"],
-    "Housing":["Energy and Utilities","Maintenance and repairs","Mortgae","Property insurance"]
+    "Housing":["Energy and Utilities","Maintenance and repairs","Mortgae","Property insurance","Rent","Services"],
+    "Transportation":["Business Trips","Long Distance Trips","Public Transport","Taxi"],
+    "Vehicle":["Fuel","Leasing","Parking","Rentals","Vehicle Insurance","Vehicle maintenance"],
+    "Life and Entertainment":["Soprts and Fitness","Alocohol and Tobacco","Books and Audio Books","Subscriptions",
+        "Charity and Gifts","Cultural events","Sports Events","Education and development","Healthcare",
+        "Doctor and Hospitals","Hobbies","Holidays and Vacations","Life events","Lottery and gambling", 
+        "TV and streaming services","Wellness and Beauty"],
+    "Communication and PC":["Internet","Phone "]
 }
