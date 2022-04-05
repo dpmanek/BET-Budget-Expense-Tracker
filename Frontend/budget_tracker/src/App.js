@@ -1,12 +1,15 @@
 //import logo from './logo.svg';
 import './App.css';
-import Pie from './Components/Graphs/piechart'
+import { BrowserRouter } from "react-router-dom";
+import Routesr from './routes/routes'
+// import Pie from './Components/Graphs/piechart'
+// import BarChart from './Components/Graphs/barChart'
 
 function App() {
   return (
-    <div className="App">
-<Pie/>
-    </div>
+    <BrowserRouter>
+      <Routesr />
+    </BrowserRouter>
   );
 }
 
