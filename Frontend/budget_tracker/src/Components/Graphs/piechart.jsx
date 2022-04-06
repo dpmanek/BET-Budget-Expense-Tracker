@@ -1,16 +1,9 @@
 import React from 'react'
-//import { render } from 'react-dom'
+
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
 const options = {
-//   title: {
-//     text: 'My chart'
-//   },
-//   series: [{
-//     data: [1, 2, 3]
-//   }]
-
     chart: {
       plotBackgroundColor: null,
       plotBorderWidth: null,
@@ -39,10 +32,10 @@ const options = {
       }
     },
     series: [{
-      name: 'Party',
+      name: 'Expense',
       colorByPoint: true,
       data: [{
-        name: '',
+        name: 'Party',
         y: 61.41,
         sliced: true,
         selected: true
