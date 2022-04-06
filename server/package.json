@@ -1,11 +1,19 @@
 {
   "name": "project",
   "version": "1.0.0",
-  "description": "",
+  "description": "Budget Expense Manager",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Deep Deven Manek 20009220",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpmanek/CS_546_C_Project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dpmanek/CS_546_C_Project/issues"
+  },
+  "homepage": "https://github.com/dpmanek/CS_546_C_Project#readme"
 }

@@ -32,10 +32,10 @@ const options = {
       }
     },
     series: [{
-      name: 'Party',
+      name: 'Expense',
       colorByPoint: true,
       data: [{
-        name: '',
+        name: 'Party',
         y: 61.41,
         sliced: true,
         selected: true
