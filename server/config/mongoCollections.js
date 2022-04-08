@@ -13,6 +13,5 @@ const getCollectionFn = (Collection) => {
 };
 
 module.exports = {
-	bands: getCollectionFn('bands'),
-	albums: getCollectionFn('albums'),
+	Users: getCollectionFn('Users')
 };
