@@ -1,7 +1,6 @@
-const albums = require('./albums');
-const bands = require('./bands');
+
+const user = require('./users');
 
 module.exports = {
-	albums: albums,
-	bands: bands,
+	user: user,
 };
