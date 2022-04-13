@@ -1,7 +1,9 @@
-const login = require('./login')
+const loginRoutes = require('./login')
+const authRoutes = require('./auth');
 
 const constructorMethod = (app) => {
-	app.use('', login);
+	app.use('/api/users', loginRoutes);
+	app.use('/api/auth', authRoutes);
 
 
 	app.use('*', (req, res) => {
