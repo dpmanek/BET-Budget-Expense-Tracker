@@ -13,5 +13,6 @@ const getCollectionFn = (Collection) => {
 };
 
 module.exports = {
+	// Add Collections Here
 	Users: getCollectionFn('Users')
 };
