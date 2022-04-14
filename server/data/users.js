@@ -1,5 +1,5 @@
 const mongoCollections = require('../config/mongoCollection');
-const users = mongoCollections.users;
+const allUsers = mongoCollections.users;
 const bcrypt = require("bcryptjs");
 const dataVal = require("./dataValidation")
 
@@ -7,31 +7,33 @@ const dataVal = require("./dataValidation")
 
 module.exports = {
     async createUser(username, password){
-        if(!username) throw "No Username";
-        if(!password) throw "No Password";
-        username = dataVal.checkUsername(username);
-        username = username.toLowerCase(); // Makes every usernamecase insensitive
+        let newUsername = username;
+        let newPassword = password;
+        if(!newUsername) throw "No Username";
+        if(!newPassword) throw "No Password";
+        newUsername = dataVal.checkUsername(newUsername);
+        newUsername = newUsername.toLowerCase(); // Makes every usernamecase insensitive
         
         // Password validation
         dataVal.checkPassword(password); 
-
-        //add part to not allow duplicate usernames
-        const userCollection = await users();
-        const userFound = await userCollection.findOne({username: username});
-        if (!userFound === null) throw "User with this username already exists";
+        //.toArray()
+        //not allow duplicate usernames
+        const userCollection = await allUsers();
+        const userFound = await userCollection.findOne({'username': newUsername});
+        if (userFound) throw "User with this username already exists";
 
         //convert password to hashed password
         const hash = await bcrypt.hash(password, 16);
 
         // insert username and pass to db
         let newUser = {
-            username: username,
+            username: newUsername,
             password: hash
         };
 
         const insertInfo = await userCollection.insertOne(newUser);
 
-        if (!insertInfo.acknowledged || !insertInfo.insertedId)return {userInserted: false}; // Not sure about this part confirm once
+        if (!insertInfo.acknowledged || !insertInfo.insertedId) throw " User was unable to Sign up MongoDB Server Error"; // Not sure about this part confirm once
         else return {userInserted: true};
 
     },
@@ -44,8 +46,10 @@ module.exports = {
         dataVal.checkPassword(password);
 
         // query only username first if not there throw "Either the username or password is invalid"
-        const userCollection = await users();
-        const userFound = await userCollection.findOne({username: username});
+        const userCollection = await allUsers();
+       
+        const userFound = await userCollection.findOne({'username': username});
+        
         if (userFound === null) throw "Either the username or password is invalid";
 
         // if match
