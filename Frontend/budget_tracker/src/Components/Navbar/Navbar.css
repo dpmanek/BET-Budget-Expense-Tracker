@@ -1,0 +1,14 @@
+.btn-outline-success {
+    margin-right: 20px;
+    border-radius: 20px !important;
+    background-color: #212529 !important;
+    border-color: white !important;
+    color: white !important;
+
+
+}
+.btn-outline-success:hover {
+    background-color: white !important;
+    color: #212529!important;    
+}
+
