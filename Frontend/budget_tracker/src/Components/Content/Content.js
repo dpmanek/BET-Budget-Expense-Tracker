@@ -1,38 +1,46 @@
 import React from "react";
 import "../Content/Content.css";
 import { Link, useNavigate } from "react-router-dom";
+import Banner from "../Banner/Banner";
 
 const Content = (props) => {
+  let loop = [
+    {
+      title: "Always know what's in your pocket",
+      description:
+        "We crunch the numbers to show how much spendable money you have after setting aside enough for bills, goals, and necessities.",
+    },
+    {
+      title: "Keep tabs on your spending",
+      description:
+        "See which expenses eat up too much of the pie. Personalize your reports with custom categories and descriptions.",
+    },
+    {
+      title: "See all accounts in one place",
+      description:
+        "Get a centralized view of all your accounts in one place, without linking your actual bank accounts.",
+    },
+    {
+      title: "Financial statement",
+      description:
+        "Get a customized statement that would list all the expenses and income from that period.",
+    },
+    {
+      title: "Monthly expense comparison",
+      description:
+        "Get a category-wise monthly comparison to get a track of your spending and save accordingly for the future.",
+    },
+  ];
   let navigate = useNavigate();
   const redirectRoute = (path) => {
     navigate(path);
   };
   return (
-    <div>
-      <section className="flex-banner">
-        <figure>
-          <div className="image">
-            <input
-              className="image-div"
-              type="image"
-              id="image"
-              src="/capture.png"
-            />
-          </div>
-        </figure>
-        <figcaption>
-          <h1>{props.title}</h1>
-          <p>{props.description}</p>
-          <button
-            className="btn btn-outline-success"
-            type="button"
-            onClick={() => redirectRoute("/signup")}
-          >
-            Sign up for more
-          </button>
-        </figcaption>
-      </section>
-    </div>
+    <React.Fragment>
+      {loop.map((i) => {
+        return <Banner title={i.title} description={i.description} />;
+      })}
+    </React.Fragment>
   );
 };
 
