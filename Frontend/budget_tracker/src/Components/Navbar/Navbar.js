@@ -11,7 +11,7 @@ function Navbar(){
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a className="navbar-brand" href="#">
             <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24"/>
             BET
         </a>
@@ -19,7 +19,7 @@ function Navbar(){
         <form className="d-flex">
             <button className="btn btn-outline-success" type="button" onClick={() => redirectRoute("/about")}>About</button>
             <button className="btn btn-outline-success" type="button" onClick={() => redirectRoute("/signup")}>Sign Up</button>
-            <button className="btn btn-outline-success" type="button" onClick={() => redirectRoute("/signin")}>Sign In</button>
+            <button className="btn btn-outline-success" type="button" onClick={() => redirectRoute("/login")}>Sign In</button>
         </form>
   </div>
 </nav>
