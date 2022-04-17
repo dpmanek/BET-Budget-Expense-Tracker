@@ -1,0 +1,25 @@
+.flex-banner p{
+	color:  #979797;
+	font-size: 14px;
+	line-height: 16.8px;
+	padding-top: 20px;
+}
+
+.div-class{
+    margin-top: 1em !important;
+    margin-bottom: 1em !important;
+    padding-bottom: 1em !important;
+
+}
+
+.image{
+	max-width: 100px;
+	height: 200px;
+	background-color: gray;
+	text-align: center;
+}
+
+.image-div{
+	width: 500px;
+	height: 200px;
+}
