@@ -1,4 +1,4 @@
-.btn-outline-success {
+.navbar-success {
     margin-right: 20px;
     border-radius: 20px !important;
     background-color: #212529 !important;
@@ -7,7 +7,7 @@
 
 
 }
-.btn-outline-success:hover {
+.navbar-success:hover {
     background-color: white !important;
     color: #212529!important;    
 }
