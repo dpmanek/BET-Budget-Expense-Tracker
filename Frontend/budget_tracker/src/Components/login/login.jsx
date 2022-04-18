@@ -1,6 +1,7 @@
 
 import styles from "./styles.module.css";
-import { useState } from "react";
+import { useState, useEffect
+ } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -8,6 +9,10 @@ import { Link } from "react-router-dom";
 const Login =() =>{
     const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState("");
+	
+	useEffect( () => {
+		localStorage.setItem("isAuthenticated", true);
+	 }, []);
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });

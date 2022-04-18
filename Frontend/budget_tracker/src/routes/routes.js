@@ -1,4 +1,5 @@
 import { Routes as Switch, Route as Routing } from "react-router-dom";
+import Createexpense from "../Components/Dashboard/Createexpense";
 import Dashboard from "../Components/Dashboard/Dashboard";
 import Home from "../Components/Home/Home";
 import Login from "../Components/login/login";
@@ -14,6 +15,7 @@ const Routesr = () => {
         <Routing exact path="/signup" element={<Signup />} />
         <Routing exact path="/skeleton" element={<Skeleton />} />
         <Routing exact path="/dashboard" element={<Dashboard />} />
+        <Routing exact path="/addexpense" element={<Createexpense />} />
       </Switch>
     </>
   );
