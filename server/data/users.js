@@ -6,11 +6,16 @@ const dataVal = require("./dataValidation")
 
 
 module.exports = {
-    async createUser(username, password){
+    async createUser(firstName, lastName, username, password){
+        let newfirstName = firstName;
+        let newLastName = lastName;
         let newUsername = username;
         let newPassword = password;
+        if(!newfirstName) throw "No FirstName";
+        if(!newLastName) throw 'No LastName';
         if(!newUsername) throw "No Username";
         if(!newPassword) throw "No Password";
+        // updated till here
         newUsername = dataVal.checkUsername(newUsername);
         newUsername = newUsername.toLowerCase(); // Makes every usernamecase insensitive
         
@@ -27,8 +32,26 @@ module.exports = {
 
         // insert username and pass to db
         let newUser = {
-            username: newUsername,
-            password: hash
+            username: newUsername,   //username is email
+            firstName: firstname,
+            lastName: lastname,
+            DOB: null,
+            password: hash,
+            money: {
+                income: {
+                    recurring: null,
+                    OneTime: null,
+                    totalIncome: null
+                },
+                Expenditure: {
+                    Recurring: null,
+                    OneTime:null,
+                    totalExpenditure: null
+                },
+                totalSpendingLimit: null
+
+            },
+
         };
 
         const insertInfo = await userCollection.insertOne(newUser);

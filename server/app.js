@@ -4,8 +4,6 @@ const static = express.static(__dirname + '/public');
 
 const configRoutes = require('./routes');
 
-const port = 8080;
-
 app.use('/public', static);
 app.use(express.urlencoded({ extended: true }));
 
@@ -32,5 +30,5 @@ configRoutes(app);
 
 app.listen(8080, () => {
 	console.log("We've now got a server!");
-	console.log('Your routes will be running on http://localhost:3000');
+	console.log('Your routes will be running on http://localhost:8080');
   });
