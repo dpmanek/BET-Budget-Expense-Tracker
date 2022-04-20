@@ -1,11 +1,26 @@
 const express = require('express');
 const app = express();
+const session = require('express-session');
 const static = express.static(__dirname + '/public');
-
+const cors = require('cors');
 const configRoutes = require('./routes');
 
+app.use(cors());
+app.use(express.json());
 app.use('/public', static);
 app.use(express.urlencoded({ extended: true }));
+
+
+app.use( // session
+  session({
+    name: 'AuthCookie',
+    secret: "some secret string!",
+    saveUninitialized: true,
+    resave: false
+    
+  })
+);
+
 
 
 let port=8080;

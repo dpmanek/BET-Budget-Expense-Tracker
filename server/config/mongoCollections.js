@@ -1,18 +1,20 @@
-const dbConnection = require('./mongoConnection');
+const dbConnection = require("./mongoConnection")
 
-const getCollectionFn = (Collection) => {
-	let _col = undefined;
-	return async () => {
-		if (!_col) {
-			const db = await dbConnection.connectToDb();
-			_col = await db.collection(Collection);
-		}
+const getCollectionFn = (collection) => {
+    let _col = undefined;
 
-		return _col;
-	};
+    return async() => {
+        if(!_col){
+            const  db = await dbConnection.dbConnection();
+            _col = await db.collection(collection);
+        }
+        return _col;
+    };
+
+
 };
 
 module.exports = {
-	// Add Collections Here
-	Users: getCollectionFn('Users')
-};
+    users: getCollectionFn('users')
+}
+

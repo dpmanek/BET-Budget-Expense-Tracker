@@ -1,43 +1,43 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
-
+const dataFunctions = require("../data/users");
 
 
 //Auth Mern
 // Checks if users exist
 // if true generates a web token 
 // need to modify this 
-router.post("/", async (req, res) => {
+router.post("/newuser", async (req, res) => { //route used to create a new user from the signup page in frontend
 	try {
-		const { error } = validate(req.body);
-		if (error)
-			return res.status(400).send({ message: error.details[0].message });
+		const data = req.body;
+		console.log(data.firstName);
+		console.log(data.lastName);
+		console.log(data.email);
+		console.log(data.password);
 
-		const user = await User.findOne({ email: req.body.email });
-		if (!user)
-			return res.status(401).send({ message: "Invalid Email or Password" });
+		let firstName = data.firstName;
+		let lastName = data.lastName;
+		let email = data.email;
+		let password = data.password;
+		// add data validation
 
-		const validPassword = await bcrypt.compare(
-			req.body.password,
-			user.password
-		);
-		if (!validPassword)
-			return res.status(401).send({ message: "Invalid Email or Password" });
 
-		const token = user.generateAuthToken();
-		res.status(200).send({ data: token, message: "logged in successfully" });
+		var insertedBool = await dataFunctions.createUser(firstName,lastName,email,password);  //calls create user function
+
+
+		res.status(200).send({data: insertedBool, message: "logged in successfully" });
+
+
+		
+
+		//const token = user.generateAuthToken();    Auth in mern using this 
+		//res.status(200).send({ data: token, message: "logged in successfully" });
 	} catch (error) {
-		res.status(500).send({ message: "Internal Server Error" });
+		res.status(500).send({ message: `Internal Server Error: ${error}` });
 	}
 });
 
-const validate = (data) => {
-	const schema = Joi.object({
-		email: Joi.string().email().required().label("Email"),
-		password: Joi.string().required().label("Password"),
-	});
-	return schema.validate(data);
-};
+
 
 router.post("/", async (req, res) => {
     try{
