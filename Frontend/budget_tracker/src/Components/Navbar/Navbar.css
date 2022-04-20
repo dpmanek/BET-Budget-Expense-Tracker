@@ -1,7 +1,7 @@
 .navbar-success {
     margin-right: 20px;
     border-radius: 20px !important;
-    background-color: #212529 !important;
+    background-color: #2f2f2f !important;
     border-color: white !important;
     color: white !important;
 
@@ -9,6 +9,6 @@
 }
 .navbar-success:hover {
     background-color: white !important;
-    color: #212529!important;    
+    color: #2f2f2f!important;    
 }
 

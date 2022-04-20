@@ -9,6 +9,7 @@ const Content = (props) => {
       title: "Always know what's in your pocket",
       description:
         "We crunch the numbers to show how much spendable money you have after setting aside enough for bills, goals, and necessities.",
+        // url: !url?"/public/static/no_image.jpeg":url
     },
     {
       title: "Keep tabs on your spending",
