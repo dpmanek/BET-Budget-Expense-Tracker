@@ -28,7 +28,7 @@ module.exports = {
         if (userFound) throw "User with this Email already exists Please Try another Email";
 
         //convert password to hashed password
-        const hash = await bcrypt.hash(newPassword, 16);
+        const hash = await bcrypt.hash(newPassword, 10);
 
         // insert Details and Hashed password to db
 
