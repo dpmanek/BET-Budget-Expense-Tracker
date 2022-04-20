@@ -8,7 +8,7 @@ app.use('/public', static);
 app.use(express.urlencoded({ extended: true }));
 
 
-
+let port=8080;
 
 // logging middle ware
 app.use(async(req,res,next)=>{
@@ -28,7 +28,6 @@ app.use(async(req,res,next)=>{
 
 configRoutes(app);
 
-app.listen(8080, () => {
-	console.log("We've now got a server!");
-	console.log('Your routes will be running on http://localhost:8080');
+app.listen(port, () => {
+	console.log(`Your routes will be running on port ${port}`);
   });
