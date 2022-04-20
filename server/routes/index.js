@@ -1,9 +1,9 @@
-const loginRoutes = require('./login')
-const authRoutes = require('./auth');
+
+const usersRoutes = require('./users');
 
 const constructorMethod = (app) => {
-	app.use('/users', loginRoutes);
-	app.use('/auth', authRoutes);
+	
+	app.use('/users', usersRoutes); // Login/Signup (API)Routes
 
 
 	app.use('*', (req, res) => {
