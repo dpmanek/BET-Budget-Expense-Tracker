@@ -1,7 +1,6 @@
 
 import styles from "./styles.module.css";
-import { useState, useEffect
- } from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -21,10 +20,10 @@ const Login =() =>{
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:8080/api/auth";
+			const url = "http://localhost:8080/users/auth";
 			const { data: res } = await axios.post(url, data);
-			localStorage.setItem("token", res.data);
-			window.location = "/";
+			//localStorage.setItem("token", res.data);
+			window.location = "/dashboard";
 		} catch (error) {
 			if (
 				error.response &&
