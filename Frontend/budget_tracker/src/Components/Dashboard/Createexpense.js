@@ -53,14 +53,34 @@ const Createexpense = () => {
           </label>
           <input type="number" placeholder="Amount" className="form-control" />
         </div>
-        <div className="mb-3 form-check">
+        <select className="form-select" aria-label="Default select example">
+          <option selected>Select an account</option>
+          <option value="Debit Card">Debit Card</option>
+          <option value="Credit Card">Credit Card</option>
+          <option value="Cash">Cash</option>
+        </select>
+        Is this a reccuring expense?
+        <div class="form-check">
           <input
-            type="checkbox"
-            className="form-check-input"
-            id="exampleCheck1"
+            class="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault1"
           />
-          <label className="form-check-label" for="exampleCheck1">
-            Check me out
+          <label class="form-check-label" for="flexRadioDefault1">
+            Yes
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault2"
+            checked
+          />
+          <label class="form-check-label" for="flexRadioDefault2">
+            No
           </label>
         </div>
         <button type="submit" className="btn btn-primary">
