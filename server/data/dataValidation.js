@@ -1,3 +1,4 @@
+const emailvalidator = require("email-validator");
 module.exports = {
 
     checkName:function checkName(string){
@@ -18,6 +19,14 @@ module.exports = {
     
         return string;
     
+    },
+
+    checkEmail: function checkEmail(email){
+        if(!email) throw "Please Enter Email";
+        email = email.trim();
+        if(email.length === 0) throw "Cannot have empty a Name";
+        if(!(emailvalidator.validate(email))) throw "Email Not Valid";
+        return email;
     },
     
     checkPassword:function checkPassword(password){  // check if we have to trim
