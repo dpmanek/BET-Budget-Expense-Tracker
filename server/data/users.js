@@ -1,4 +1,4 @@
-const mongoCollections = require('../config/mongoCollection');
+const mongoCollections = require('../config/mongoCollections');
 const allUsers = mongoCollections.users;
 const bcrypt = require("bcryptjs");
 const dataVal = require("./dataValidation")
@@ -6,35 +6,37 @@ const dataVal = require("./dataValidation")
 
 
 module.exports = {
-    async createUser(firstName, lastName, username, password){
+    async createUser(firstName, lastName, email, password){
         let newfirstName = firstName;
         let newLastName = lastName;
-        let newUsername = username;
+        let newEmail = email;
         let newPassword = password;
         if(!newfirstName) throw "No FirstName";
         if(!newLastName) throw 'No LastName';
-        if(!newUsername) throw "No Username";
+        if(!newEmail) throw "No Username";
         if(!newPassword) throw "No Password";
         // updated till here
-        newUsername = dataVal.checkUsername(newUsername);
-        newUsername = newUsername.toLowerCase(); // Makes every usernamecase insensitive
+
+        //Datavalidation calls
+        //newUsername = dataVal.checkUsername(newUsername);
+        //newUsername = newUsername.toLowerCase(); // Makes every usernamecase insensitive
         
         // Password validation
-        dataVal.checkPassword(password); 
+        //dataVal.checkPassword(password); 
         //.toArray()
         //not allow duplicate usernames
         const userCollection = await allUsers();
-        const userFound = await userCollection.findOne({'username': newUsername});
+        const userFound = await userCollection.findOne({'email': newEmail});
         if (userFound) throw "User with this username already exists";
 
         //convert password to hashed password
-        const hash = await bcrypt.hash(password, 16);
+        const hash = await bcrypt.hash(newPassword, 16);
 
         // insert username and pass to db
         let newUser = {
-            username: newUsername,   //username is email
-            firstName: firstname,
-            lastName: lastname,
+            email: newEmail,   
+            firstName: newfirstName,
+            lastName: newLastName,
             DOB: null,
             password: hash,
             money: {
