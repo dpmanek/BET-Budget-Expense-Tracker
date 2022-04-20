@@ -1,7 +1,6 @@
 const router = require("express").Router();
-const { User } = require("../models/user");
-const bcrypt = require("bcrypt");
-const Joi = require("joi");
+const bcrypt = require("bcryptjs");
+
 
 
 //Auth Mern
