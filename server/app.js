@@ -31,13 +31,13 @@ app.use(async(req,res,next)=>{
     let method = req.method;
     let route = req.originalUrl;
 
-    //let authenticated = undefined;
-    // Un Comment this part once Sessions are done
-    //if (req.session.user) authenticated = true;
-    //else authenticated = false; 
+    let authenticated = undefined;
+    //Un Comment this part once Sessions are done
+    if (req.session.user) authenticated = true;
+    else authenticated = false; 
 
-    //console.log(`Time: ${currentTime}, Method: ${method}, Route: ${route}, userAuth Status: ${authenticated}`) 
-    console.log(`Time: ${currentTime}, Method: ${method}, Route: ${route}`);
+    console.log(`Time: ${currentTime}, Method: ${method}, Route: ${route}, userAuth Status: ${authenticated}`) 
+    //console.log(`Time: ${currentTime}, Method: ${method}, Route: ${route}`);
 	next();
 } )
 

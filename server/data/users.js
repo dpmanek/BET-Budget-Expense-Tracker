@@ -63,24 +63,25 @@ module.exports = {
 
     },
 
-    async checkUser(username, password){
-        if(!username) throw "No Username";
+    async checkUser(email, password){
+        if(!email) throw "No Username";
         if(!password) throw "No Password";
-        username = dataVal.checkUsername(username);
-        username = username.toLowerCase();
-        dataVal.checkPassword(password);
+        // add data validation;
+        //email = dataVal.checkUsername(email);
+        //username = username.toLowerCase();
+        //dataVal.checkPassword(password);
 
         // query only username first if not there throw "Either the username or password is invalid"
         const userCollection = await allUsers();
        
-        const userFound = await userCollection.findOne({'username': username});
+        const userFound = await userCollection.findOne({'email': email});
         
         if (userFound === null) throw "Either the username or password is invalid";
 
         // if match
         //check if the password is a match using bycrypt else throw "Either the username or password is invalid"
         let passwordMatch = await bcrypt.compare(password, userFound.password);
-        if(passwordMatch) return {authenticated: true};
+        if(passwordMatch) return {authenticated: true, userName: userFound.firstName};
         else throw "Either the username or password is invalid";
 
     }

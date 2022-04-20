@@ -1,20 +1,20 @@
 module.exports = {
 
-    checkUsername:function checkUsername(string){
-        if(!string) throw "No Username";
+    checkName:function checkName(string){
+        if(!string) throw "No FirstName/LastName";
     
-        if(typeof string != "string") throw "Username must be a string";
+        if(typeof string != "string") throw "Name must be a string Data Type";
         
         string = string.trim();
-        if(string.length === 0) throw "Cannot have empty a Username";
+        if(string.length === 0) throw "Cannot have empty a Name";
     
-        if(string.split(" ").length > 1) throw "Username cannot have spaces inside";
+        if(string.split(" ").length > 1) throw "Name cannot have spaces inside";
         
-        var letterNumber = /^[0-9a-zA-Z]+$/; // Used Refrence : https://www.w3resource.com/javascript/form/letters-numbers-field.php
-        let result = string.match(letterNumber);
-        if(!(result == string && typeof result === "object")) throw "Username should be AlphaNumeric"
+        var letterOnly = /^[a-zA-Z]+$/; 
+        let result = string.match(letterOnly);
+        if(!(result == string && typeof result === "object")) throw "Name should be Only Alphabets"
     
-        if(!(string.split("").length >= 4)) throw "Username should have atleast 4 characters";
+        //if(!(string.split("").length >= 4)) throw "Username should have atleast 4 characters";
     
         return string;
     
