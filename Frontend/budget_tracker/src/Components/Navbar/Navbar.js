@@ -13,8 +13,8 @@ function Navbar() {
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
           <img
-            src="/docs/5.0/assets/brand/bootstrap-logo.svg"
-            alt=""
+            src="https://raw.githubusercontent.com/dpmanek/images/main/BET%20Logo.PNG"
+            alt="BET Logo"
             width="30"
             height="24"
           />
