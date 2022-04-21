@@ -2,8 +2,12 @@
     padding:50px 0;
     color:#f0f9ff;
     background-color:#282d32;
-    bottom: 0;
     width: 100%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: hidden;
   }
   
   .footer-dark h3 {
@@ -89,3 +93,4 @@
     font-size:13px;
     margin-bottom:0;
   }
+
