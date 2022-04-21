@@ -47,12 +47,6 @@ const Createexpense = () => {
             </span>
           </div>
         </div>
-        <div className="mb-3">
-          <label for="exampleInputEmail1" className="form-label">
-            Amount
-          </label>
-          <input type="number" placeholder="Amount" className="form-control" />
-        </div>
         <select className="form-select" aria-label="Default select example">
           <option selected>Select an account</option>
           <option value="Debit Card">Debit Card</option>
