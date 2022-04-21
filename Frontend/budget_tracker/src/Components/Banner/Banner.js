@@ -27,7 +27,7 @@ const Banner = (props) => {
           </button>
         </figcaption>
       </section> */}
-      <div className="card banner-card">
+      <div className="card banner-card left" >
         <img src="/capture.png" className="card-img-top" />
         <div className="card-body">
           <h5 className="card-title">{props.title}</h5>

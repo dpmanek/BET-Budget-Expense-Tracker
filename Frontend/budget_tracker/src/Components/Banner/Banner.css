@@ -67,3 +67,7 @@
     /* height: 10em; */
     width: 70%;
   }
+
+  .left {  
+    text-align: left !important;
+    }
