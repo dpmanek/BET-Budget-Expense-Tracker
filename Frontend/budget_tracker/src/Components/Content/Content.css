@@ -6,13 +6,13 @@
 }
 
 .image{
-	max-width: 100px;
-	height: 200px;
+	max-width: 50px;
+	height:100px;
 	background-color: gray;
-	text-align: center;
+	text-align: left !important;
 }
 
 .image-div{
-	width: 500px;
-	height: 200px;
+	width: 300px;
+	height: 100px;
 }
