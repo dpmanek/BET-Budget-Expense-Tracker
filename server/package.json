@@ -19,6 +19,7 @@
   "homepage": "https://github.com/dpmanek/CS_546_C_Project#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "email-validator": "^2.0.4",
     "express": "^4.17.3",
