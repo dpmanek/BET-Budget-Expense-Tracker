@@ -45,7 +45,7 @@ export const Manager = ({ spendingTotal, expenseTotal }) => {
       <Pie />
       <form className="d-flex">
         <input
-          className="form-control me-2"
+          className="form-control me-2 pos"
           type="search"
           placeholder="Search expenses"
         />

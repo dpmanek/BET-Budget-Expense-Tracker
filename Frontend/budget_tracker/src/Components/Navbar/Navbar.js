@@ -9,13 +9,13 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div className="container-fluid">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
+      <div className="container-fluid co">
         <a className="navbar-brand" href="#">
           <img
-            src="https://raw.githubusercontent.com/dpmanek/images/main/BET%20Logo.PNG"
+            src="https://raw.githubusercontent.com/dpmanek/CS_546_C_Project/Amisha/Frontend/budget_tracker/public/logo.png"
             alt="BET Logo"
-            width="30"
+            width="25"
             height="24"
           />
           BET
