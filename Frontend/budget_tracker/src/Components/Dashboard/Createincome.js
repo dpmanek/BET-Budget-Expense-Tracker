@@ -5,7 +5,7 @@ const Createincome = () => {
   return (
     <div>
       <h1 className="page">Add Income</h1>
-      <form>
+      <form class="place">
         <div className="mb-3">
           <label for="exampleInputEmail1" className="form-label">
             Description
@@ -13,16 +13,16 @@ const Createincome = () => {
           <input
             type="text"
             placeholder="Description"
-            className="form-control"
+            className="form-control position"
           />
         </div>
         <div className="mb-3">
           <label for="exampleInputEmail1" className="form-label">
             Amount
           </label>
-          <input type="number" placeholder="Amount" className="form-control" />
+          <input type="number" placeholder="Amount" className="form-control position" />
         </div>
-        <select className="form-select" aria-label="Default select example">
+        <select className="form-select position" aria-label="Default select example">
           <option selected>Select your category</option>
           <option value="Checks">Checks</option>
           <option value="Coupons">Coupons</option>
@@ -41,11 +41,11 @@ const Createincome = () => {
           <option value="Other">Other</option>
         </select>
         <div className="mb-3">
-          <label for="date" class="col-1 col-form-label">
+          <label for="date" class="col-form-label">
             Date
           </label>
-          <div class="input-group date" id="datepicker">
-            <input type="date" class="form-control" id="date" />
+          <div class="input-group date position" id="datepicker">
+            <input type="date" class="form-control " id="date" />
             <span class="input-group-append">
               <span class="input-group-text bg-light d-block"></span>
             </span>

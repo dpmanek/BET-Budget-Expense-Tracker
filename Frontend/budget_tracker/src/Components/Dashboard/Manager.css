@@ -1,5 +1,5 @@
 .page{
-    background: #f7f7f7;
+    background: #ffffff;
     margin-bottom: 3.2rem;
     padding: 3.2rem 0;
     text-align: center;
@@ -11,4 +11,9 @@
 
 .d-flex{
     padding-top: 20px;
+}
+
+.pos{
+    width: 300px !important;
+    margin-left: 10px;
 }
