@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "../Navbar/Navbar.css";
 
@@ -23,7 +24,7 @@ function Navbar(props) {
       
     }
     })
-	 },[]);
+	 });
 	
 
   const handleSubmit = async (e) => {
@@ -57,15 +58,17 @@ function Navbar(props) {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark ">
       <div className="container-fluid co">
-        <a className="navbar-brand" href="#">
+      <Link class="navbar-brand" to="/">
+        <a className="navbar-brand" >
           <img
             src="https://raw.githubusercontent.com/dpmanek/CS_546_C_Project/Amisha/Frontend/budget_tracker/public/logo.png"
             alt="BET Logo"
             width="25"
             height="24"
           />
-          BET
+          BET    
         </a>
+        </Link>
         <a className="navbar-brand">BET</a>
         <form className="d-flex">
           {(loginStatus) !== false ? (

@@ -37,14 +37,9 @@ router.post("/newuser", async (req, res) => { //route used to create a new user 
 });
 
 router.get("/auth", async (req, res) => {
-	if(req.session.user){
+
 		res.send({loggedIn: true, user: req.session.user})
-	}
-	else{
-		res.send({loggedIn: false});
-	}
-
-
+	
 });
 
 router.post("/auth", async (req, res) => {

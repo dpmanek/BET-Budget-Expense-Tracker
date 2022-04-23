@@ -37,9 +37,9 @@ app.use( // session
   })
 );
 
-app.use('/users/auth',async (req, res,next) => {
+app.use('/users',async (req, res,next) => {
   if(req.session.user){
-    res.redirect('/users/auth')
+    res.send({loggedIn: true, user: req.session.user})
   }
   else{
     next()
