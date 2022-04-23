@@ -27,11 +27,11 @@ const Banner = (props) => {
           </button>
         </figcaption>
       </section> */}
-      <div className="row col-md-12 page" >
+      <div className="row col-md-12 page">
         <div className="col-md-6">
           <img src="/capture.png" className="card-img-top" />
         </div>
-        
+
         <div className="col-md-6" id="center">
           <h5 className="card-title">{props.title}</h5>
           <p className="card-text">{props.description}</p>

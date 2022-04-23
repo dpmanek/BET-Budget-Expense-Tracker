@@ -1,11 +1,47 @@
-import React from "react";
+import React, { useState, Fragment } from "react";
 import "./Createpage.css";
+import axios from "axios";
 
 const Createexpense = () => {
+  const [error, setErorr] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const addExpenses = (event) => {
+    setErorr("");
+    setSuccess("");
+
+    event.preventDefault();
+    let data = event.target;
+    let description = data[0].value;
+    let amount = data[1].value;
+    let category = data[2].value;
+    let date = data[3].value;
+    let accountType = data[4].value;
+    let recurringType = data[5].value;
+
+    let body = {
+      description,
+      amount,
+      category,
+      date,
+      accountType,
+      recurringType,
+    };
+
+    axios
+      .post("url", body)
+      .then((data) => {
+        setSuccess("Expense added successfully !");
+      })
+      .catch((e) => {
+        setErorr("Opps, something went wrong :(");
+      });
+  };
+
   return (
     <div>
       <h1 className="page">Add Expense</h1>
-      <form className="place">
+      <form class="place" onSubmit={addExpenses}>
         <div className="mb-3">
           <label for="exampleInputEmail1" className="form-label">
             Description
@@ -20,9 +56,16 @@ const Createexpense = () => {
           <label for="exampleInputEmail1" className="form-label">
             Amount
           </label>
-          <input type="number" placeholder="Amount" className="form-control position" />
+          <input
+            type="number"
+            placeholder="Amount"
+            className="form-control position"
+          />
         </div>
-        <select className="form-select position" aria-label="Default select example">
+        <select
+          className="form-select position"
+          aria-label="Default select example"
+        >
           <option selected>Select your category</option>
           <option value="Food and Drinks">Food and Drinks</option>
           <option value="Shopping">Shopping</option>
@@ -40,46 +83,51 @@ const Createexpense = () => {
           <label for="date" class="col-form-label">
             Date
           </label>
-          <div className="input-group date position" id="datepicker">
-            <input type="date" className="form-control" id="date" />
-            <span className="input-group-append ">
-              <span className="input-group-text bg-light d-block "></span>
+          <div class="input-group date position" id="datepicker">
+            <input type="date" class="form-control" id="date" />
+            <span class="input-group-append ">
+              <span class="input-group-text bg-light d-block "></span>
             </span>
           </div>
         </div>
-        <select className="form-select position" aria-label="Default select example">
+        <select
+          className="form-select position"
+          aria-label="Default select example"
+        >
           <option selected>Select an account</option>
           <option value="Debit Card">Debit Card</option>
           <option value="Credit Card">Credit Card</option>
           <option value="Cash">Cash</option>
         </select>
         Is this a reccuring expense?
-        <div className="form-check ">
+        <div class="form-check ">
           <input
-            className="form-check-input des"
+            class="form-check-input des"
             type="radio"
             name="flexRadioDefault"
             id="flexRadioDefault1"
+            value="yes"
           />
-          <label className="form-check-label" for="flexRadioDefault1">
+          <label class="form-check-label" for="flexRadioDefault1">
             Yes
           </label>
         </div>
-        <div className="form-check">
+        <div class="form-check">
           <input
-            className="form-check-input des"
+            class="form-check-input des"
             type="radio"
             name="flexRadioDefault"
             id="flexRadioDefault2"
             checked
           />
-          <label className="form-check-label" for="flexRadioDefault2">
+          <label class="form-check-label" for="flexRadioDefault2">
             No
           </label>
         </div>
         <button type="submit" className="btn btn-primary">
           Submit
         </button>
+        <div>{error != "" ? error : success}</div>
       </form>
     </div>
   );
