@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../Navbar/Navbar.css";
 
-function Navbar() {
+function Navbar(props) {
+
   let navigate = useNavigate();
   const redirectRoute = (path) => {
     navigate(path);
   };
+
+
   const[loginStatus, setLoginStatus] = useState("");
   useEffect( () => { // used to check if user is logged in to be used on all pages
 		axios.get("http://localhost:8080/users/auth").then((res) =>{
-		if(res.data.loggedIn == true){
+		if(res.data.loggedIn === true){
 			setLoginStatus(res.data.user.username);
-			console.log(loginStatus);
+		//	console.log(loginStatus);
 		}
     else redirectRoute("/skeleton");
 		})
-	 }, []);
+	 },[]);
 	
 
   const handleSubmit = async (e) => {
@@ -62,7 +65,7 @@ function Navbar() {
         </a>
         <a className="navbar-brand">BET</a>
         <form className="d-flex">
-          {(loginStatus) != false ? (
+          {(loginStatus) !== false ? (
             <React.Fragment>
               <button
                 className="btn btn-outline-success navbar-success"

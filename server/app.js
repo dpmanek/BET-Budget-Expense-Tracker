@@ -37,7 +37,14 @@ app.use( // session
   })
 );
 
-
+app.use('/users/auth',async (req, res,next) => {
+  if(req.session.user){
+    res.redirect('/users/auth')
+  }
+  else{
+    next()
+  }
+})
 
 let port=8080;
 
@@ -53,7 +60,7 @@ app.use(async(req,res,next)=>{
     else authenticated = false; 
 
     console.log(`Time: ${currentTime}, Method: ${method}, Route: ${route}, userAuth Status: ${authenticated}`) 
-    //console.log(`Time: ${currentTime}, Method: ${method}, Route: ${route}`);
+  
 	next();
 } )
 

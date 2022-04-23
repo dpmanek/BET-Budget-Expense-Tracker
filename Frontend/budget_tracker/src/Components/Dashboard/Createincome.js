@@ -5,7 +5,7 @@ const Createincome = () => {
   return (
     <div>
       <h1 className="page">Add Income</h1>
-      <form class="place">
+      <form className="place">
         <div className="mb-3">
           <label for="exampleInputEmail1" className="form-label">
             Description
@@ -41,37 +41,37 @@ const Createincome = () => {
           <option value="Other">Other</option>
         </select>
         <div className="mb-3">
-          <label for="date" class="col-form-label">
+          <label for="date" className="col-form-label">
             Date
           </label>
-          <div class="input-group date position" id="datepicker">
-            <input type="date" class="form-control " id="date" />
-            <span class="input-group-append">
-              <span class="input-group-text bg-light d-block"></span>
+          <div className="input-group date position" id="datepicker">
+            <input type="date" className="form-control " id="date" />
+            <span className="input-group-append">
+              <span className="input-group-text bg-light d-block"></span>
             </span>
           </div>
         </div>
         Is this a reccuring income?
-        <div class="form-check">
+        <div className="form-check">
           <input
-            class="form-check-input"
+            className="form-check-input"
             type="radio"
             name="flexRadioDefault"
             id="flexRadioDefault1"
           />
-          <label class="form-check-label" for="flexRadioDefault1">
+          <label className="form-check-label" for="flexRadioDefault1">
             Yes
           </label>
         </div>
-        <div class="form-check">
+        <div className="form-check">
           <input
-            class="form-check-input"
+            className="form-check-input"
             type="radio"
             name="flexRadioDefault"
             id="flexRadioDefault2"
             checked
           />
-          <label class="form-check-label" for="flexRadioDefault2">
+          <label className="form-check-label" for="flexRadioDefault2">
             No
           </label>
         </div>

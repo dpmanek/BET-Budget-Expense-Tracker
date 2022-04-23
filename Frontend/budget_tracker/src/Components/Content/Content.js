@@ -1,9 +1,9 @@
 import React from "react";
-import "../Content/Content.css";
-import { Link, useNavigate } from "react-router-dom";
+// import "../Content/Content.css";
+// import { useNavigate } from "react-router-dom";
 import Banner from "../Banner/Banner";
 
-const Content = (props) => {
+const Content = () => {
   let loop = [
     {
       title: "Always know what's in your pocket",
@@ -32,10 +32,10 @@ const Content = (props) => {
         "Get a category-wise monthly comparison to get a track of your spending and save accordingly for the future.",
     },
   ];
-  let navigate = useNavigate();
-  const redirectRoute = (path) => {
-    navigate(path);
-  };
+  // let navigate = useNavigate();
+  // const redirectRoute = (path) => {
+  //   navigate(path);
+  // };
   return (
     <React.Fragment>
       {loop.map((i) => {

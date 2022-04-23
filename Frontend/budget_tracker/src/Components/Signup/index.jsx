@@ -20,14 +20,14 @@ const Signup = () => {
 	
 	useEffect( () => { // used to check if user is logged in to be used on all pages
 		axios.get("http://localhost:8080/users/auth").then((res) =>{
-		if(res.data.loggedIn == true){
+		if(res.data.loggedIn === true){
 			setLoginStatus(res.data.user.email);
 			console.log(loginStatus);
 			redirectRoute("/dashboard");
 		}
 
 		})
-	 }, []);
+	 },[]);
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });

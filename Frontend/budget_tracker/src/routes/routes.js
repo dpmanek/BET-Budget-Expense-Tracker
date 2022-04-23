@@ -6,12 +6,14 @@ import Home from "../Components/Home/Home";
 import Login from "../Components/login/login";
 import Signup from "../Components/Signup";
 import Skeleton from "../Components/Skeleton/Skeleton";
-import Review from "../Components/Review/Review";
+import Layout from '../Components/layout/layout'
+// import Review from "../Components/Review/Review";
 import ReviewManager from "../Components/Review/ReviewManager";
 
 const Routesr = () => {
   return (
     <>
+    <Layout>
       <Switch>
         <Routing exact path="/" element={<Home />} />
         <Routing exact path="/login" element={<Login />} />
@@ -22,6 +24,7 @@ const Routesr = () => {
         <Routing exact path="/addincome" element={<Createincome />} />
         <Routing exact path="/review" element={<ReviewManager />} />
       </Switch>
+      </Layout>
     </>
   );
 };
