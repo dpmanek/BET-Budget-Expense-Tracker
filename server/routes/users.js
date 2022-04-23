@@ -36,7 +36,11 @@ router.post("/newuser", async (req, res) => { //route used to create a new user 
 	}
 });
 
+router.get("/auth", async (req, res) => {
 
+		res.send({loggedIn: true, user: req.session.user})
+	
+});
 
 router.post("/auth", async (req, res) => {
     try{
@@ -56,6 +60,7 @@ router.post("/auth", async (req, res) => {
 		var checkBool = await dataFunctions.checkUser(email,password); //check bool return First name as well
 		if(checkBool.authenticated === true){
 			req.session.user = {'username': checkBool.userName};
+			console.log(`${checkBool.userName} Logged in Successfully`)
 		}
         
         res.status(200).send({data: checkBool, message: "logged in successfully" });
@@ -65,14 +70,22 @@ router.post("/auth", async (req, res) => {
     }
 });
 
+router.post("/logout", async (req, res) => {
+        let data = req.body;
+		if(data.userLogout && req.session.user){
+			console.log(`${req.session.user.username} is trying to logout`)
+			req.session.destroy();
+			console.log(`logged Out Successfully`)
+			res.status(200).send({loggedout: true,message: "logged Out Successfully" });
+		}
+		else{
+			res.status(500).send({message: "Internal Server Error"});
+		} 
+});
 
 
 
 
 
-router.get('/', async (req, res) => {});
-router.get('/signup', async (req, res) => {});
-
-router.post('/signup', async (req, res) => {});
 
 module.exports = router;

@@ -5,7 +5,7 @@ const Createexpense = () => {
   return (
     <div>
       <h1 className="page">Add Expense</h1>
-      <form class="place">
+      <form className="place">
         <div className="mb-3">
           <label for="exampleInputEmail1" className="form-label">
             Description
@@ -40,10 +40,10 @@ const Createexpense = () => {
           <label for="date" class="col-form-label">
             Date
           </label>
-          <div class="input-group date position" id="datepicker">
-            <input type="date" class="form-control" id="date" />
-            <span class="input-group-append ">
-              <span class="input-group-text bg-light d-block "></span>
+          <div className="input-group date position" id="datepicker">
+            <input type="date" className="form-control" id="date" />
+            <span className="input-group-append ">
+              <span className="input-group-text bg-light d-block "></span>
             </span>
           </div>
         </div>
@@ -54,26 +54,26 @@ const Createexpense = () => {
           <option value="Cash">Cash</option>
         </select>
         Is this a reccuring expense?
-        <div class="form-check ">
+        <div className="form-check ">
           <input
-            class="form-check-input des"
+            className="form-check-input des"
             type="radio"
             name="flexRadioDefault"
             id="flexRadioDefault1"
           />
-          <label class="form-check-label" for="flexRadioDefault1">
+          <label className="form-check-label" for="flexRadioDefault1">
             Yes
           </label>
         </div>
-        <div class="form-check">
+        <div className="form-check">
           <input
-            class="form-check-input des"
+            className="form-check-input des"
             type="radio"
             name="flexRadioDefault"
             id="flexRadioDefault2"
             checked
           />
-          <label class="form-check-label" for="flexRadioDefault2">
+          <label className="form-check-label" for="flexRadioDefault2">
             No
           </label>
         </div>
