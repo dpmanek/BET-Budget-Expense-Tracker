@@ -6,29 +6,35 @@ import { Link, useNavigate } from "react-router-dom";
 
 
 const Login =() =>{
-    const [data, setData] = useState({ email: "", password: "" });
+    
+	const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState("");
 	axios.defaults.withCredentials = true;
-	let navigate = useNavigate();
-	const redirectRoute = (path) => {
-		navigate(path);
-	  };
+	 let navigate = useNavigate();
+
+	// const redirectRoute = (path) => {
+	// 	navigate(path);
+	//   };
 
 	const[loginStatus, setLoginStatus] = useState("");
 	
 	useEffect( () => { // used to check if user is logged in to be used on all pages
 		axios.get("http://localhost:8080/users/auth").then((res) =>{
-		if(res.data.loggedIn == true){
+		if(res.data.loggedIn === true){
 			setLoginStatus(res.data.user.email);
 			console.log(loginStatus);
-			redirectRoute("/dashboard");
+			// redirectRoute("/dashboard");
+			navigate("/dashboard");
 		}
 
-		})
-	 }, []);
+		},[])
+	 }
+	 
+	 );
 	
 
 	const handleChange = ({ currentTarget: input }) => {
+		//you can add dynamic front end checking here
 		setData({ ...data, [input.name]: input.value });
 	};
 
@@ -36,8 +42,9 @@ const Login =() =>{
 		e.preventDefault();
 		try {
 			const url = "http://localhost:8080/users/auth";
-			const { data: res } = await axios.post(url, data);
-			redirectRoute("/dashboard");
+			// const { data: res } =
+			 await axios.post(url, data);
+			navigate("/dashboard");
 		} catch (error) {
 			if (
 				error.response &&
