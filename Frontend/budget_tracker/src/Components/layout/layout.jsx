@@ -13,7 +13,6 @@ const Layout =(props)=> {
         <div class="row">
           <div class="col-md-1">{/* Azure Bot */}</div>
           <div class="col-md-10">{props.children}</div>
-
           <div class="col-md-1">
             {/* Google DialogFlow Bot*/}
           </div>

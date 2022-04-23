@@ -15,11 +15,14 @@ function Navbar(props) {
   useEffect( () => { // used to check if user is logged in to be used on all pages
 		axios.get("http://localhost:8080/users/auth").then((res) =>{
 		if(res.data.loggedIn === true){
-			setLoginStatus(res.data.user.username);
+			setLoginStatus(res.data.loggedIn);
 		//	console.log(loginStatus);
 		}
-    else redirectRoute("/skeleton");
-		})
+    else {
+      setLoginStatus(res.data.loggedIn);
+      
+    }
+    })
 	 },[]);
 	
 
