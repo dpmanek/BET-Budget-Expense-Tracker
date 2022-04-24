@@ -82,7 +82,7 @@ module.exports = {
         // if match
         //check if the password is a match using bycrypt 
         let passwordMatch = await bcrypt.compare(password, userFound.password);
-        if(passwordMatch) return {authenticated: true, userName: userFound.firstName};
+        if(passwordMatch) return {authenticated: true,email:userFound.email, userName: userFound.firstName};
         else throw "Either the username or password is invalid";
 
     }

@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
+const jwtkey = require("../config/authconfig")
 const dataFunctions = require("../data/users");
 const dataValidation = require("../data/dataValidation")
+var jwt = require('jsonwebtoken');
 
 
 router.post("/newuser", async (req, res) => { //route used to create a new user from the signup page in frontend
@@ -24,22 +26,24 @@ router.post("/newuser", async (req, res) => { //route used to create a new user 
 		var insertedBool = await dataFunctions.createUser(firstName,lastName,email,password);  //calls create user function
 
 		
-		
+		console.log(`${data.email} created new account Successfully`);
 		res.status(201).send({data:insertedBool, message: "User created successfully" });
 
-		
-
-		//const token = user.generateAuthToken();    Auth in mern using this 
-		//res.status(200).send({ data: token, message: "logged in successfully" });
+	
 	} catch (error) {
 		res.status(500).send({ message: `Internal Server Error: ${error}` });
 	}
 });
 
 router.get("/auth", async (req, res) => {
-
+	if(req.session.user){
 		res.send({loggedIn: true, user: req.session.user})
-	
+	}
+	else{
+		res.send({loggedIn: false});
+	}
+
+
 });
 
 router.post("/auth", async (req, res) => {
@@ -59,11 +63,15 @@ router.post("/auth", async (req, res) => {
 
 		var checkBool = await dataFunctions.checkUser(email,password); //check bool return First name as well
 		if(checkBool.authenticated === true){
-			req.session.user = {'username': checkBool.userName};
+
+			const token = jwt.sign({ email:checkBool.email, userName:checkBool.userName }, jwtkey.secret, {
+				expiresIn: 86400 // 24 hours
+			  });
 			console.log(`${checkBool.userName} Logged in Successfully`)
+			res.status(200).send({accessToken: token,user:{ email:checkBool.email, userName:checkBool.userName }, message: "logged in successfully" });
 		}
         
-        res.status(200).send({data: checkBool, message: "logged in successfully" });
+        
     }
     catch(e){
         res.status(500).send({message: "Internal Server Error"});
@@ -82,10 +90,6 @@ router.post("/logout", async (req, res) => {
 			res.status(500).send({message: "Internal Server Error"});
 		} 
 });
-
-
-
-
 
 
 module.exports = router;

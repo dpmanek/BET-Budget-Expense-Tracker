@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
-const cookieParser = require('cookie-parser')
-const session = require('express-session');
+const jwtkey = require("./config/authconfig");
 const static = express.static(__dirname + '/public');
 const cors = require('cors');
 const configRoutes = require('./routes');
-var hour = 86400000;
+//var hour = 86400000;
+let port=8080;
 
 const whitelist = ["http://localhost:3000"]  //Refrence: https://www.codingdeft.com/posts/nodejs-react-cors-error/
 const corsOptions = {
@@ -22,31 +22,34 @@ app.use(cors(corsOptions))
 app.use(express.json());
 app.use('/public', static);
 app.use(express.urlencoded({ extended: true }));
-//app.use(cookieParser())
 
-app.use( // session
-  session({
-    name: 'AuthCookie',
-    secret: "some secret string!",
-    saveUninitialized: true,
-    resave: false,
-    cookie:{
-      expires: new Date(Date.now() + hour), //keeps the cookie live for 24Hours
+
+
+
+app.use('/users',(req, res, next) =>{
+  res.header(
+    "Access-Control-Allow-Headers",
+    "x-access-token, Origin, Content-Type, Accept"
+  );
+  next();
+});
+
+
+// verify token
+app.use('/users/data', (req, res, next) => {
+  let token = req.headers["x-access-token"];
+  if (!token) {
+    return res.status(403).send({ message: "No token provided!" });
+  }
+  jwt.verify(token, jwtkey.secret, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ message: "Unauthorized!" });
     }
-    
-  })
-);
+    req.userId = decoded.id;
+    next();
+  });
+});
 
-app.use('/users',async (req, res,next) => {
-  if(req.session.user){
-    res.send({loggedIn: true, user: req.session.user})
-  }
-  else{
-    next()
-  }
-})
-
-let port=8080;
 
 // logging middle ware
 app.use(async(req,res,next)=>{
@@ -54,10 +57,10 @@ app.use(async(req,res,next)=>{
     let method = req.method;
     let route = req.originalUrl;
 
-    let authenticated = undefined;
+    let authenticated = false; //change this once jwt verified
     //Un Comment this part once Sessions are done
-    if (req.session.user) authenticated = true;
-    else authenticated = false; 
+    //if (req.session.user) authenticated = true;
+    //else authenticated = false; 
 
     console.log(`Time: ${currentTime}, Method: ${method}, Route: ${route}, userAuth Status: ${authenticated}`) 
   

@@ -1,9 +1,12 @@
-import { useState, useEffect} from "react";
+import { useState} from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
+import AuthService from '../../services/auth.service';
 
 const Signup = () => {
+	const [successful, setSuccessful] = useState(false);
+    const [message, setMessage] = useState("");
 	const [data, setData] = useState({
 		firstName: "",
 		lastName: "",
@@ -16,18 +19,7 @@ const Signup = () => {
 	const redirectRoute = (path) => {
 		navigate(path);
 	  };
-	const[loginStatus, setLoginStatus] = useState("");
-	
-	useEffect( () => { // used to check if user is logged in to be used on all pages
-		axios.get("http://localhost:8080/users/auth").then((res) =>{
-		if(res.data.loggedIn === true){
-			setLoginStatus(res.data.user.email);
-			console.log(loginStatus);
-			redirectRoute("/dashboard");
-		}
 
-		})
-	 },[]);
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
@@ -35,22 +27,28 @@ const Signup = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			const url = "http://localhost:8080/users/newuser";
-			const { data: res } = await axios.post(url, data);
-			navigate("/login");
-			console.log(res.message);
-		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
-			}
-		}
-	};
-
+		setMessage("");
+    	setSuccessful(false);
+    	//form.current.validateAll();
+  //  if (checkBtn.current.context._errors.length === 0) {
+      AuthService.signup(data.firstName,data.lastName,data.email,data.password).then(
+        (response) => {
+          setMessage(response.data.message);
+          setSuccessful(true);
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+          setMessage(resMessage);
+          setSuccessful(false);
+        }
+      );
+	// }
+  };
 	return (
 		<div className={styles.signup_container}>
 			<div className={styles.signup_form_container}>
@@ -65,7 +63,9 @@ const Signup = () => {
 				<div className={styles.right}>
 					<form className={styles.form_container} onSubmit={handleSubmit}>
 						<h1>Create Account</h1>
+						<label For="firstName">First Name</label>
 						<input
+						id="firstName"
 							type="text"
 							placeholder="First Name"
 							name="firstName"
@@ -74,7 +74,9 @@ const Signup = () => {
 							required
 							className={styles.input}
 						/>
+						<label For="lastName">Last Name</label>
 						<input
+						id="lastName"
 							type="text"
 							placeholder="Last Name"
 							name="lastName"
@@ -83,7 +85,9 @@ const Signup = () => {
 							required
 							className={styles.input}
 						/>
+						<label For="email">Email</label>
 						<input
+						id="email"
 							type="email"
 							placeholder="Email"
 							name="email"
@@ -92,7 +96,9 @@ const Signup = () => {
 							required
 							className={styles.input}
 						/>
+						<label For="password">Password</label>
 						<input
+						id="password"
 							type="password"
 							placeholder="Password"
 							name="password"
