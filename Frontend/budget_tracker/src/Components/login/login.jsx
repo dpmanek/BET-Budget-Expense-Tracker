@@ -1,6 +1,6 @@
 
 import styles from "./styles.module.css";
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import { Link,useNavigate} from "react-router-dom";
 import AuthService from '../../services/auth.service';
 
@@ -14,6 +14,16 @@ const Login =() =>{
 	const [loading, setLoading] = useState(false);
 	//message for if its complete or no
   	const [message, setMessage] = useState("");
+
+	  //redirect user to dashboard if already logged in
+	  useEffect(() => { //checks only if current user is there major checking on dashboard
+		var currentUser = AuthService.getCurrentUser()
+		if(currentUser){
+			navigate('/dashboard');
+		}
+		
+	  }, []);
+
 
 	const handleChange = ({ currentTarget: input }) => {
 		//you can add dynamic front end checking here
