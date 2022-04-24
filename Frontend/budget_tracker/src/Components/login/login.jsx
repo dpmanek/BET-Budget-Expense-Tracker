@@ -1,37 +1,19 @@
 
 import styles from "./styles.module.css";
-import { useState, useEffect} from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useState} from "react";
+import { Link,useNavigate} from "react-router-dom";
+import AuthService from '../../services/auth.service';
 
 
 const Login =() =>{
-    
+    let navigate = useNavigate();
 	const [data, setData] = useState({ email: "", password: "" });
-	const [error, setError] = useState("");
-	axios.defaults.withCredentials = true;
-	 let navigate = useNavigate();
-
-	// const redirectRoute = (path) => {
-	// 	navigate(path);
-	//   };
-
-	const[loginStatus, setLoginStatus] = useState("");
+	const [error, setError] = useState("") //error checking
 	
-	useEffect( () => { // used to check if user is logged in to be used on all pages
-		axios.get("http://localhost:8080/users/auth").then((res) =>{
-		if(res.data.loggedIn === true){
-			setLoginStatus(res.data.user.email);
-			console.log(loginStatus);
-			// redirectRoute("/dashboard");
-			navigate("/dashboard");
-		}
-
-		},[])
-	 }
-	 
-	 );
-	
+	//states for loading once login button is clicked
+	const [loading, setLoading] = useState(false);
+	//message for if its complete or no
+  	const [message, setMessage] = useState("");
 
 	const handleChange = ({ currentTarget: input }) => {
 		//you can add dynamic front end checking here
@@ -40,21 +22,31 @@ const Login =() =>{
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
-			const url = "http://localhost:8080/users/auth";
-			// const { data: res } =
-			 await axios.post(url, data);
-			navigate("/dashboard");
-		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.message);
+		setMessage("");
+		setLoading(true);
+		//add form validation
+		//if (checkBtn.current.context._errors.length === 0) {
+		  AuthService.login(data.email, data.password).then(
+			() => {
+			  navigate("/dashboard");
+			  window.location.reload();
+			  
+			},
+			(error) => {
+			  const resMessage =
+				(error.response &&
+				  error.response.data &&
+				  error.response.data.message) ||
+				error.message ||
+				error.toString();
+			  setLoading(false);
+			  setMessage(resMessage);
 			}
-		}
-	};
+		  );
+	//	} else {
+		  setLoading(false);
+		//}
+	  };
 
 	return (
 		<div className={styles.login_container}>
@@ -62,7 +54,9 @@ const Login =() =>{
 				<div className={styles.left}>
 					<form className={styles.form_container} onSubmit={handleSubmit}>
 						<h1>Login to Your Account</h1>
+						<label For="loginemail">Email</label>
 						<input
+						id="loginemail"
 							type="email"
 							placeholder="Email"
 							name="email"
@@ -71,7 +65,9 @@ const Login =() =>{
 							required
 							className={styles.input}
 						/>
+						<label For="loginpassword">Password</label>
 						<input
+						id="loginpassword"
 							type="password"
 							placeholder="Password"
 							name="password"
@@ -81,9 +77,13 @@ const Login =() =>{
 							className={styles.input}
 						/>
 						{error && <div className={styles.error_msg}>{error}</div>}
-						<button type="submit" className={styles.green_btn}>
-							Login
-						</button>
+						<button className="btn btn-success btn-round-lg btn-lg " disabled={loading}>
+              {loading && (
+                <span className="spinner-border spinner-border-sm"></span>
+              )}
+              <span>Login</span>
+            </button>
+		
 					</form>
 				</div>
 				<div className={styles.right}>
