@@ -41,17 +41,17 @@ function Navbar(props) {
           <img
             src="https://raw.githubusercontent.com/dpmanek/CS_546_C_Project/Amisha/Frontend/budget_tracker/public/logo.png"
             alt="BET Logo"
-            width="25"
-            height="24"
+            width="30"
+            height="25"
           />
           BET    
         </a>
         </Link>
-        <a className="navbar-brand">BET</a>
+        
         <form className="d-flex">
           {accessToken !== undefined ? (
             <React.Fragment>
-              <a href="#"><i class="fa fa-fw fa-user"></i>Welcome {content} !</a>
+              <a href="#" id="justtext"><i class="fa fa-fw fa-user"></i>Welcome {content} !</a>
               <button
                 className="btn btn-outline-success navbar-success"
                 type="button"

@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
@@ -16,9 +16,14 @@ const Signup = () => {
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
 	
-	const redirectRoute = (path) => {
-		navigate(path);
-	  };
+	//redirect user to dashboard if already logged in
+	useEffect(() => { //checks only if current user is there major checking on dashboard
+		var currentUser = AuthService.getCurrentUser()
+		if(currentUser){
+			navigate('/dashboard');
+		}
+		
+	  }, []);
 
 
 	const handleChange = ({ currentTarget: input }) => {
@@ -35,6 +40,7 @@ const Signup = () => {
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);
+		  navigate("/login");
         },
         (error) => {
           const resMessage =
