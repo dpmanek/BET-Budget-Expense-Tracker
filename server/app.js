@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+var jwt = require('jsonwebtoken');
 const jwtkey = require("./config/authconfig");
 const static = express.static(__dirname + '/public');
 const cors = require('cors');
@@ -36,7 +37,7 @@ app.use('/users',(req, res, next) =>{
 
 
 // verify token
-app.use('/users/data', (req, res, next) => {
+app.use('/user/data', (req, res, next) => {
   let token = req.headers["x-access-token"];
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
@@ -45,7 +46,10 @@ app.use('/users/data', (req, res, next) => {
     if (err) {
       return res.status(401).send({ message: "Unauthorized!" });
     }
-    req.userId = decoded.id;
+    if(decoded){
+    req.userId = decoded.email;
+    console.log("Access Token Verified")
+    }
     next();
   });
 });

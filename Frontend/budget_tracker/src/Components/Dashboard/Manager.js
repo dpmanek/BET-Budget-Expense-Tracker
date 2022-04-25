@@ -1,15 +1,33 @@
-import React from "react";
+
 import { Link, useNavigate } from "react-router-dom";
+import React, {useState, useEffect } from "react";
 import numeral from "numeral";
 import "./Manager.css";
 import Pie from "../Graphs/piechart";
+import UserService from '../../services/user.service';
 
 export const Manager = ({ spendingTotal, expenseTotal }) => {
   let navigate = useNavigate();
   const redirectRoute = (path) => {
     navigate(path);
   };
+
   const formatTotal = numeral(expenseTotal / 100).format("$0,0.00");
+  const [Name, setName] = useState("");
+  const [DOB, setDOB] = useState("");
+  
+  useEffect(() => {
+    UserService.getUserDOB().then((response) => {
+    if(response){
+      if(response.data.userName) setName(response.data.userName);
+      if(response.data.DOB) setDOB(response.data.DOB);
+    }
+    else{
+      setName("");
+      setDOB("");
+    } })
+  }, []);
+
   return (
     <div className="row col-md-12 page">
       <div className="col-md-6">
@@ -53,6 +71,10 @@ export const Manager = ({ spendingTotal, expenseTotal }) => {
           Search
         </button>
       </form>
+    <div>
+      <h3>User : {Name} </h3>
+      <h3>Date of Birth : {DOB}</h3>
+    </div>
     </div>
   );
 };
