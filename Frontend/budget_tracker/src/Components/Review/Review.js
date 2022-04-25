@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, Fragment } from "react";
 import "./Review.css";
 
 const Review = () => {
+  const [feedback, addFeedback] = useState("");
   return (
     <div>
-      <form>
-        <h2>Like our app...</h2>
-        <h3>Leave a feedback</h3>
+      <form className="place" on>
+        <h3>Like our app?</h3>
+        <h4>Leave a feedback</h4>
         <fieldset className="rating">
           <input type="radio" id="star5" name="rating" value="5" />
           <label className="full" for="star5" title="Awesome - 5 stars"></label>
@@ -81,16 +82,16 @@ const Review = () => {
             title="Sucks big time - 0.5 stars"
           ></label>
         </fieldset>
-        <div className="input-group">
+        <div className="mb-3">
           <input
             id="msg"
             type="text"
-            className="form-control"
+            className="form-control-position validate[required,length[6,300]] feedback-input"
             name="msg"
             placeholder="Feedback"
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary" value="Submit">
           Submit
         </button>
       </form>

@@ -1,7 +1,7 @@
 .navbar-success {
     margin-right: 20px;
     border-radius: 20px !important;
-    background-color: #2f2f2f !important;
+    background-color: #212529 !important;
     border-color: white !important;
     color: white !important;
 
@@ -9,7 +9,7 @@
 }
 .navbar-success:hover {
     background-color: white !important;
-    color: #2f2f2f!important;    
+    color: #212529 !important;    
 }
 /* Navbar links */
 .navbar a {
@@ -24,7 +24,7 @@
   
   /* Navbar links on mouse-over */
   .navbar a:hover {
-    background-color: #000;
+    background-color: #212529 !important;
   }
   
   /* Current/active navbar link */
@@ -43,4 +43,14 @@
   #justtext {
     pointer-events: none;
   }
+
+  .custom-color{
+    background-color: #212529!important;
+  }
+
+  .width-change{
+    padding-bottom: 10px;
+  }
+
+
 
