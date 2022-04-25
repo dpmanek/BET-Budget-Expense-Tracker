@@ -1,11 +1,44 @@
-import React from "react";
+import React, { useState, Fragment } from "react";
 import "./Createpage.css";
+import axios from "axios";
 
 const Createincome = () => {
+  const [error, setErorr] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const addIncome = (event) => {
+    setErorr("");
+    setSuccess("");
+
+    event.preventDefault();
+    let data = event.target;
+    let description = data[0].value;
+    let amount = data[1].value;
+    let category = data[2].value;
+    let date = data[3].value;
+    let recurringType = data[4].value;
+
+    let body = {
+      description,
+      amount,
+      category,
+      date,
+      recurringType,
+    };
+
+    axios
+      .post("url", body)
+      .then((data) => {
+        setSuccess("Income added successfully !");
+      })
+      .catch((e) => {
+        setErorr("Opps, something went wrong :(");
+      });
+  };
   return (
     <div>
       <h1 className="page">Add Income</h1>
-      <form className="place">
+      <form className="place" onSubmit={addIncome}>
         <div className="mb-3">
           <label for="exampleInputEmail1" className="form-label">
             Description
@@ -20,9 +53,16 @@ const Createincome = () => {
           <label for="exampleInputEmail1" className="form-label">
             Amount
           </label>
-          <input type="number" placeholder="Amount" className="form-control position" />
+          <input
+            type="number"
+            placeholder="Amount"
+            className="form-control position"
+          />
         </div>
-        <select className="form-select position" aria-label="Default select example">
+        <select
+          className="form-select position"
+          aria-label="Default select example"
+        >
           <option selected>Select your category</option>
           <option value="Checks">Checks</option>
           <option value="Coupons">Coupons</option>
@@ -75,9 +115,10 @@ const Createincome = () => {
             No
           </label>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary" value="Submit">
           Submit
         </button>
+        <div>{error != "" ? error : success}</div>
       </form>
     </div>
   );

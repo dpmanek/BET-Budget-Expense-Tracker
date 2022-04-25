@@ -3,7 +3,7 @@ import "./Feedback.css";
 
 const Feedback = () => {
   return (
-    <div>
+    <div className="feedback-div">
       <div className="container">
         <div className="mgb-40 padb-30 auto-invert line-b-4 align-center">
           <h4

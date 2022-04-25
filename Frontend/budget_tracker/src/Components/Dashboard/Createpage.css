@@ -18,6 +18,7 @@
     padding-left: 160px;
     margin-top: 0px !important;
     margin-left: 350px  !important;
+    position: absolute;
 }
 .position{
     width: 300px !important;

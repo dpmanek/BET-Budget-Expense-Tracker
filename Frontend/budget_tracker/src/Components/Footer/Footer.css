@@ -3,7 +3,9 @@
     color:#f0f9ff;
     background-color:#282d32;
     width: 100%;
-    position: absolute;
+    position: relative;
+    bottom: 0;
+    margin-top: 500px;
   }
   
   .footer-dark h3 {

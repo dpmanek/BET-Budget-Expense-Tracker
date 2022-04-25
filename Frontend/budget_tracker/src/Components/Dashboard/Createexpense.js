@@ -41,7 +41,7 @@ const Createexpense = () => {
   return (
     <div>
       <h1 className="page">Add Expense</h1>
-      <form class="place" onSubmit={addExpenses}>
+      <form className="place" onSubmit={addExpenses}>
         <div className="mb-3">
           <label for="exampleInputEmail1" className="form-label">
             Description
@@ -124,7 +124,7 @@ const Createexpense = () => {
             No
           </label>
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn btn-primary" value="Submit">
           Submit
         </button>
         <div>{error != "" ? error : success}</div>
