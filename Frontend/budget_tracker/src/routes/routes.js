@@ -1,3 +1,4 @@
+import React from 'react';
 import { Routes as Switch, Route as Routing } from "react-router-dom";
 import Createexpense from "../Components/Dashboard/Createexpense";
 import Createincome from "../Components/Dashboard/Createincome";
@@ -10,7 +11,7 @@ import Signup from "../Components/Signup";
 import Layout from '../Components/layout/layout'
 // import Review from "../Components/Review/Review";
 import ReviewManager from "../Components/Review/ReviewManager";
-
+import AboutUs from '../Components/AboutUs/AboutUs';
 const Routesr = () => {
   return (
     <>
@@ -25,6 +26,7 @@ const Routesr = () => {
         <Routing exact path="/addexpense" element={<Createexpense />} />
         <Routing exact path="/addincome" element={<Createincome />} />
         <Routing exact path="/review" element={<ReviewManager />} />
+        <Routing exact path="/about-us" element={<AboutUs/>}/>
       </Switch>
       </Layout>
     </>
