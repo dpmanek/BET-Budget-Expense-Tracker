@@ -42,7 +42,7 @@ h1 { font-size: 1.5em; margin: 10px; }
 .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
 
 .page{
-  background: #f7f7f7;
+  background: #ffffff !important;
   text-align: center;
   padding-top: 02px !important;
   
@@ -55,12 +55,12 @@ h1 { font-size: 1.5em; margin: 10px; }
 }
 
 .place{
-  background: #f7f7f7;
+  background: #ffffff;
   width:600px !important;
   height: 460px !important;
-  padding-left: 160px;
+  padding-left: 60px 0;
   margin-top: 0px !important;
-  margin-left: 350px  !important;
+  margin-left: 10px  !important;
   position: absolute;
 }
 .position{

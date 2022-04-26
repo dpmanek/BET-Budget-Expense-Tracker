@@ -30,18 +30,12 @@ const Footer = () => {
                 <li>
                   <a href="#">Team</a>
                 </li>
-                <li>
-                  <a href="#">Careers</a>
-                </li>
               </ul>
             </div>
             <div className="col-md-6 item text">
-              <h3>Company Name</h3>
+              <h3>Budget Expense Tracker (BET)</h3>
               <p>
-                Praesent sed lobortis mi. Suspendisse vel placerat ligula.
-                Vivamus ac sem lacus. Ut vehicula rhoncus elementum. Etiam quis
-                tristique lectus. Aliquam in arcu eget velit pulvinar dictum vel
-                in justo.
+              BET, not only helps you to track your expenses but also helps you save money.
               </p>
             </div>
             <div className="col item social">
@@ -59,7 +53,7 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          <p className="copyright">Company Name © 2018</p>
+          <p className="copyright">BET © 2022</p>
         </div>
       </footer>
     </div>

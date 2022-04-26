@@ -1,0 +1,63 @@
+.mains{
+  margin-top: 100px !important;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 0% !important;
+  }
+
+  .profile-card .img{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: .6s;
+    z-index: 99;
+  }
+  .profile-card:hover .img{
+    transform: translateY(-80px);
+  }
+  .img img{
+    width: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 22px #3336;
+    transition: .6s;
+  }
+  .profile-card:hover img{
+    border-radius: 10px;
+  }
+  .caption{
+    text-align: center;
+    transform: translateY(-80px);
+    opacity: 0;
+    transition: .6s;
+  }
+  .profile-card:hover .caption{
+    opacity: 1;
+  }
+  .caption h3{
+    font-size: 21px;
+  }
+  .caption {
+    font-size: 16px;
+    color: #0c52a1;
+    margin: 2px 0 9px 0;
+  }
+ 
+  .link a:hover{
+    color: #0c52a1;
+  }
+  .pl{
+    margin-top: 40px;
+    text-align: center;
+  }
+  .pl1{
+    text-align: center;
+    padding: 70px 50px;
+  }
+  .pl2{
+    flex: 0 0 auto;
+    border-radius: 5px;
+  }
+  

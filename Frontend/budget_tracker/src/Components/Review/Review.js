@@ -6,8 +6,8 @@ const Review = () => {
   return (
     <div>
       <form className="place" on>
-        <h3>Like our app?</h3>
-        <h4>Leave a feedback</h4>
+        <h3 className="pl">Like our app?</h3>
+        <h4 >Leave a feedback</h4>
         <fieldset className="rating">
           <input type="radio" id="star5" name="rating" value="5" />
           <label className="full" for="star5" title="Awesome - 5 stars"></label>
