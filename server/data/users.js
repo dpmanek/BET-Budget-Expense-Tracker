@@ -41,13 +41,13 @@ module.exports = {
             password: hash,
             money: {
                 income: {
-                    recurring: null,
-                    OneTime: null,
+                    recurring: [],
+                    OneTime: [],
                     totalIncome: null
                 },
                 Expenditure: {
-                    Recurring: null,
-                    OneTime:null,
+                    Recurring: [],
+                    OneTime:[],
                     totalExpenditure: null
                 },
                 totalSpendingLimit: null
