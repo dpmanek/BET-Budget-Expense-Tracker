@@ -1,27 +1,25 @@
 const mongoCollections = require('../config/mongoCollections');
 const Users = mongoCollections.users;
-const moment = require('moment')
+const moment = require('moment');
 //const bands = require('./bands');
 const users = require('./users');
 //const errorChecking = require('../errorChecking'); //create one for transactions
 const { ObjectId } = require('mongodb');
 
+const createIncome = async (userId, name, description, tags, amount, type) => {
+	let UserId = !userId ? '6266c3e859c935f646dca2ce' : userId;
+	let Name = !name ? 'icecream' : name;
+	let Description = !description ? 'vanilla' : description;
+	let Tags = !tags ? 'sometag' : tags;
+	let Amount = !amount ? 500 : amount;
 
-const createIncome = async (userId, name, description, tags, amount,type) => {
-let UserId=!userId?"6266c3e859c935f646dca2ce":userId
-let Name=!name?"icecream":name
-let Description=!description?"vanilla":description
-let Tags=!tags?"sometag":tags
-let Amount=!amount?500:amount
+	let TranactionDate = new Date();
+	TranactionDate.toLocaleString('en-US', {
+		timeZone: 'America/New_York',
+	});
+	let date = moment(TranactionDate).format('MM/DD/YYYY');
 
-
-let TranactionDate = new Date()
-TranactionDate.toLocaleString('en-US', {
-    timeZone: 'America/New_York',
-  })
-  let date=moment(TranactionDate).format('MM/DD/YYYY') 
-
-  let Type=!type?"OneTime":type
+	let Type = !type ? 'OneTime' : type;
 	/*errorChecking*/
 
 	// try {
@@ -52,61 +50,66 @@ TranactionDate.toLocaleString('en-US', {
 
 	let income = {
 		_id: ObjectId(),
-		Name:Name,
+		Name: Name,
 		Description: Description,
 		Tags: Tags,
 		Amount: Amount,
-		TranactionDate:date
+		TranactionDate: date,
 	};
 
-	if (Type==="OneTime"){
+	if (Type === 'OneTime') {
 		const data = await UserCollection.updateOne(
 			{ _id: ObjectId(UserId) },
-			{ $addToSet: { 'money.income.OneTime': income } }
+			{ $addToSet: { 'money.Income.OneTime': income } }
 		);
-	
+
 		if (!data.acknowledged || data.modifiedCount === 0)
 			throw {
 				code: 400,
 				message: 'could not add album to band',
 			};
-	
-	return "Done OneTime"
-	};	
 
-	if(Type==="recurring"){
+		return 'Done OneTime';
+	}
 
+	if (Type === 'Recurring') {
 		const data = await UserCollection.updateOne(
 			{ _id: ObjectId(UserId) },
-			{ $addToSet: { 'money.income.recurring': income } }
+			{ $addToSet: { 'money.Income.Recurring': income } }
 		);
-	
+
 		if (!data.acknowledged || data.modifiedCount === 0)
 			throw {
 				code: 400,
 				message: 'could not add album to band',
 			};
-			return "Done recurring"
+		return 'Done recurring';
 	}
+};
 
+const createExpense = async (
+	userId,
+	name,
+	description,
+	tags,
+	payment,
+	amount,
+	type
+) => {
+	let UserId = !userId ? '6266c3e859c935f646dca2ce' : userId;
+	let Name = !name ? 'icecream' : name;
+	let Description = !description ? 'vanilla' : description;
+	let Tags = !tags ? 'sometag' : tags;
+	let Payment = !payment ? 'credit card' : payment;
+	let Amount = !amount ? 500 : amount;
 
-	}
-const createExpense = async (userId, name, description, tags, payment, amount,type) => {
-let UserId=!userId?"6266c3e859c935f646dca2ce":userId
-let Name=!name?"icecream":name
-let Description=!description?"vanilla":description
-let Tags=!tags?"sometag":tags
-let Payment=!payment?"credit card":payment
-let Amount=!amount?500:amount
+	let TranactionDate = new Date();
+	TranactionDate.toLocaleString('en-US', {
+		timeZone: 'America/New_York',
+	});
+	let date = moment(TranactionDate).format('MM/DD/YYYY');
 
-
-let TranactionDate = new Date()
-TranactionDate.toLocaleString('en-US', {
-    timeZone: 'America/New_York',
-  })
-  let date=moment(TranactionDate).format('MM/DD/YYYY') 
-
-  let Type=!type?"OneTime":type
+	let Type = !type ? 'OneTime' : type;
 	/*errorChecking*/
 
 	// try {
@@ -135,50 +138,46 @@ TranactionDate.toLocaleString('en-US', {
 
 	// Transaction_Date: tracks,
 
-	let income = {
+	let expense = {
 		_id: ObjectId(),
-		Name:Name,
+		Name: Name,
 		Description: Description,
 		Tags: Tags,
-		TranactionDate:date,
-		Payment:payment,
+		TranactionDate: date,
+		Payment: payment,
 		Amount: Amount,
-		Comments: "nothing",
+		Comments: 'nothing',
 	};
 
-	if (type==="OneTime"){
+	if (type === 'OneTime') {
 		const data = await UserCollection.updateOne(
 			{ _id: ObjectId(UserId) },
-			{ $addToSet: { 'money.income.OneTime': income } }
+			{ $addToSet: { 'money.Expenditure.OneTime': expense } }
 		);
-	
+
 		if (!data.acknowledged || data.modifiedCount === 0)
 			throw {
 				code: 400,
 				message: 'could not add album to band',
 			};
-	
-	return "Done OneTime"
-	};	
 
-	if(type==="recurring"){
+		return 'Done OneTime';
+	}
 
+	if (type === 'Recurring') {
 		const data = await UserCollection.updateOne(
 			{ _id: ObjectId(UserId) },
-			{ $addToSet: { 'money.income.recurring': income } }
+			{ $addToSet: { 'money.Expenditure.Recurring': expense } }
 		);
-	
+
 		if (!data.acknowledged || data.modifiedCount === 0)
 			throw {
 				code: 400,
 				message: 'could not add album to band',
 			};
-			return "Done recurring"
+		return 'Done recurring';
 	}
-
-
-	}
-
+};
 
 // const getAll = async (bandId) => {
 // 	let band = undefined;
@@ -325,5 +324,5 @@ TranactionDate.toLocaleString('en-US', {
 
 module.exports = {
 	createIncome,
-
+	createExpense,
 };
