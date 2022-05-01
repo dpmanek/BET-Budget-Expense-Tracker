@@ -9,7 +9,7 @@ const Createexpense = () => {
   const addExpenses = (event) => {
     setErorr("");
     setSuccess("");
-
+    console.log(event);
     event.preventDefault();
     let data = event.target;
     let description = data[0].value;
