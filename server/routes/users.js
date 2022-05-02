@@ -4,17 +4,19 @@ const jwtkey = require("../config/authconfig")
 const dataFunctions = require("../data/users");
 const dataValidation = require("../data/dataValidation")
 var jwt = require('jsonwebtoken');
+var xss = require("xss");
 
 
 router.post("/newuser", async (req, res) => { //route used to create a new user from the signup page in frontend
 	try {
 		const data = req.body;
-		console.log(`${data.email} is trying to create a new Account`);
 
-		let firstName = data.firstName;
-		let lastName = data.lastName;
-		let email = data.email;
-		let password = data.password;
+		let firstName = xss(data.firstName);
+		let lastName = xss(data.lastName);
+		let email = xss(data.email);
+		let password = xss(data.password);
+
+		console.log(`${email} is trying to create a new Account`);
 		
 		//Data Validation
 		firstName = dataValidation.checkName(firstName);
@@ -39,8 +41,8 @@ router.post("/newuser", async (req, res) => { //route used to create a new user 
 router.post("/auth", async (req, res) => {
     try{
         let data = req.body;
-		let email = data.email;
-		let password = data.password;
+		let email = xss(data.email);
+		let password = xss(data.password);
 		console.log(`${email} is trying to Login`);
 
 		//data Validation
@@ -83,3 +85,4 @@ router.post("/logout", async (req, res) => {
 
 
 module.exports = router;
+
