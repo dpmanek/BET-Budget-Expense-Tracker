@@ -149,10 +149,10 @@ const Createincome = () => {
       </React.Fragment>):(<React.Fragment>
         <h1>Restricted area</h1>
         <h2><a href="/login">Sign In</a> to Access DashBoard</h2>
-        </React.Fragment>)};
+        </React.Fragment>)}
         </div>
     
-  );
+  )
 };
 
 export default Createincome;
