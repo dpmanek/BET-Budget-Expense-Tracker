@@ -1,10 +1,27 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment ,useEffect} from "react";
 import "./Createpage.css";
 import axios from "axios";
+import AuthService from '../../services/auth.service';
+import "./backbutton.css";
 
 const Createexpense = () => {
   const [error, setErorr] = useState("");
   const [success, setSuccess] = useState("");
+
+  const [accessToken, setAccessToken] = useState("");
+  useEffect(() => {
+    var data = AuthService.getCurrentUser()
+    if(data){
+     // setContent(data.user.userName);
+      setAccessToken(data.accessToken);
+    }
+    else{
+     // setContent("");
+      setAccessToken(undefined);
+    } 
+  }, []);
+
+
 
   const addExpenses = (event) => {
     setErorr("");
@@ -40,6 +57,12 @@ const Createexpense = () => {
 
   return (
     <div>
+      {accessToken !== undefined ? (
+      <React.Fragment>
+    <div>
+    <a href="/dashboard">
+    <button class="btn"  ><i class="fa fa-home"></i> Home</button>
+    </a>
       <h1 className="page">Add Expense</h1>
       <form className="place" onSubmit={addExpenses}>
         <div className="mb-3">
@@ -130,6 +153,13 @@ const Createexpense = () => {
         <div>{error != "" ? error : success}</div>
       </form>
     </div>
+    </React.Fragment>):(<React.Fragment>
+        <h1>Restricted area</h1>
+        <h2><a href="/login">Sign In</a> to Access DashBoard</h2>
+        </React.Fragment>)};
+        </div>
+    
+  
   );
 };
 
