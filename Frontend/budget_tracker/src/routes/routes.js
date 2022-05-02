@@ -17,14 +17,17 @@ const Routesr = () => {
     <>
     <Layout>
       <Switch>
-        {/* <Routing exact path="/" element={<Home />} /> */}
+        {/* Auth Routes */}
         <Routing exact path="/" element={<Content />} />
         <Routing exact path="/login" element={<Login />} />
         <Routing exact path="/signup" element={<Signup />} />
-      
+        
+        {/* Private: Only logged in user can access */}
         <Routing exact path="/dashboard" element={<Dashboard />} />
         <Routing exact path="/addexpense" element={<Createexpense />} />
         <Routing exact path="/addincome" element={<Createincome />} />
+        
+        {/* Public: All can use */}
         <Routing exact path="/review" element={<ReviewManager />} />
         <Routing exact path="/about-us" element={<AboutUs/>}/>
       </Switch>

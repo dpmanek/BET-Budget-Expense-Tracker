@@ -1,14 +1,33 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment,useEffect } from "react";
 import "./Createpage.css";
 import axios from "axios";
+import AuthService from '../../services/auth.service';
+import "./backbutton.css";
 
 const Createincome = () => {
   const [error, setErorr] = useState("");
   const [success, setSuccess] = useState("");
-
+  
+  const [accessToken, setAccessToken] = useState("");
+  useEffect(() => {
+    var data = AuthService.getCurrentUser()
+    if(data){
+     // setContent(data.user.userName);
+      setAccessToken(data.accessToken);
+    }
+    else{
+     // setContent("");
+      setAccessToken(undefined);
+    } 
+  }, []);
+  
+  
+  
   const addIncome = (event) => {
     setErorr("");
     setSuccess("");
+
+
 
     event.preventDefault();
     let data = event.target;
@@ -37,6 +56,12 @@ const Createincome = () => {
   };
   return (
     <div>
+      {accessToken !== undefined ? (
+      <React.Fragment>
+        <div>
+        <a href="/dashboard">
+    <button class="btn"  ><i class="fa fa-home"></i> Home</button>
+    </a>
       <h1 className="page">Add Income</h1>
       <form className="place" onSubmit={addIncome}>
         <div className="mb-3">
@@ -121,6 +146,12 @@ const Createincome = () => {
         <div>{error != "" ? error : success}</div>
       </form>
     </div>
+      </React.Fragment>):(<React.Fragment>
+        <h1>Restricted area</h1>
+        <h2><a href="/login">Sign In</a> to Access DashBoard</h2>
+        </React.Fragment>)};
+        </div>
+    
   );
 };
 
