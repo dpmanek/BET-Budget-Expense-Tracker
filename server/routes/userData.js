@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const userDataFunctions = require('../data/getUserInfo')
+const transactionFunc = require("../data/transactions")
 
 // route will be used to get all the specific data
 
@@ -30,6 +31,15 @@ router.get("/review",async(req, res) => {
 	console.log('request recieved') ;
 	// data validation ToDo
 	let userInfo = await userDataFunctions.getReview(UserID); //change to get user review
+	console.log("Request Processed Sending Review")
+	res.send({data: userInfo});
+});
+
+router.get("/totalIncome",async(req, res) => { 
+	let UserID = req.userId
+	console.log('request recieved') ;
+	// data validation ToDo
+	let userInfo = await transactionFunc.updateTotalIncome(UserID); //change to get user review
 	console.log("Request Processed Sending Review")
 	res.send({data: userInfo});
 });
