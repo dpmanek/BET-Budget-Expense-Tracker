@@ -48,6 +48,10 @@ const createUser = async (newFirstName, newLastName, newEmail, newPassword) => {
 			},
 			totalSpendingLimit: null,
 		},
+		review: {
+			Rating: null,
+			feedback: "",
+		}
 	};
 
 	const insertInfo = await userCollection.insertOne(newUser);

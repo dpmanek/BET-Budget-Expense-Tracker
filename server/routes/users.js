@@ -80,6 +80,7 @@ router.post("/logout", async (req, res) => {
 		}
 		else{
 			res.status(500).send({message: "Internal Server Error"});
+			res
 		} 
 });
 
