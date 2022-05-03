@@ -1,12 +1,15 @@
 import React, { useState, Fragment } from "react";
 import "./Review.css";
 import axios from "axios";
+import reviewService from "../../services/review.service";
 
 const Review = () => {
   const [error, setErorr] = useState("");
   const [success, setSuccess] = useState("");
   const [rating, setRating] = useState("");
   const [feedback, setFeedback] = useState("");
+  
+  
   const addFeedback = (event) => {
     setErorr("");
     setSuccess("");
@@ -17,8 +20,7 @@ const Review = () => {
       feedback,
       rating,
     };
-    axios
-      .post("url", body)
+    reviewService.postUserReview(body)
       .then((res) => {
         setSuccess("Review added successfully !");
       })
