@@ -24,6 +24,8 @@ body{margin-top:20px;}
     float: left;
     border-right: 1px solid rgba(0, 0, 0, 0.2);
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
 }
 .last-box {
     display: block;
@@ -68,6 +70,6 @@ img {
     font-weight: 700 !important;
 }
 .feedback-div{
-    padding-top: 500px;
+    padding-top: 50px;
 }
 

@@ -6,20 +6,14 @@ const Feedback = () => {
     <div className="feedback-div">
       <div className="container">
         <div className="mgb-40 padb-30 auto-invert line-b-4 align-center">
-          <h4
-            className="font-cond-l fg-accent lts-md mgb-10"
-            contenteditable="false"
-          >
-            Not Yet Convinced?
-          </h4>
           <h1
             className="font-cond-b fg-text-d lts-md fs-300 fs-300-xs no-mg"
             contenteditable="false"
           >
-            Read Customer Reviews
+            Customer Reviews
           </h1>
         </div>
-        <ul className="hash-list cols-3 cols-1-xs pad-30-all align-center text-sm">
+        <ul className="hash-list cols-2 cols-1-xs pad-30-all align-center text-sm">
           <li>
             <img
               src="/mark_zuk.png"

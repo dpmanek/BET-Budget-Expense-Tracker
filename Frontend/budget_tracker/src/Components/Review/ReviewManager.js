@@ -7,11 +7,11 @@ import Feedback from "./Feedback";
 const ReviewManager = () => {
   return (
     <div>
-
-      <Review />
-      <Feedback />
-
+        <Feedback/>
+        <Review/>
     </div>
+
+     
   );
 };
 
