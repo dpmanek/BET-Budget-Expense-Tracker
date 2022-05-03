@@ -5,6 +5,7 @@ const moment = require('moment');
 const users = require('./users');
 //const errorChecking = require('../errorChecking'); //create one for transactions
 const { ObjectId } = require('mongodb');
+const dataValidation = require('./dataValidation');
 
 const createIncome = async (userId, name, description, tags, amount, type) => {
 	let UserId = !userId ? '6266c3e859c935f646dca2ce' : userId;
@@ -179,6 +180,99 @@ const createExpense = async (
 	}
 };
 
+const updateTotalIncome = async (UserId) => {
+	if(!UserId) throw "No Email";
+    UserId = dataValidation.checkEmail(UserId);
+
+	//add data validation
+	let totalIncome = 0;
+
+	let UserCollection = await Users();
+	const userFound = await UserCollection.findOne({ email: UserId });
+	if (userFound){
+		let incomeRecurring = userFound.money.income.recurring;
+		let incomeOneTime = userFound.money.income.OneTime;
+		
+		if(incomeRecurring && incomeRecurring.length >= 1){
+			for(i in incomeRecurring){
+				totalIncome += incomeRecurring[i].Amount
+			}
+		}
+		if(incomeOneTime && incomeOneTime.length >= 1){
+			for(i in incomeOneTime){
+				totalIncome += incomeOneTime[i].Amount
+			}
+		}
+
+		const data = await UserCollection.updateOne(
+			{ email: UserId },
+			{ $set: { 'money.income.totalIncome': totalIncome} }
+		);
+
+		if (!data.acknowledged || data.modifiedCount === 0)
+			throw {
+				code: 400,
+				message: 'Could Not Update Total Income',
+			};
+		return 'Total Income Updated';
+	}
+	else throw {
+		code: 400,
+		message: 'User Not Found',
+	};
+}
+
+const updateTotalExpense = async (UserId) => {
+	if(!UserId) throw "No Email";
+    UserId = dataValidation.checkEmail(UserId);
+
+	//add data validation
+	let totalExpense = 0;
+
+	let UserCollection = await Users();
+	const userFound = await UserCollection.findOne({ email: UserId });
+	if (userFound){
+		let expenseRecurring = userFound.money.Expenditure.recurring;
+		let expenseOneTime = userFound.money.Expenditure.OneTime;
+		
+		if(expenseRecurring && expenseRecurring.length >= 1){
+			for(i in expenseRecurring){
+				totalExpense += expenseRecurring[i].Amount
+			}
+		}
+		if(expenseOneTime && expenseOneTime.length >= 1){
+			for(i in expenseOneTime){
+				totalExpense += expenseOneTime[i].Amount
+			}
+		}
+
+		const data = await UserCollection.updateOne(
+			{ email: UserId },
+			{ $set: { 'money.Expenditure.totalExpenditure': totalExpense} }
+		);
+
+		if (!data.acknowledged || data.modifiedCount === 0)
+			throw {
+				code: 400,
+				message: 'Could Not Update Total Income',
+			};
+		return 'Total Income Updated';
+	}
+	else throw {
+		code: 400,
+		message: 'User Not Found',
+	};
+}
+
+
+module.exports = {
+	createIncome,
+	createExpense,
+	updateTotalIncome,
+	updateTotalExpense
+};
+
+
 // const getAll = async (bandId) => {
 // 	let band = undefined;
 // 	try {
@@ -321,8 +415,3 @@ const createExpense = async (
 // 		return bandId;
 // 	}
 // };
-
-module.exports = {
-	createIncome,
-	createExpense,
-};
