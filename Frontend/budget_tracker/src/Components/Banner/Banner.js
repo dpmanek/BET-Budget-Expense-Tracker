@@ -35,12 +35,30 @@ const Banner = (props) => {
         <div className="col-md-6" id="center">
           <h5 className="card-title">{props.title}</h5>
           <p className="card-text">{props.description}</p>
-          <a href="#" className="btn btn-primary">
+          {/* <a href="#" className="btn btn-primary">
             Go somewhere
-          </a>
+          </a> */}
+        </div>
+        
+      </div>
+
+      <div className="div-class">
+      <div className="row col-md-12 page">
+        
+
+        <div className="col-md-6" id="center">
+          <h5 className="card-title">{props.title}</h5>
+          <p className="card-text">{props.description}</p>
+        </div>
+        
+        <div className="col-md-6">
+          <img src="/capture.png" className="card-img-top" />
         </div>
       </div>
     </div>
+
+    </div>
+    
   );
 };
 

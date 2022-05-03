@@ -31,7 +31,7 @@ const OurTeam= ()=>{
                     <div class="caption">
                         <h3>Kevin D'sa</h3>
                         <div class="link">
-                            <a href="https://www.linkedin.com/in/niravjain98" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                            <a href="https://www.linkedin.com/in/kevindsa2017" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                         </div>
                     </div>
                 </div>
