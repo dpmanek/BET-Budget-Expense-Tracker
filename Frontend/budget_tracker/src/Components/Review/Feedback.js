@@ -5,16 +5,16 @@ import reviewService from "../../services/review.service";
 const Feedback = () => {
   const [feedback, setfeedback] = useState("");
   useEffect(() => {
-    var data = reviewService.getUserReview()
-    if(data){
-     // setContent(data.user.userName);
-     setfeedback(data.review);
-    }
-    else{
-     // setContent("");
-     setfeedback(undefined);
-    } 
-  }, []);
+    reviewService.getUserReview().then((response) => {
+      if(response){
+        setfeedback(response.data.Review.feedback);
+      }
+      else{
+        setfeedback(undefined);
+      } })
+    }, []);
+    
+    
 
   return (
     <div className="feedback-div">
