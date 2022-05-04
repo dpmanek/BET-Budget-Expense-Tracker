@@ -264,12 +264,91 @@ const updateTotalExpense = async (UserId) => {
 	};
 }
 
+const deleteIncome = async (UserId, transactionID) => { 
+
+	if(!UserId) throw "No Email";
+    UserId = dataValidation.checkEmail(UserId);
+
+	if(!transactionID) throw "No Transaction ID";
+	// write data function to check transaction ID
+	let deletedflag = false
+	let UserCollection = await Users();
+	const userFound = await UserCollection.findOne({ email: UserId });
+	if (userFound){
+		
+		let incomeRecurring = userFound.money.income.recurring;
+		let incomeOneTime = userFound.money.income.OneTime;
+		
+		if(incomeRecurring && incomeRecurring.length >= 1){
+			for(i in incomeRecurring){
+				if(incomeRecurring[i]._id === transactionID){
+					const data = await UserCollection.updateOne(
+						{ email: UserId },
+						{ $pull: { 'money.income.recurring':{_id: transactionID}} });
+						if (!data.acknowledged || data.modifiedCount === 0)
+							throw {
+									code: 400,
+									message: `Could Not Delete Transaction:${transactionID} `,
+									};
+						
+						
+				}
+			}
+		}
+		if(incomeOneTime && incomeOneTime.length >= 1){
+			for(i in incomeOneTime){
+				if(incomeOneTime[i]._id === transactionID){
+					const data = await UserCollection.updateOne(
+						{ email: UserId },
+						{ $pull: { 'money.income.OneTime':{_id: transactionID}} });
+						if (!data.acknowledged || data.modifiedCount === 0)
+							throw {
+									code: 400,
+									message: `Could Not Delete Transaction:${transactionID} `,
+									};
+						return 'Deleted Transaction';
+						
+				}
+			}
+		}
+		if(deletedflag === true){
+			return 'Deleted Transaction';
+		}
+		else{
+
+		}
+
+	}
+	else throw {
+		code: 400,
+		message: 'User Not Found',
+	};
+
+
+
+
+
+
+}
+const deleteExpense = async (UserId, transactionID) => {
+
+}
+const updateIncome = async (UserId, transactionID) => {
+
+}
+const updateExpense = async (UserId, transactionID) => {
+
+}
 
 module.exports = {
 	createIncome,
 	createExpense,
 	updateTotalIncome,
-	updateTotalExpense
+	updateTotalExpense,
+	deleteIncome,
+	deleteExpense,
+	updateIncome,
+	updateExpense
 };
 
 

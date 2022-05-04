@@ -35,16 +35,15 @@ router.get("/review",async(req, res) => {
 	res.send({data: userInfo});
 });
 
+//test
 router.get("/totalIncome",async(req, res) => { 
 	let UserID = req.userId
 	console.log('request recieved') ;
 	// data validation ToDo
-	let userInfo = await transactionFunc.updateTotalIncome(UserID); //change to get user review
-	console.log("Request Processed Sending Review")
+	let userInfo = await transactionFunc.deleteIncome(UserID,'bhidvbdkvbisdgvis'); //change to get user review
+	console.log("Request Processed")
 	res.send({data: userInfo});
 });
-
-
 module.exports = router;
 /*
 catch(e){
