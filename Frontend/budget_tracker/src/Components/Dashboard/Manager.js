@@ -12,6 +12,7 @@ export const Manager = ({ spendingTotal, expenseTotal }) => {
   };
 
   const formatTotal = numeral(expenseTotal / 100).format("$0,0.00");
+  /*
   const [Name, setName] = useState("");
   const [DOB, setDOB] = useState("");
 
@@ -26,6 +27,7 @@ export const Manager = ({ spendingTotal, expenseTotal }) => {
       }
     });
   }, []);
+  */
 
   return (
     <div className="row col-md-12 page">
