@@ -1,6 +1,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 const API_URL = "http://localhost:8080/user/data";
+const Public_URL = "http://localhost:8080/public";
 
 
 
@@ -17,8 +18,15 @@ const getUserReview = () => {
     });; //  "/review" is a route of the server 
   }
 
+  const getAllReview = () => {
+    return axios.get(Public_URL + "/allReviews").then((response) => {
+      return response.data;
+    });
+  };
+
 const reviewService = {
   getUserReview,
-  postUserReview
+  postUserReview,
+  getAllReview,
 };
 export default reviewService;

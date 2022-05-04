@@ -43,11 +43,11 @@ module.exports = {
         
         const userCollection = await allUsers();
         //checks if user with the same email already exists
-        const userFound = await userCollection.findOne({'email': email});
+        const userFound = await userCollection.findOne({Email: email});
         if(userFound){
             const data = await userCollection.updateOne(
                 { email: email},
-                { $Set: { 'review.Rating': rating, 'review.feedback': feedback } }
+                { $Set: { 'Review.Rating': rating, 'Review.Feedback': feedback } }
             );
     
             if (!data.acknowledged || data.modifiedCount === 0)
@@ -58,15 +58,24 @@ module.exports = {
         }
         else throw "User with this email not found"
     },
+    async getAllReviews(){
+        let allReviews = []
+        const userCollection = await allUsers();
+        const userData = await userCollection.find({}).toArray();
+        if(userData){ 
+        for (i in userData){
+            allReviews.push(userData[i].Review);
+        }
+        return allReviews;
+    }
+    else throw "No users in the Database";
+    },
 
 
 async getUser(UserId){
-	if (!UserId) throw { code: 400, message: 'Please provide an id. Id is missing' };
-	if (typeof UserId !== 'string')
-		throw { code: 400, message: 'Enter ID in string format' };
-	if (UserId.trim().length === 0)
-		throw { code: 400, message: 'ID cannot be blank. Please enter a String' };
-	UserId = UserId.trim();
+	if(!UserId) throw "No Email";
+    UserId = dataValidation.checkEmail(UserId);
+    UserId = UserId.toLowerCase();
 	
 	const userCollection = await allUsers();
 	const userData = await userCollection.findOne({ Email: UserId });
