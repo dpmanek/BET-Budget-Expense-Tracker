@@ -35,7 +35,7 @@ const Review = () => {
   };
   return (
     <div>
-      <form className="place" onSubmit={addFeedback}>
+      <form className="place1" onSubmit={addFeedback}>
         <h3 className="pl">Like our app? Leave a feedback</h3>
         <fieldset className="rating" onChange={changeRating}>
           <input type="radio" id="star5" name="rating" value="5" />
@@ -87,6 +87,7 @@ const Review = () => {
           <input type="radio" id="starhalf" name="rating" value="0.5" />
           <label
             className="half"
+
             for="starhalf"
             title="Sucks big time - 0.5 stars"
           ></label>
