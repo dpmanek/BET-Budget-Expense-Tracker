@@ -55,11 +55,12 @@ h1 { font-size: 1.5em; margin: 10px; }
 }
 
 .place{
-  background: #ffffff;
+  background: #9c4d4d;
   width:600px !important;
-  height: 460px !important;
-  margin-top: 30% !important;
-  margin-left: 18%  !important;
+  height: 260px !important;
+  padding-left: 0px 0 !important;
+  margin-top: 0px !important;
+  margin-left: 0px  !important;
   position: absolute;
 }
 .position{
@@ -73,7 +74,7 @@ h1 { font-size: 1.5em; margin: 10px; }
 
 .feedback-input{
   width: 100%;
-  height: 150px;
+  height: 50px;
   line-height: 150%;
   resize:vertical;
 }

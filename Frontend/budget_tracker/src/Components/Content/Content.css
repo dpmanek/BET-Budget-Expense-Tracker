@@ -8,7 +8,7 @@
 .image{
 	max-width: 50px;
 	height:100px;
-	background-color: gray;
+	background-color: gray !important;
 	text-align: left !important;
 }
 
