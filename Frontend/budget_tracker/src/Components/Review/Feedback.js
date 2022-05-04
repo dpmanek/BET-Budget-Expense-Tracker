@@ -4,13 +4,14 @@ import reviewService from "../../services/review.service";
 
 const Feedback = () => {
   const [feedback, setfeedback] = useState("");
+  
   useEffect(() => {
-    reviewService.getUserReview().then((response) => {
+    reviewService.getAllReview().then((response) => {
       if(response){
         setfeedback(response.data.Review.feedback);
       }
       else{
-        setfeedback(undefined);
+        setfeedback("");
       } })
     }, []);
     
