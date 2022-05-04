@@ -12,7 +12,7 @@ const postUserReview = (body) => {
 
 
 const getUserReview = () => {
-    return  axios.get(API_URL + "/dob", { headers: authHeader()}).then((response) => {
+    return  axios.get(API_URL + "/review", { headers: authHeader()}).then((response) => {
       return response.data;
     });; //  "/review" is a route of the server 
   }
