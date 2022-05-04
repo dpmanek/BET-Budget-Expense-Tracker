@@ -54,13 +54,13 @@ h1 { font-size: 1.5em; margin: 10px; }
   border-color:#3bb19b !important;
 }
 
-.place{
-  background: #9c4d4d;
+.place1{
+  background: #ffffff;
   width:600px !important;
   height: 260px !important;
   padding-left: 0px 0 !important;
   margin-top: 0px !important;
-  margin-left: 0px  !important;
+  margin-left: -100px  !important;
   position: absolute;
 }
 .position{

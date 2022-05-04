@@ -9,6 +9,7 @@ const Feedback = () => {
     reviewService.getAllReview().then((response) => {
       if(response){
         setfeedback(response.data.Review.feedback);
+        setrating(response.data.Review.Rating);
       }
       else{
         setfeedback("");
@@ -19,16 +20,18 @@ const Feedback = () => {
 
   return (
     <div className="feedback-div">
-      <div className="container">
+      <div >
         <div className="mgb-40 padb-30 auto-invert line-b-4 align-center">
+          
           <h1
-            className="font-cond-b fg-text-d lts-md fs-300 fs-300-xs no-mg"
+            className="font-cond-b fg-text-d lts-md"
             contenteditable="false">
             Customer Reviews
           </h1>
         </div>
         <div>
-          <p>{feedback}</p>
+          <p>Rating: {rating} <br></br>
+          Feedback: {feedback}</p>
         </div>
       </div>
     </div>

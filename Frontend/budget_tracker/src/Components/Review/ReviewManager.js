@@ -22,8 +22,11 @@ const ReviewManager = () => {
      <div>
      {accessToken !== undefined ? (
      <React.Fragment>
-       <Review /> 
-       <Feedback />      
+       <div className="row col-md-12" >
+       <div className="row col-md-6"><Review /> </div>
+       <div className="row col-md-6"><Feedback /> </div>
+       </div>
+            
      </React.Fragment>):(<React.Fragment>
        <h1>Want to add a Review ? <a href="/login">Sign In</a></h1>
        <Feedback />
