@@ -38,8 +38,8 @@ app.use('/users',(req, res, next) =>{
 
 // verify token
 app.use('/user/data', (req, res, next) => {
-  //let token = req.headers["x-access-token"];
-  let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtldmluQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoia2V2aW4iLCJpYXQiOjE2NTE1OTk4OTksImV4cCI6MTY1MTY4NjI5OX0.5ahbrHoNt9Y2aT4LxeKijqYwgbePqkbJIO5iewYvGkE"
+  let token = req.headers["x-access-token"];
+  //let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtldmluQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoia2V2aW4iLCJpYXQiOjE2NTE1OTk4OTksImV4cCI6MTY1MTY4NjI5OX0.5ahbrHoNt9Y2aT4LxeKijqYwgbePqkbJIO5iewYvGkE"
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
   }
