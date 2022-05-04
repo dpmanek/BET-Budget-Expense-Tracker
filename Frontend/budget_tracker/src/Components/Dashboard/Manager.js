@@ -16,9 +16,9 @@ export const Manager = ({ spendingTotal, expenseTotal }) => {
   const [DOB, setDOB] = useState("");
 
   useEffect(() => {
-    UserService.getUserDOB().then((response) => {
+    UserService.getUserData().then((response) => {
       if (response) {
-        if (response.data.userName) setName(response.data.userName);
+        if (response.data.FirstName) setName(response.data.FirstName);
         if (response.data.DOB) setDOB(response.data.DOB);
       } else {
         setName("");

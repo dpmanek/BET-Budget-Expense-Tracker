@@ -70,20 +70,6 @@ router.post("/auth", async (req, res) => {
     }
 });
 
-router.post("/logout", async (req, res) => {
-        let data = req.body;
-		if(data.userLogout && req.session.user){
-			console.log(`${req.session.user.username} is trying to logout`)
-			req.session.destroy();
-			console.log(`logged Out Successfully`)
-			res.status(200).send({loggedout: true,message: "logged Out Successfully" });
-		}
-		else{
-			res.status(500).send({message: "Internal Server Error"});
-			res
-		} 
-});
-
 
 module.exports = router;
 
