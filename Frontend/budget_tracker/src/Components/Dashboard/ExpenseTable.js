@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import mockData from "./mockData.json";
+import UserService from "../../services/user.service";
 
 const ExpenseTable = () => {
   const [data, setdata] = useState([]);
+  /*
   useEffect(() => {
     setdata(mockData);
     console.log(data);
   });
+  */
+
+// use this to get all user data  create required states
+  useEffect(() => {
+    UserService.getUserData().then((response) => {
+      if (response) {
+        
+      } else {
+       
+      }
+    });
+  }, []);
 
   const handleEdit = (event) => {
     event.preventDefault();
