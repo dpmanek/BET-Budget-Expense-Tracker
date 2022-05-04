@@ -6,11 +6,11 @@ import "./backbutton.css";
 
 const Createincome = () => {
   //validation
-  const [formValues, setFormValues] = useState(initialValues);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
+  // const [formValues, setFormValues] = useState(initialValues);
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormValues({ ...formValues, [name]: value });
+  // };
 
   const [error, setErorr] = useState("");
   const [success, setSuccess] = useState("");

@@ -12,13 +12,14 @@ export const Manager = ({ spendingTotal, expenseTotal }) => {
   };
 
   const formatTotal = numeral(expenseTotal / 100).format("$0,0.00");
+  /*
   const [Name, setName] = useState("");
   const [DOB, setDOB] = useState("");
 
   useEffect(() => {
-    UserService.getUserDOB().then((response) => {
+    UserService.getUserData().then((response) => {
       if (response) {
-        if (response.data.userName) setName(response.data.userName);
+        if (response.data.FirstName) setName(response.data.FirstName);
         if (response.data.DOB) setDOB(response.data.DOB);
       } else {
         setName("");
@@ -26,6 +27,7 @@ export const Manager = ({ spendingTotal, expenseTotal }) => {
       }
     });
   }, []);
+  */
 
   return (
     <div className="row col-md-12 page">
