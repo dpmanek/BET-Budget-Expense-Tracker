@@ -36,10 +36,10 @@ function Navbar(props) {
         <Link class="navbar-brand hover-change" to="/">
           <a className="navbar-brand hover-change">
             <img
-              src="https://raw.githubusercontent.com/dpmanek/CS_546_C_Project/Amisha/Frontend/budget_tracker/public/logo.png"
+              src="/pigIllustration.png"
               alt="BET Logo"
-              width="30"
-              height="25"
+              width="20"
+              height="20"
             />
             BET
           </a>
@@ -51,6 +51,13 @@ function Navbar(props) {
               <a href="#" id="justtext">
                 <i class="fa fa-fw fa-user"></i>Welcome {content} !
               </a>
+              <button
+                className="btn btn-outline-success navbar-success"
+                type="button"
+                onClick={() => redirectRoute("/review")} //Redirects to Review
+              >
+                Add a review
+              </button>
               <button
                 className="btn btn-outline-success navbar-success"
                 type="button"

@@ -5,7 +5,7 @@
     width: 100%;
     position: relative;
     bottom: 0;
-    margin-top: 500px;
+    margin-top: 1000px;
 
   }
   
@@ -43,6 +43,7 @@
   
   .footer-dark .item.text {
     margin-bottom:36px;
+    
   }
   
   @media (max-width:767px) {
@@ -93,3 +94,7 @@
     margin-bottom:0;
   }
 
+
+.adjust{
+  margin-left: 100px !important;
+}

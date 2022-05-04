@@ -18,14 +18,15 @@ const Footer = () => {
             <div className="col-md-8 item text">
               <h3>Budget Expense Tracker (BET)</h3>
               <p>
-              BET, not only helps you to track your expenses but also helps you save money.
+                BET, not only helps you to track your expenses but also helps
+                you save money.
               </p>
             </div>
-            {/* <div className="col item social">
-              <a href="#">
+            <div className="col item social">
+              <a href="https://github.com/dpmanek/CS_546_C_Project">
                 <i className="icon ion-social-github"></i>
               </a>
-            </div> */}
+            </div>
           </div>
           <p className="copyright">BET © 2022</p>
         </div>
