@@ -10,8 +10,8 @@ const getPublicContent = () => {
 };
 
 //using this function for specific user content eg income and expenses header will include the current accessToken
-const getUserData = () => {
-  return axios.get(API_URL + "/", { headers: authHeader() }).then((response) => {
+const getUserTransactionData = () => {
+  return axios.get(API_URL + "/alltransactions", { headers: authHeader() }).then((response) => {
     return response.data;
   });
 };
@@ -26,7 +26,7 @@ const getUserDOB = () => {
 
 const UserService = {
   getPublicContent,
-  getUserData,
+  getUserTransactionData,
   getUserDOB,
 };
 export default UserService;
