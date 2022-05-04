@@ -13,9 +13,9 @@ module.exports = {
         
         const userCollection = await allUsers();
         //checks if user with the same email already exists
-        const userFound = await userCollection.findOne({'email': email});
+        const userFound = await userCollection.findOne({Email: email});
         if(userFound){
-            return {'userName':userFound.firstName ,'DOB':userFound.DOB};
+            return {'UserName':userFound.FirstName ,'DOB':userFound.DOB};
         }
 
         else throw "User with this email not found"
@@ -57,5 +57,47 @@ module.exports = {
                 };
         }
         else throw "User with this email not found"
-    }
+    },
+
+
+async getUser(UserId){
+	if (!UserId) throw { code: 400, message: 'Please provide an id. Id is missing' };
+	if (typeof UserId !== 'string')
+		throw { code: 400, message: 'Enter ID in string format' };
+	if (UserId.trim().length === 0)
+		throw { code: 400, message: 'ID cannot be blank. Please enter a String' };
+	UserId = UserId.trim();
+	
+	const userCollection = await allUsers();
+	const userData = await userCollection.findOne({ Email: UserId });
+	if (userData === null) throw { code: 404, message: 'User Not Found' };
+
+	let userOneTimeIncome = userData.Money.Income.OneTime;
+	let userRecurringIncome = userData.Money.Income.Recurring;
+	let userOneTimeExpenditure = userData.Money.Expenditure.OneTime;
+	let userRecurringExpenditure = userData.Money.Expenditure.Recurring;
+
+	if (userOneTimeIncome && userOneTimeIncome.length > 0) {
+		for (i in userOneTimeIncome) {
+			userOneTimeIncome[i]._id = userOneTimeIncome[i]._id.toString();
+		}
+	}
+	if (userRecurringIncome && userRecurringIncome.length > 0) {
+		for (i in userRecurringIncome) {
+			userRecurringIncome[i]._id = userRecurringIncome[i]._id.toString();
+		} 
+	}
+	if (userRecurringExpenditure && userRecurringExpenditure.length > 0) {
+		for (i in userRecurringExpenditure) {
+			userRecurringExpenditure[i]._id =
+				userRecurringExpenditure[i]._id.toString();
+		}
+	}
+	if (userOneTimeExpenditure && userOneTimeExpenditure.length > 0) {
+		for (i in userOneTimeExpenditure) {
+			userOneTimeExpenditure[i]._id = userOneTimeExpenditure[i]._id.toString();
+		}
+	}
+	return userData;
+}
 }

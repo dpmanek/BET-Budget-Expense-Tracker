@@ -25,7 +25,7 @@ const Review = () => {
         setSuccess("Review added successfully !");
       })
       .catch((e) => {
-        setErorr("Opps, something went wrong :(");
+        setErorr(`Opps, something went wrong :${e}`);
       });
   };
 

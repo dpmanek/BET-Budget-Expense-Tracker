@@ -40,10 +40,24 @@ router.get("/totalIncome",async(req, res) => {
 	let UserID = req.userId
 	console.log('request recieved') ;
 	// data validation ToDo
-	let userInfo = await transactionFunc.deleteIncome(UserID,'bhidvbdkvbisdgvis'); //change to get user review
+	let userInfo = await transactionFunc.updateExpense(UserID, "transactionID",Name,Description,Tags,payment,Amount,Comments); //change to get user review
 	console.log("Request Processed")
 	res.send({data: userInfo});
 });
+
+
+router.get("/", async(req, res) =>{
+	let UserID = req.userId
+	console.log('request recieved') ;
+	// data validation ToDo
+
+let userInfo = await userDataFunctions.getUser(UserID);
+console.log("Request Processed")
+	res.send({data: userInfo});
+
+})
+
+
 module.exports = router;
 /*
 catch(e){

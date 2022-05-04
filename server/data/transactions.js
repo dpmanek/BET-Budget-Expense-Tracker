@@ -8,7 +8,7 @@ const { ObjectId } = require('mongodb');
 const dataValidation = require('./dataValidation');
 
 const createIncome = async (userId, name, description, tags, amount, type) => {
-	let UserId = !userId ? '6266c3e859c935f646dca2ce' : userId;
+	let UserId = !userId ? 'kevin1@gmail.com' : userId;
 	let Name = !name ? 'icecream' : name;
 	let Description = !description ? 'vanilla' : description;
 	let Tags = !tags ? 'sometag' : tags;
@@ -60,8 +60,8 @@ const createIncome = async (userId, name, description, tags, amount, type) => {
 
 	if (Type === 'OneTime') {
 		const data = await UserCollection.updateOne(
-			{ _id: ObjectId(UserId) },
-			{ $addToSet: { 'money.Income.OneTime': income } }
+			{ Email: UserId },
+			{ $addToSet: { 'Money.Income.OneTime': income } }
 		);
 
 		if (!data.acknowledged || data.modifiedCount === 0)
@@ -75,8 +75,8 @@ const createIncome = async (userId, name, description, tags, amount, type) => {
 
 	if (Type === 'Recurring') {
 		const data = await UserCollection.updateOne(
-			{ _id: ObjectId(UserId) },
-			{ $addToSet: { 'money.Income.Recurring': income } }
+			{ Email: UserId},
+			{ $addToSet: { 'Money.Income.Recurring': income } }
 		);
 
 		if (!data.acknowledged || data.modifiedCount === 0)
@@ -97,7 +97,7 @@ const createExpense = async (
 	amount,
 	type
 ) => {
-	let UserId = !userId ? '6266c3e859c935f646dca2ce' : userId;
+	let UserId = !userId ? 'kevin1@gmail.com' : userId;
 	let Name = !name ? 'icecream' : name;
 	let Description = !description ? 'vanilla' : description;
 	let Tags = !tags ? 'sometag' : tags;
@@ -152,8 +152,8 @@ const createExpense = async (
 
 	if (type === 'OneTime') {
 		const data = await UserCollection.updateOne(
-			{ _id: ObjectId(UserId) },
-			{ $addToSet: { 'money.Expenditure.OneTime': expense } }
+			{ Email: UserId },
+			{ $addToSet: { 'Money.Expenditure.OneTime': expense } }
 		);
 
 		if (!data.acknowledged || data.modifiedCount === 0)
@@ -167,8 +167,8 @@ const createExpense = async (
 
 	if (type === 'Recurring') {
 		const data = await UserCollection.updateOne(
-			{ _id: ObjectId(UserId) },
-			{ $addToSet: { 'money.Expenditure.Recurring': expense } }
+			{ Email: UserId  },
+			{ $addToSet: { 'Money.Expenditure.Recurring': expense } }
 		);
 
 		if (!data.acknowledged || data.modifiedCount === 0)
@@ -290,8 +290,7 @@ const deleteIncome = async (UserId, transactionID) => {
 									code: 400,
 									message: `Could Not Delete Transaction:${transactionID} `,
 									};
-						
-						
+						deletedflag = true
 				}
 			}
 		}
@@ -306,8 +305,7 @@ const deleteIncome = async (UserId, transactionID) => {
 									code: 400,
 									message: `Could Not Delete Transaction:${transactionID} `,
 									};
-						return 'Deleted Transaction';
-						
+									deletedflag = true	
 				}
 			}
 		}
@@ -315,7 +313,7 @@ const deleteIncome = async (UserId, transactionID) => {
 			return 'Deleted Transaction';
 		}
 		else{
-
+			throw `No Transaction of ${transactionID} ID Exists`
 		}
 
 	}
@@ -324,19 +322,130 @@ const deleteIncome = async (UserId, transactionID) => {
 		message: 'User Not Found',
 	};
 
-
-
-
-
-
 }
 const deleteExpense = async (UserId, transactionID) => {
+	if(!UserId) throw "No Email";
+    UserId = dataValidation.checkEmail(UserId);
 
+	if(!transactionID) throw "No Transaction ID";
+	// write data function to check transaction ID
+	let deletedflag = false
+	let UserCollection = await Users();
+	const userFound = await UserCollection.findOne({ email: UserId });
+	if (userFound){
+		
+		let expenseRecurring = userFound.money.Expenditure.recurring;
+		let expenseOneTime = userFound.money.Expenditure.OneTime;
+		
+		if(expenseRecurring && expenseRecurring.length >= 1){
+			for(i in expenseRecurring){
+				if(expenseRecurring[i]._id === transactionID){
+					const data = await UserCollection.updateOne(
+						{ email: UserId },
+						{ $pull: { 'money.Expenditure.recurring':{_id: transactionID}} });
+						if (!data.acknowledged || data.modifiedCount === 0)
+							throw {
+									code: 400,
+									message: `Could Not Delete Transaction:${transactionID} `,
+									};
+						deletedflag = true
+				}
+			}
+		}
+		if(expenseOneTime && expenseOneTime.length >= 1){
+			for(i in expenseOneTime){
+				if(expenseOneTime[i]._id === transactionID){
+					const data = await UserCollection.updateOne(
+						{ email: UserId },
+						{ $pull: { 'money.Expenditure.OneTime':{_id: transactionID}} });
+						if (!data.acknowledged || data.modifiedCount === 0)
+							throw {
+									code: 400,
+									message: `Could Not Delete Transaction:${transactionID} `,
+									};
+									deletedflag = true	
+				}
+			}
+		}
+		if(deletedflag === true){
+			return 'Deleted Transaction';
+		}
+		else{
+			throw `No Transaction of ${transactionID} ID Exists`
+		}
+
+	}
+	else throw {
+		code: 400,
+		message: 'User Not Found',
+	};
 }
 const updateIncome = async (UserId, transactionID) => {
 
 }
-const updateExpense = async (UserId, transactionID) => {
+const updateExpense = async (UserId, transactionID,Name,Description,Tags,payment,Amount,Comments) => {
+	
+	if(!UserId) throw "No Email";
+    UserId = dataValidation.checkEmail(UserId);
+
+	if(!transactionID) throw "No Transaction ID";
+	// write data function to check transaction ID
+	let deletedflag = false
+	let UserCollection = await Users();
+	const userFound = await UserCollection.findOne({ email: UserId });
+	if (userFound){
+		
+		let expenseRecurring = userFound.money.Expenditure.recurring;
+		let expenseOneTime = userFound.money.Expenditure.OneTime;
+		
+		if(expenseRecurring && expenseRecurring.length >= 1){
+			for(i in expenseRecurring){
+				if(expenseRecurring[i]._id === transactionID){
+					const data = await UserCollection.updateOne(
+						{ email: UserId },
+						{ $set: { 'money.Expenditure.recurring':{_id: transactionID}} });
+						if (!data.acknowledged || data.modifiedCount === 0)
+							throw {
+									code: 400,
+									message: `Could Not Delete Transaction:${transactionID} `,
+									};
+						deletedflag = true
+				}
+			}
+		}
+		if(expenseOneTime && expenseOneTime.length >= 1){
+			for(i in expenseOneTime){
+				if(expenseOneTime[i]._id === transactionID){
+					const data = await UserCollection.updateOne(
+						{ email: UserId },
+						{ $pull: { 'money.Expenditure.OneTime':{_id: transactionID}} });
+						if (!data.acknowledged || data.modifiedCount === 0)
+							throw {
+									code: 400,
+									message: `Could Not Delete Transaction:${transactionID} `,
+									};
+									deletedflag = true	
+				}
+			}
+		}
+		if(deletedflag === true){
+			return 'Deleted Transaction';
+		}
+		else{
+			throw `No Transaction of ${transactionID} ID Exists`
+		}
+
+	}
+	else throw {
+		code: 400,
+		message: 'User Not Found',
+	};
+}
+
+const getIncome = async (UserId) => {
+
+}
+const getExpense = async (UserId, transactionID) => {
 
 }
 

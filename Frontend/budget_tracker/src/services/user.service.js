@@ -10,7 +10,9 @@ const getPublicContent = () => {
 
 //using this function for specific user content eg income and expenses header will include the current accessToken
 const getUserData = () => {
-  return axios.get(API_URL + "/", { headers: authHeader() });
+  return axios.get(API_URL + "/", { headers: authHeader() }).then((response) => {
+    return response.data;
+  });
 };
 
 //using as an example 
@@ -18,7 +20,7 @@ const getUserData = () => {
 const getUserDOB = () => {
   return  axios.get(API_URL + "/dob", { headers: authHeader()}).then((response) => {
     return response.data;
-  });; //  "/dob" is a route of the server 
+  }); //  "/dob" is a route of the server 
 }
 
 const UserService = {
