@@ -6,15 +6,13 @@ const Feedback = () => {
   const [feedback, setfeedback] = useState("");
   useEffect(() => {
     reviewService.getUserReview().then((response) => {
-      if(response){
+      if (response) {
         setfeedback(response.data.Review.feedback);
+      } else {
+        setfeedback("");
       }
-      else{
-        setfeedback(undefined);
-      } })
-    }, []);
-    
-    
+    });
+  }, []);
 
   return (
     <div className="feedback-div">
@@ -22,7 +20,8 @@ const Feedback = () => {
         <div className="mgb-40 padb-30 auto-invert line-b-4 align-center">
           <h1
             className="font-cond-b fg-text-d lts-md fs-300 fs-300-xs no-mg"
-            contenteditable="false">
+            contenteditable="false"
+          >
             Customer Reviews
           </h1>
         </div>
