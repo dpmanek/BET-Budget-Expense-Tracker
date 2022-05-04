@@ -14,7 +14,7 @@ const ExpenseTable = () => {
 
 // use this to get all user data  create required states
   useEffect(() => {
-    UserService.getUserData().then((response) => {
+    UserService.getUserTransactionData().then((response) => {
       if (response) {
         
       } else {

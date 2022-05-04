@@ -46,12 +46,12 @@ router.get("/totalIncome",async(req, res) => {
 });
 
 
-router.get("/", async(req, res) =>{
+router.get("/alltransactions", async(req, res) =>{
 	let UserID = req.userId
 	console.log('request recieved') ;
 	// data validation ToDo
 
-let userInfo = await userDataFunctions.getUser(UserID);
+let userInfo = await userDataFunctions.getUserTransactions(UserID);
 console.log("Request Processed")
 	res.send({data: userInfo});
 

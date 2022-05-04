@@ -72,7 +72,7 @@ module.exports = {
     },
 
 
-async getUser(UserId){
+async getUserTransactions(UserId){
 	if(!UserId) throw "No Email";
     UserId = dataValidation.checkEmail(UserId);
     UserId = UserId.toLowerCase();
@@ -107,6 +107,6 @@ async getUser(UserId){
 			userOneTimeExpenditure[i]._id = userOneTimeExpenditure[i]._id.toString();
 		}
 	}
-	return userData;
+	return userData.Money;
 }
 }

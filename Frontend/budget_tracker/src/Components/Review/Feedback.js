@@ -9,7 +9,6 @@ const Feedback = () => {
     reviewService.getAllReview().then((response) => {
       if(response){
         setfeedback(response.data.Review.feedback);
-       
       }
       else{
         setfeedback("");
@@ -30,7 +29,7 @@ const Feedback = () => {
           </h1>
         </div>
         <div>
-          <p> <br></br>
+          <p>
           Feedback: {feedback}</p>
         </div>
       </div>
