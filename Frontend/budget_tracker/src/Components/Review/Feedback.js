@@ -4,16 +4,15 @@ import reviewService from "../../services/review.service";
 
 const Feedback = () => {
   const [feedback, setfeedback] = useState("");
-  const [rating, setrating]=useState("");
+  
   useEffect(() => {
-    reviewService.getUserReview().then((response) => {
+    reviewService.getAllReview().then((response) => {
       if(response){
         setfeedback(response.data.Review.feedback);
         setrating(response.data.Review.Rating);
       }
       else{
-        setfeedback(undefined);
-        setrating(0);
+        setfeedback("");
       } })
     }, []);
     

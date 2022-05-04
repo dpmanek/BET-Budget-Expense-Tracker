@@ -22,11 +22,15 @@ const checkName = (string) => {
 };
 
 const checkEmail = (email) => {
-	if (!email) throw 'Please Enter Email';
+	if (!email) throw { code: 400, message: 'Please provide an id. Id is missing' };
 	email = email.trim();
-	if (email.length === 0) throw 'Cannot have empty a Name';
-	if (!emailvalidator.validate(email)) throw 'Email Not Valid';
+	if (email.length === 0) throw { code: 400, message: 'ID cannot be blank. Please enter a String' };
+	if (typeof email !== 'string')
+		throw { code: 400, message: 'Enter ID in string format' };
+	if (!emailvalidator.validate(email)) throw { code: 400, message: 'Email Not Valid' };
 	return email;
+
+
 };
 
 const checkPassword = (password) => {
