@@ -16,16 +16,17 @@ const Card = () => {
             <p className="landing-text__title">Review Us..</p>
             <p className="landing-text__paragraph">
               Your Feedback will help us Improve.
-            </p>
+            
             <button
               className="btn btn-primary"
               onClick={() => redirectRoute("/review")}
             >
               Review
             </button>
+            </p>
           </div>
           <div>
-            <img className="pig" src="/pigIllustration.png" />
+            <img className="pig" src="/r1.jpg" />
             {/* src="https://startbootstrap.com/assets/img/freepik/wall-post-pana.svg */}
           </div>
         </div>
