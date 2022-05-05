@@ -62,14 +62,14 @@ const Createincome = () => {
     <div>
       {accessToken !== undefined ? (
         <React.Fragment>
-          <div>
+          <div className="row col-md-8 offset-md-4">
             <a href="/dashboard">
               <button class="btn">
                 <i class="fa fa-home"></i> Home
               </button>
             </a>
-            <h1 className="page">Add Income</h1>
-            <form className="place" onSubmit={addIncome}>
+            <h1 className="">Add Income</h1>
+            <form className="" onSubmit={addIncome}>
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">
                   Name

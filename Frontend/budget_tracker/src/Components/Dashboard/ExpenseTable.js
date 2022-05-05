@@ -5,27 +5,14 @@ import UserService from "../../services/user.service";
 
 const ExpenseTable = () => {
   const [data, setdata] = useState([]);
-  /*
-  useEffect(() => {
-    setdata(mockData);
-    console.log(data);
-  });
-  */
+  const [oneTime, setOneTime] = useState([]);
+  const [toggleTable, setToggleTable] = useState("OneTime");
 
-  // use this to get all user data  create required states
   useEffect(() => {
-    // const fetchData = async () => {
-    //   const data = await UserService.getUserTransactionData();
-    //   console.log(data);
-    // };
-    // fetchData().catch("nirAv-----", console.error);
     UserService.getUserTransactionData().then((response) => {
-      console.log(response, "---------");
-      console.log(response.data.Expenditure, "============");
-      if (response) {
+      if (response.data) {
         setdata(response.data.Expenditure.OneTime);
-      } else {
-        console.log("No response", "=============");
+        setOneTime(response.data.Expenditure.Recurring);
       }
     });
   }, []);
@@ -33,38 +20,122 @@ const ExpenseTable = () => {
   const handleEdit = (event) => {
     event.preventDefault();
     let val = event.target.value;
-    let d = JSON.parse(val);
-    window.location.href = "/edit?";
+    window.location.href = "/addexpense?q=" + val;
+  };
+
+  const handleDelete = (event) => {
+    event.preventDefault();
+    let id = event.target.value;
+
+    axios
+      .post("", { id })
+      .then((data) => {
+        window.location.href = "/dashboard";
+      })
+      .catch((e) => {});
+  };
+
+  const changeExpense = (event) => {
+    event.preventDefault();
+    setToggleTable(event.target.value);
   };
 
   return (
     <div>
-      <table className="table table-border">
-        <thead>
-          <th>Expense Name</th>
-          <th>Amount</th>
-          <th>Edit</th>
-        </thead>
-        <tbody>
-          {data.map((d) => {
-            return (
-              <tr>
-                <td>{d.Name}</td>
-                <td>{d.Amount}</td>
-                <td>
-                  <button
-                    className="btn btn-danger"
-                    value={JSON.stringify(d)}
-                    onClick={handleEdit}
-                  >
-                    Edit
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <select
+        className="form-select position"
+        aria-label="Default select example"
+        name="expenseType"
+        onChange={changeExpense}
+      >
+        <option selected value="OneTime">
+          One Time
+        </option>
+        <option value="Recurring">Recurring</option>
+      </select>
+      {toggleTable != "OneTime" ? (
+        <React.Fragment>
+          <table className="table table-border">
+            <thead>
+              <th>Expense Name</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </thead>
+            <tbody>
+              {data.map((d) => {
+                return (
+                  <tr>
+                    <td>{d.Name}</td>
+                    <td>{d.Amount}</td>
+                    <td>{d.TranactionDate}</td>
+                    <td>
+                      <button
+                        className="btn btn-info"
+                        value={d._id}
+                        onClick={handleEdit}
+                      >
+                        Edit
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger"
+                        value={d._id}
+                        onClick={handleDelete}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <table className="table table-border">
+            <thead>
+              <th>Expense Name</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </thead>
+            <tbody>
+              {oneTime.map((d) => {
+                return (
+                  <tr>
+                    <td>{d.Name}</td>
+                    <td>{d.Amount}</td>
+                    <td>{d.TranactionDate}</td>
+                    <td>
+                      <button
+                        className="btn btn-info"
+                        value={d._id}
+                        onClick={handleEdit}
+                      >
+                        Edit
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger"
+                        value={d._id}
+                        onClick={handleDelete}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </React.Fragment>
+      )}
     </div>
   );
 };
