@@ -6,14 +6,13 @@ const Public_URL = "http://localhost:8080/public";
 
 
 const postUserExpense = (body) => {
-  return  axios.post(API_URL + "/addExpense", { headers: authHeader(),rating: body.rating, feedback: body.feedback}).then((response) => {
+  return  axios.post(API_URL + "/addExpense", { headers: authHeader(),body: body}).then((response) => {
     return response.data;
   });;
 }
 
-
 const postUserIncome = (body) => {
-    return  axios.post(API_URL + "/addExpense", { headers: authHeader(),rating: body.rating, feedback: body.feedback}).then((response) => {
+    return  axios.post(API_URL + "/addIncome", { headers: authHeader(),rating: body.rating, feedback: body.feedback}).then((response) => {
       return response.data;
     });;
   }

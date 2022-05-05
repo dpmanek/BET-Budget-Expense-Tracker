@@ -93,8 +93,7 @@ const Createexpense = () => {
       description,
       amount,
       category,
-      date,
-      accountType,
+      date,     
       recurringType,
     };
 
@@ -142,6 +141,7 @@ const Createexpense = () => {
                   placeholder="Description"
                   className="form-control position"
                   value={formValues.description}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mb-3">
