@@ -1,4 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
+import { Link,useNavigate} from "react-router-dom";
 import "./Createpage.css";
 import axios from "axios";
 import AuthService from "../../services/auth.service";
@@ -6,6 +7,8 @@ import "./backbutton.css";
 import transactionService from "../../services/add.transaction";
 
 const Createexpense = () => {
+  let navigate = useNavigate();
+  
   //validation
   const initialValues = {
     name: "",
@@ -99,6 +102,7 @@ const Createexpense = () => {
 
     transactionService.postUserExpense(body).then((data) => {
         setSuccess("Expense added successfully!!");
+        navigate('/dashboard');
       })
       .catch((e) => {
         setErorr("Opps, something went wrong :(");
