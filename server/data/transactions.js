@@ -93,24 +93,20 @@ const createExpense = async (
   name,
   description,
   tags,
-  payment,
   amount,
-  type
+  type,
+  date
 ) => {
+
+
   let UserId = !userId ? "kevin1@gmail.com" : userId;
   let Name = !name ? "icecream" : name;
   let Description = !description ? null : description;
   let Tags = !tags ? "sometag" : tags;
-  let Payment = !payment ? "credit card" : payment;
+  let Date = !date ? undefined : date;
   let Amount = !amount ? 500 : amount;
-
-  let TranactionDate = new Date();
-  TranactionDate.toLocaleString("en-US", {
-    timeZone: "America/New_York",
-  });
-  let date = moment(TranactionDate).format("MM/DD/YYYY");
-
   let Type = !type ? "OneTime" : type;
+ 
   /*errorChecking*/
 
   // try {
@@ -144,10 +140,8 @@ const createExpense = async (
     Name: Name,
     Description: Description,
     Tags: Tags,
-    TranactionDate: date,
-    Payment: payment,
+    TranactionDate: Date,
     Amount: Amount,
-    Comments: "nothing",
   };
 
   if (type === "OneTime") {
@@ -377,6 +371,7 @@ const deleteExpense = async (UserId, transactionID) => {
     };
 };
 const updateIncome = async (UserId, transactionID) => {};
+
 const updateExpense = async (
   UserId,
   transactionID,
@@ -443,6 +438,7 @@ const updateExpense = async (
 };
 
 const getIncome = async (UserId) => {};
+
 const getExpense = async (UserId, transactionID) => {};
 
 module.exports = {
