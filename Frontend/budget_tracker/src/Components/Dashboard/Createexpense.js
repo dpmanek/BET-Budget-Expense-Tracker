@@ -3,6 +3,7 @@ import "./Createpage.css";
 import axios from "axios";
 import AuthService from "../../services/auth.service";
 import "./backbutton.css";
+import transactionService from "../../services/add.transaction";
 
 const Createexpense = () => {
   //validation
@@ -97,9 +98,7 @@ const Createexpense = () => {
       recurringType,
     };
 
-    axios
-      .post("url", body)
-      .then((data) => {
+    transactionService.postUserExpense(body).then((data) => {
         setSuccess("Expense added successfully!!");
       })
       .catch((e) => {
