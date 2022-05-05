@@ -6,12 +6,11 @@ const users = require("./users");
 //const errorChecking = require('../errorChecking'); //create one for transactions
 const { ObjectId } = require("mongodb");
 const dataValidation = require("./dataValidation");
-const { getMaxListeners } = require("pdfkit");
 
 const createIncome = async (userId, name, description, tags, amount, type) => {
-  let UserId = !userId ? "niravjain98@gmail.com" : userId;
+  let UserId = !userId ? "kevin1@gmail.com" : userId;
   let Name = !name ? "icecream" : name;
-  let Description = !description ? null : description;
+  let Description = !description ? "vanilla" : description;
   let Tags = !tags ? "sometag" : tags;
   let Amount = !amount ? 500 : amount;
 
@@ -98,9 +97,9 @@ const createExpense = async (
   amount,
   type
 ) => {
-  let UserId = !userId ? "niravjain98@gmail.com" : userId;
+  let UserId = !userId ? "kevin1@gmail.com" : userId;
   let Name = !name ? "icecream" : name;
-  let Description = !description ? null : description;
+  let Description = !description ? "vanilla" : description;
   let Tags = !tags ? "sometag" : tags;
   let Payment = !payment ? "credit card" : payment;
   let Amount = !amount ? 500 : amount;
@@ -164,7 +163,9 @@ const createExpense = async (
       };
 
     return "Done OneTime";
-  } else if (type === "Recurring") {
+  }
+
+  if (type === "Recurring") {
     const data = await UserCollection.updateOne(
       { Email: UserId },
       { $addToSet: { "Money.Expenditure.Recurring": expense } }
@@ -383,8 +384,7 @@ const updateExpense = async (
   Description,
   Tags,
   payment,
-  Amount,
-  Comments
+  Amount
 ) => {
   if (!UserId) throw "No Email";
   UserId = dataValidation.checkEmail(UserId);
@@ -419,7 +419,7 @@ const updateExpense = async (
         if (expenseOneTime[i]._id === transactionID) {
           const data = await UserCollection.updateOne(
             { Email: UserId },
-            { $pull: { "Money.Expenditure.OneTime": { _id: transactionID } } }
+            { $set: { "Money.Expenditure.OneTime": { _id: transactionID } } }
           );
           if (!data.acknowledged || data.modifiedCount === 0)
             throw {

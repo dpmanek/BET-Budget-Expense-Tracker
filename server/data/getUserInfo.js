@@ -50,7 +50,7 @@ module.exports = {
                 { $set: { "Review.Rating": rating, "Review.Feedback": feedback } }
             );
     
-            if (!data.acknowledged || data.modifiedCount === 0)
+            if (!data.acknowledged ||  (data.matchedCount === 0 && data.modifiedCount === 0))
                 throw {
                     code: 400,
                     message: 'could not add album to band',
