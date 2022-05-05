@@ -160,7 +160,7 @@ router.get("/getPieChartData", async (req, res) => {
 
   FinalExpense = OneTime.concat(Recurring);
   if (FinalExpense.length === 0) {
-    res.send({ data: Output });
+		res.send({ data: [{name:"No expense Added",y:100}] });
   } else {
     for (let i = 0; i < FinalExpense.length; i++) {
       if (i === 0) {
