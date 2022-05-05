@@ -158,7 +158,9 @@ const Createexpense = () => {
                 />
               </div>
               <p>{formErrors.amount}</p>
-              Category
+              <label for="exampleInputEmail1" className="form-label">
+                Category
+              </label>
               <select
                 className="form-select position"
                 aria-label="Default select example"
@@ -200,7 +202,9 @@ const Createexpense = () => {
                   <p>{formErrors.date}</p>
                 </div>
               </div>
-              Account Type
+              <label for="exampleInputEmail1" className="form-label">
+                Account Type{" "}
+              </label>
               <select
                 className="form-select position"
                 aria-label="Default select example"

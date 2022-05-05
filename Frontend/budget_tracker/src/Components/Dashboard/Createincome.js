@@ -33,13 +33,15 @@ const Createincome = () => {
 
     event.preventDefault();
     let data = event.target;
-    let description = data[0].value;
-    let amount = data[1].value;
-    let category = data[2].value;
-    let date = data[3].value;
-    let recurringType = data[4].value;
+    let name = data[0].value;
+    let description = data[1].value;
+    let amount = data[2].value;
+    let category = data[3].value;
+    let date = data[4].value;
+    let recurringType = data[5].value;
 
     let body = {
+      name,
       description,
       amount,
       category,
@@ -70,6 +72,16 @@ const Createincome = () => {
             <form className="place" onSubmit={addIncome}>
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  placeholder="Name"
+                  className="form-control position"
+                />
+              </div>
+              <div className="mb-3">
+                <label for="exampleInputEmail1" className="form-label">
                   Description
                 </label>
                 <input
@@ -88,6 +100,9 @@ const Createincome = () => {
                   className="form-control position"
                 />
               </div>
+              <label for="exampleInputEmail1" className="form-label">
+                Category
+              </label>
               <select
                 className="form-select position"
                 aria-label="Default select example"
@@ -114,10 +129,12 @@ const Createincome = () => {
                   Date
                 </label>
                 <div className="input-group date position" id="datepicker">
-                  <input type="date" className="form-control " id="date" />
-                  <span className="input-group-append">
-                    <span className="input-group-text bg-light d-block"></span>
-                  </span>
+                  <input
+                    type="date"
+                    className="form-control "
+                    id="date"
+                    placeholder="MM/DD/YYYY"
+                  />
                 </div>
               </div>
               Is this a reccuring income?
