@@ -64,7 +64,7 @@ module.exports = {
         const userData = await userCollection.find({}).toArray();
         if(userData){ 
         for (i in userData){
-            allReviews.push(userData[i].Review);
+            allReviews.push({name:userData[i].FirstName,Review:userData[i].Review});
         }
         return allReviews;
     }

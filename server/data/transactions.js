@@ -90,13 +90,13 @@ const createIncome = async (userId, name, description, tags, amount, type) => {
 };
 
 const createExpense = async (
-  userId,
-  name,
-  description,
-  tags,
-  amount,
+  UserId,
+  Name,
+  Description,
+  Tags,
+  Amount,
   type,
-  date
+  Date
 ) => {
   let UserId = !userId ? "kevin1@gmail.com" : userId;
   let Name = !name ? "icecream" : name;

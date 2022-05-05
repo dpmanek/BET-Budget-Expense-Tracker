@@ -100,7 +100,46 @@ router.post("/addExpense", async (req, res) => {
     date
   ); //change to get user review
 
-  console.log("Request Processed Review Added");
+  console.log("Request Processed Expense Added");
+  res.send({ data: userInfo });
+});
+
+router.post("/addIncome", async (req, res) => {
+  let UserID = req.userId;
+  let name = xss(req.body.body.name);
+  if (!req.body.body.description) {
+    var description = null;
+  } else var description = xss(req.body.body.description);
+  let amount = xss(req.body.body.amount);
+  amount = parseInt(amount);
+  let category = xss(req.body.body.category);
+  if (!req.body.body.date) {
+    let TranactionDate = new Date();
+    TranactionDate.toLocaleString("en-US", {
+      timeZone: "America/New_York",
+    });
+    var date = moment(TranactionDate).format("MM/DD/YYYY");
+  } else {
+    var date = xss(req.body.body.date);
+    date = moment(date).format("MM/DD/YYYY");
+  }
+  let recurringType = xss(req.body.body.recurringType);
+  if (recurringType == "yes") recurringType = "Recurring";
+  else recurringType = "OneTime";
+  console.log("request recieved");
+  // data validation ToDo
+
+  let userInfo = await transactionFunc.createExpense(
+    UserID,
+    name,
+    description,
+    category,
+    amount,
+    recurringType,
+    date
+  ); //change to get user review
+
+  console.log("Request Processed Expense Added");
   res.send({ data: userInfo });
 });
 
