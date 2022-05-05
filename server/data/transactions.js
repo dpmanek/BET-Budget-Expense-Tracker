@@ -383,7 +383,7 @@ const deleteExpense = async (UserId, transactionID) => {
 const updateIncome = async (UserId, transactionID) => {
 
 }
-const updateExpense = async (UserId, transactionID,Name,Description,Tags,payment,Amount,Comments) => {
+const updateExpense = async (UserId, transactionID,Name,Description,Tags,payment,Amount) => {
 	
 	if(!UserId) throw "No Email";
     UserId = dataValidation.checkEmail(UserId);
@@ -418,7 +418,7 @@ const updateExpense = async (UserId, transactionID,Name,Description,Tags,payment
 				if(expenseOneTime[i]._id === transactionID){
 					const data = await UserCollection.updateOne(
 						{ Email: UserId },
-						{ $pull: { 'Money.Expenditure.OneTime':{_id: transactionID}} });
+						{ $set: { 'Money.Expenditure.OneTime':{_id: transactionID}} });
 						if (!data.acknowledged || data.modifiedCount === 0)
 							throw {
 									code: 400,
