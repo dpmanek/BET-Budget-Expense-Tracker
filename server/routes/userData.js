@@ -143,7 +143,52 @@ router.post("/addIncome", async (req, res) => {
   res.send({ data: userInfo });
 });
 
-router.post("/addIncome", async (req, res) => {});
+router.get("/getPieChartData", async (req, res) => {
+  let UserID = req.userId;
+  console.log("request recieved");
+  // data validation ToDo
+
+  let userInfo = await userDataFunctions.getUserTransactions(UserID);
+  // console.log('@@@@@@@@:');
+  // console.log(userInfo);
+  // console.log('@@@@@@@@:');
+  let expense = userInfo.Expenditure;
+  let OneTime = expense.OneTime;
+  let Recurring = expense.Recurring;
+  let FinalExpense = [];
+  let Output = [];
+
+  FinalExpense = OneTime.concat(Recurring);
+  if (FinalExpense.length === 0) {
+    res.send({ data: Output });
+  } else {
+    for (let i = 0; i < FinalExpense.length; i++) {
+      if (i === 0) {
+        Output.push({
+          name: FinalExpense[i].Tags,
+          y: FinalExpense[i].Amount,
+        });
+      } else {
+        let comparer = FinalExpense[i];
+        let tagnotfound = true;
+        for (let j = 0; j < Output.length; j++) {
+          if (Output[j].name === comparer.Tags) {
+            Output[j].y = Output[j].y + comparer.Amount;
+            tagnotfound = false;
+          }
+          if (j === Output.length - 1 && tagnotfound) {
+            Output.push({
+              name: comparer.Tags,
+              y: comparer.Amount,
+            });
+          }
+        }
+      }
+    }
+    console.log("Request Processed");
+    res.send({ data: Output });
+  }
+});
 
 module.exports = router;
 /*

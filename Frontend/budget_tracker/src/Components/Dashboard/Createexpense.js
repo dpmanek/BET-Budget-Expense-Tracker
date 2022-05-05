@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { Link,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Createpage.css";
 import axios from "axios";
 import AuthService from "../../services/auth.service";
@@ -8,7 +8,7 @@ import transactionService from "../../services/add.transaction";
 
 const Createexpense = () => {
   let navigate = useNavigate();
-  
+
   //validation
   const initialValues = {
     name: "",
@@ -91,7 +91,7 @@ const Createexpense = () => {
       .then((data) => {
         console.log(data, "====================");
         setSuccess("Expense added successfully!!");
-        navigate('/dashboard');
+        navigate("/dashboard");
       })
       .catch((e) => {
         setError("Opps, something went wrong :(");
@@ -102,14 +102,14 @@ const Createexpense = () => {
     <div>
       {accessToken !== undefined ? (
         <React.Fragment>
-          <div>
+          <div className="row col-md-8 offset-md-4">
             <a href="/dashboard">
               <button class="btn">
                 <i class="fa fa-home"></i> Home
               </button>
             </a>
-            <h1 className="page">Add Expense</h1>
-            <form className="place" onSubmit={addExpenses}>
+            <h1 className="">Add Expense</h1>
+            <form className="" onSubmit={addExpenses}>
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">
                   Name
