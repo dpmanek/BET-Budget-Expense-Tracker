@@ -24,9 +24,18 @@ const getUserDOB = () => {
   }); //  "/dob" is a route of the server 
 }
 
+const getPieChartData = () => {
+	return axios
+		.get(API_URL + '/getPieChartData', { headers: authHeader() })
+		.then((response) => {
+			return response.data;
+		});
+};
+
 const UserService = {
   getPublicContent,
   getUserTransactionData,
   getUserDOB,
+  getPieChartData
 };
 export default UserService;
