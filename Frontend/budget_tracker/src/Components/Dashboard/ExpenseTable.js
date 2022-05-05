@@ -12,13 +12,20 @@ const ExpenseTable = () => {
   });
   */
 
-// use this to get all user data  create required states
+  // use this to get all user data  create required states
   useEffect(() => {
+    // const fetchData = async () => {
+    //   const data = await UserService.getUserTransactionData();
+    //   console.log(data);
+    // };
+    // fetchData().catch("nirAv-----", console.error);
     UserService.getUserTransactionData().then((response) => {
+      console.log(response, "---------");
+      console.log(response.data.Expenditure, "============");
       if (response) {
-        
+        setdata(response.data.Expenditure.OneTime);
       } else {
-       
+        console.log("No response", "=============");
       }
     });
   }, []);
@@ -42,8 +49,8 @@ const ExpenseTable = () => {
           {data.map((d) => {
             return (
               <tr>
-                <td>{d.expenseName}</td>
-                <td>{d.expenseAmount}</td>
+                <td>{d.Name}</td>
+                <td>{d.Amount}</td>
                 <td>
                   <button
                     className="btn btn-danger"
