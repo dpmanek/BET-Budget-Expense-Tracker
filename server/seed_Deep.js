@@ -8,65 +8,35 @@ async function main() {
   const db = await connection.dbConnection();
   // await db.dropDatabase();
 
-  /*
-   Adding Income
-	let income = undefined;
+  /* Adding Income */
+  let income = undefined;
   try {
-	  income = await transactions.createIncome(
-		  null,
-		  null,
-		  null,
-		  null,
-		  null,
-		  "Recurring"
-		  );
-		  console.log(income);
-		} catch (e) {
-			console.log("error income", e);
-		}
-	*/
+    income = await transactions.createIncome(
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Recurring"
+    );
+    // console.log(income);
+  } catch (e) {
+    console.log(e);
+  }
 
-  //   /* Adding Expense */
-  //   let expense = undefined;
-  //   try {
-  //     expense = await transactions.createExpense(
-  //       null,
-  //       "Pizza",
-  //       "Pizza with friends",
-  //       "Food and Drinks",
-  //       "Credit",
-  //       500,
-  //       "OneTime"
-  //     );
-  //     console.log(expense);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  //   try {
-  //     expense = await transactions.createExpense(
-  //       null,
-  //       "Bus Ticket",
-  //       "Bus to NYC",
-  //       "Transportation",
-  //       "Cash",
-  //       20,
-  //       "OneTime"
-  //     );
-  //     // console.log(income);
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
+  /* Adding Expense */
+  let expense = undefined;
   try {
     expense = await transactions.createExpense(
       null,
-      "Pub",
-      "Pub with stevens friends",
-      "Life and Entertainment",
-      "Debit",
-      50,
+      null,
+      null,
+      null,
+      null,
+      null,
       "Recurring"
     );
-    console.log(expense);
+    // console.log(expense);
   } catch (e) {
     console.log(e);
   }

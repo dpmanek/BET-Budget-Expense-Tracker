@@ -10,7 +10,7 @@ const dataValidation = require("./dataValidation");
 const createIncome = async (userId, name, description, tags, amount, type) => {
   let UserId = !userId ? "kevin1@gmail.com" : userId;
   let Name = !name ? "icecream" : name;
-  let Description = !description ? "vanilla" : description;
+  let Description = !description ? null : description;
   let Tags = !tags ? "sometag" : tags;
   let Amount = !amount ? 500 : amount;
 
@@ -99,7 +99,7 @@ const createExpense = async (
 ) => {
   let UserId = !userId ? "kevin1@gmail.com" : userId;
   let Name = !name ? "icecream" : name;
-  let Description = !description ? "vanilla" : description;
+  let Description = !description ? null : description;
   let Tags = !tags ? "sometag" : tags;
   let Payment = !payment ? "credit card" : payment;
   let Amount = !amount ? 500 : amount;
