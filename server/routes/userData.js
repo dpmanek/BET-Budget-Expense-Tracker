@@ -129,7 +129,7 @@ router.post("/addIncome", async (req, res) => {
   console.log("request recieved");
   // data validation ToDo
 
-  let userInfo = await transactionFunc.createExpense(
+  let userInfo = await transactionFunc.createIncome(
     UserID,
     name,
     description,

@@ -3,8 +3,12 @@ import "./Createpage.css";
 import axios from "axios";
 import AuthService from "../../services/auth.service";
 import "./backbutton.css";
+import transactionService from "../../services/add.transaction";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const Createincome = () => {
+  let navigate = useNavigate();
   //validation
   // const [formValues, setFormValues] = useState(initialValues);
   // const handleChange = (e) => {
@@ -49,14 +53,16 @@ const Createincome = () => {
       recurringType,
     };
 
-    axios
-      .post("url", body)
-      .then((data) => {
-        setSuccess("Income added successfully !");
-      })
-      .catch((e) => {
-        setErorr("Opps, something went wrong :(");
-      });
+    transactionService
+    .postUserIncome(body)
+    .then((data) => {
+      console.log(data, "====================");
+     // setSuccess("Expense added successfully!!");
+     // navigate("/dashboard");
+    })
+    .catch((e) => {
+     // setError("Opps, something went wrong :(");
+    });
   };
   return (
     <div>
