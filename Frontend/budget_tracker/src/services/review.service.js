@@ -4,10 +4,11 @@ const API_URL = "http://localhost:8080/user/data";
 const Public_URL = "http://localhost:8080/public";
 
 
-
 //to get user information from server
 const postUserReview = (body) => {
-  return  axios.post(API_URL + "/review", { headers: authHeader(),rating: body.rating, feedback: body.feedback})
+  return  axios.post(API_URL + "/review", { headers: authHeader(),rating: body.rating, feedback: body.feedback}).then((response) => {
+    return response.data;
+  });;
   //  "/review" is a route of the server 
 }
 

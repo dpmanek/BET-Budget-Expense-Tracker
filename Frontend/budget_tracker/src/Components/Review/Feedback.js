@@ -8,7 +8,7 @@ const Feedback = () => {
   useEffect(() => {
     reviewService.getAllReview().then((response) => {
       if (response) {
-        setfeedback(response.data.Review.feedback);
+        //setfeedback(response.data.Review.feedback);
       } else {
         setfeedback("");
       }
