@@ -56,6 +56,7 @@ const createIncome = async (userId, name, description, tags, amount, type) => {
     Tags: Tags,
     Amount: Amount,
     TranactionDate: date,
+    Type: type,
   };
 
   if (Type === "OneTime") {
@@ -97,8 +98,6 @@ const createExpense = async (
   type,
   date
 ) => {
-
-
   let UserId = !userId ? "kevin1@gmail.com" : userId;
   let Name = !name ? "icecream" : name;
   let Description = !description ? null : description;
@@ -106,7 +105,7 @@ const createExpense = async (
   let Date = !date ? undefined : date;
   let Amount = !amount ? 500 : amount;
   let Type = !type ? "OneTime" : type;
- 
+
   /*errorChecking*/
 
   // try {

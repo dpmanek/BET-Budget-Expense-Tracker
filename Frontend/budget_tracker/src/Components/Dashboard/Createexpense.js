@@ -13,7 +13,6 @@ const Createexpense = () => {
     amount: "",
     category: "",
     date: "",
-    accountType: "",
     recurringType: "",
   };
   const [formValues, setFormValues] = useState(initialValues);
@@ -23,7 +22,7 @@ const Createexpense = () => {
   };
   //
 
-  const [error, setErorr] = useState("");
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -37,6 +36,17 @@ const Createexpense = () => {
     } else {
       // setContent("");
       setAccessToken(undefined);
+    }
+
+    let tmp = window.location.href.split("?");
+    if (tmp.length > 1) {
+      let id = tmp[1].split("=")[1];
+      axios
+        .get("")
+        .then((data) => {
+          setFormValues(data.data);
+        })
+        .catch((e) => {});
     }
   }, []);
 
@@ -63,45 +73,24 @@ const Createexpense = () => {
     if (!values.category) {
       errors.category = "Category is required";
     }
-    if (!values.date) {
-      errors.date = "Date is required";
-    }
-    if (!values.accountType) {
-      errors.accountType = "Type of the Account is required";
-    }
     return errors;
   };
 
   const addExpenses = (event) => {
-    setErorr("");
+    setError("");
     setSuccess("");
-    console.log(event);
     event.preventDefault();
     setFormErrors(validate(formValues));
     setIsSubmit(true);
-    let data = event.target;
-    let name = data[0].value;
-    let description = data[1].value;
-    let amount = data[2].value;
-    let category = data[3].value;
-    let date = data[4].value;
-    let accountType = data[5].value;
-    let recurringType = data[6].value;
 
-    let body = {
-      name,
-      description,
-      amount,
-      category,
-      date,     
-      recurringType,
-    };
-
-    transactionService.postUserExpense(body).then((data) => {
+    transactionService
+      .postUserExpense(formValues)
+      .then((data) => {
+        console.log(data, "====================");
         setSuccess("Expense added successfully!!");
       })
       .catch((e) => {
-        setErorr("Opps, something went wrong :(");
+        setError("Opps, something went wrong :(");
       });
   };
 
@@ -202,22 +191,6 @@ const Createexpense = () => {
                   <p>{formErrors.date}</p>
                 </div>
               </div>
-              <label for="exampleInputEmail1" className="form-label">
-                Account Type{" "}
-              </label>
-              <select
-                className="form-select position"
-                aria-label="Default select example"
-                name="accountType"
-                value={formValues.accountType}
-                onChange={handleChange}
-              >
-                <option selected>Select an account</option>
-                <option value="Debit Card">Debit Card</option>
-                <option value="Credit Card">Credit Card</option>
-                <option value="Cash">Cash</option>
-              </select>
-              <p>{formErrors.account}</p>
               Is this a reccuring expense?
               <div class="form-check ">
                 <input
@@ -240,7 +213,6 @@ const Createexpense = () => {
                   value="no"
                   name="recurringType"
                   onChange={handleChange}
-                  checked
                 />
                 <label class="form-check-label" for="flexRadioDefault2">
                   No
