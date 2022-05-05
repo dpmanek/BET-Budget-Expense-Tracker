@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const userDataFunctions = require('../data/getUserInfo')
 const transactionFunc = require("../data/transactions")
-
+var xss = require("xss");
 // route will be used to get all the specific data
 
 
@@ -16,10 +16,11 @@ router.get("/dob", async (req, res) => {
 
 router.post("/review",async(req, res) => { 
 	let UserID = req.userId
-	let rating = xss(req);
-	let feedback = xss(req);
+	let rating = xss(req.body.rating);
+	let feedback = xss(req.body.feedback);
 	console.log('request recieved') ;
 	// data validation ToDo
+	// user review added return message
 	let userInfo = await userDataFunctions.postReview(UserID,rating,feedback); //change to get user review
 	
 	console.log("Request Processed Review Added")

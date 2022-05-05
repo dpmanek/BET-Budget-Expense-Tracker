@@ -40,14 +40,14 @@ module.exports = {
         email = dataValidation.checkEmail(email);
         email = email.toLowerCase();
         //data validation
-        
+        rating = parseInt(rating)
         const userCollection = await allUsers();
         //checks if user with the same email already exists
         const userFound = await userCollection.findOne({Email: email});
         if(userFound){
             const data = await userCollection.updateOne(
-                { email: email},
-                { $Set: { 'Review.Rating': rating, 'Review.Feedback': feedback } }
+                { Email: email},
+                { $set: { "Review.Rating": rating, "Review.Feedback": feedback } }
             );
     
             if (!data.acknowledged || data.modifiedCount === 0)
