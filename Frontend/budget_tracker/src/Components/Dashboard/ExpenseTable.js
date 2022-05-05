@@ -12,13 +12,19 @@ const ExpenseTable = () => {
   });
   */
 
-// use this to get all user data  create required states
+  // use this to get all user data  create required states
   useEffect(() => {
+    // const fetchData = async () => {
+    //   const data = await UserService.getUserTransactionData();
+    //   console.log(data);
+    // };
+    // fetchData().catch("nirAv-----", console.error);
     UserService.getUserTransactionData().then((response) => {
+      console.log(response, "---------");
       if (response) {
-        
+        console.log(response, "========");
       } else {
-       
+        console.log("No response", "=============");
       }
     });
   }, []);

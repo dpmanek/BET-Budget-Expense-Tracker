@@ -7,6 +7,7 @@ import "./backbutton.css";
 const Createexpense = () => {
   //validation
   const initialValues = {
+    name: "",
     description: "",
     amount: "",
     category: "",
@@ -48,16 +49,15 @@ const Createexpense = () => {
   const validate = (values) => {
     const alpha = /^[0-9]+$/;
     const errors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if (!values.amount) {
       errors.amount = "Amount is required";
     }
-    if (!values.description) {
-      errors.description = "Description is required";
+    if (!values.name) {
+      errors.name = "Name is required";
     }
     const flag = alpha.test(values.description);
     if (flag == true) {
-      errors.description = "Description cannot be just Numerical!";
+      errors.name = "Name cannot be just Numerical!";
     }
     if (!values.category) {
       errors.category = "Category is required";
@@ -79,14 +79,16 @@ const Createexpense = () => {
     setFormErrors(validate(formValues));
     setIsSubmit(true);
     let data = event.target;
-    let description = data[0].value;
-    let amount = data[1].value;
-    let category = data[2].value;
-    let date = data[3].value;
-    let accountType = data[4].value;
-    let recurringType = data[5].value;
+    let name = data[0].value;
+    let description = data[1].value;
+    let amount = data[2].value;
+    let category = data[3].value;
+    let date = data[4].value;
+    let accountType = data[5].value;
+    let recurringType = data[6].value;
 
     let body = {
+      name,
       description,
       amount,
       category,
@@ -119,6 +121,20 @@ const Createexpense = () => {
             <form className="place" onSubmit={addExpenses}>
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Name"
+                  className="form-control position"
+                  value={formValues.name}
+                  onChange={handleChange}
+                />
+              </div>
+              <p>{formErrors.name}</p>
+              <div className="mb-3">
+                <label for="exampleInputEmail1" className="form-label">
                   Description
                 </label>
                 <input
@@ -127,10 +143,8 @@ const Createexpense = () => {
                   placeholder="Description"
                   className="form-control position"
                   value={formValues.description}
-                  onChange={handleChange}
                 />
               </div>
-              <p>{formErrors.description}</p>
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">
                   Amount
