@@ -12,7 +12,7 @@ const postUserExpense = (body) => {
 }
 
 const postUserIncome = (body) => {
-    return  axios.post(API_URL + "/addIncome", { headers: authHeader(),rating: body.rating, feedback: body.feedback}).then((response) => {
+    return  axios.post(API_URL + "/addIncome", { headers: authHeader(),body: body}).then((response) => {
       return response.data;
     });;
   }

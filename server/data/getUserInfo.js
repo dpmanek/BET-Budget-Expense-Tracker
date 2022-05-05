@@ -64,6 +64,7 @@ module.exports = {
         const userData = await userCollection.find({}).toArray();
         if(userData){ 
         for (i in userData){
+            if(!(userData[i].Review.Rating == null && userData[i].Review.Feedback == ""))
             allReviews.push({name:userData[i].FirstName,Review:userData[i].Review});
         }
         return allReviews;

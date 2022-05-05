@@ -7,19 +7,14 @@ const users = require("./users");
 const { ObjectId } = require("mongodb");
 const dataValidation = require("./dataValidation");
 
-const createIncome = async (userId, name, description, tags, amount, type) => {
+
+
+const createIncome = async (userId, name, description, tags, amount, type, date) => {
   let UserId = !userId ? "kevin1@gmail.com" : userId;
   let Name = !name ? "icecream" : name;
   let Description = !description ? null : description;
   let Tags = !tags ? "sometag" : tags;
-  let Amount = !amount ? 500 : amount;
-
-  let TranactionDate = new Date();
-  TranactionDate.toLocaleString("en-US", {
-    timeZone: "America/New_York",
-  });
-  let date = moment(TranactionDate).format("MM/DD/YYYY");
-
+  let Amount = !amount ? 500 : amount
   let Type = !type ? "OneTime" : type;
   /*errorChecking*/
 
