@@ -14,7 +14,7 @@ const Review = () => {
     setErorr("");
     setSuccess("");
     event.preventDefault();
-    console.log(feedback, rating);
+    //console.log(feedback, rating);
 
     let body = {
       feedback,
