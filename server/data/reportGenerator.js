@@ -9,8 +9,11 @@ function createInvoice(userData, path) {
 	generateInvoiceTable(doc, userData);
 	generateFooter(doc);
 
+	//doc.pipe(res); 
 	doc.end();
-	doc.pipe(fs.createWriteStream(path));
+	//doc.pipe(fs.createWriteStream(path));
+	return doc
+	
 }
 
 //function input parameter will be increased to replace userdata
