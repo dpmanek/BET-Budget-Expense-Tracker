@@ -57,12 +57,20 @@ router.get("/totalIncome", async (req, res) => {
   res.send({ data: userInfo });
 });
 
-router.get("/alltransactions", async (req, res) => {
-  let UserID = req.userId;
+router.post("/alltransactions", async (req, res) => {
+  let {
+    userId: UserID,
+    query: { startDate, endDate },
+  } = req;
+
   console.log("request recieved");
   // data validation ToDo
 
-  let userInfo = await userDataFunctions.getUserTransactions(UserID);
+  let userInfo = await userDataFunctions.getUserTransactions(
+    UserID,
+    startDate,
+    endDate
+  );
   console.log("Request Processed");
   res.send({ data: userInfo });
 });
@@ -162,7 +170,7 @@ router.get("/getPieChartData", async (req, res) => {
 
   FinalExpense = OneTime.concat(Recurring);
   if (FinalExpense.length === 0) {
-		res.send({ data: [{name:"No expense Added",y:0}] });
+    res.send({ data: [{ name: "No expense Added", y: 0 }] });
   } else {
     for (let i = 0; i < FinalExpense.length; i++) {
       if (i === 0) {
@@ -195,14 +203,11 @@ router.get("/getPieChartData", async (req, res) => {
 router.delete("/deleteIncome", async (req, res) => {
   let email = req.userId;
   let transactionId = xss(req.body.TransactionID);
-  
+
   console.log("request recieved");
   // data validation ToDo
 
-  let userInfo = await transactionFunc.deleteIncome(
-    email,
-    transactionId
-  ); //change to get user review
+  let userInfo = await transactionFunc.deleteIncome(email, transactionId); //change to get user review
 
   console.log("Request Processed Deleted Income");
   res.send({ data: userInfo });
@@ -211,14 +216,11 @@ router.delete("/deleteIncome", async (req, res) => {
 router.delete("/deleteExpense", async (req, res) => {
   let email = req.userId;
   let transactionId = xss(req.body.TransactionID);
-  
+
   console.log("request recieved");
   // data validation ToDo
 
-  let userInfo = await transactionFunc.deleteExpense(
-    email,
-    transactionId
-  ); //change to get user review
+  let userInfo = await transactionFunc.deleteExpense(email, transactionId); //change to get user review
 
   console.log("Request Processed Deleted Expense");
   res.send({ data: userInfo });
@@ -227,14 +229,11 @@ router.delete("/deleteExpense", async (req, res) => {
 router.get("/getIncome", async (req, res) => {
   let email = req.userId;
   let transactionId = xss(req.body.TransactionID);
-  
+
   console.log("request recieved");
   // data validation ToDo
 
-  let userInfo = await transactionFunc.getIncome(
-    email,
-    transactionId
-  ); //change to get user review
+  let userInfo = await transactionFunc.getIncome(email, transactionId); //change to get user review
 
   console.log("Request Processed Deleted Expense");
   res.send({ data: userInfo });
@@ -243,25 +242,21 @@ router.get("/getIncome", async (req, res) => {
 router.get("/getExpense", async (req, res) => {
   let email = req.userId;
   let transactionId = xss(req.body.TransactionID);
-  
+
   console.log("request recieved");
   // data validation ToDo
 
-  let userInfo = await transactionFunc.getExpense(
-    email,
-    transactionId
-  ); //change to get user review
+  let userInfo = await transactionFunc.getExpense(email, transactionId); //change to get user review
 
   console.log("Request Processed Deleted Expense");
   res.send({ data: userInfo });
 });
 
-
-router.get('/reportGeneration',async(req,res)=>{
+router.get("/reportGeneration", async (req, res) => {
   let UserID = req.userId;
   console.log("request recieved");
   // data validation ToDo
- let Name = await userDataFunctions.getName(UserID)
+  let Name = await userDataFunctions.getName(UserID);
   let userInfo = await userDataFunctions.getUserTransactions(UserID);
 
   let expense = userInfo.Expenditure;
@@ -271,56 +266,64 @@ router.get('/reportGeneration',async(req,res)=>{
   let OneTimeIncome = income.OneTime;
   let RecurringIncome = income.Recurring;
 
-let from ="05/01/2022"
-let till="05/05/2022"
-let start = new Date(moment(from).format("MM/DD/YYYY"));
-let end = new Date(moment(till).format("MM/DD/YYYY"));
+  let from = "05/01/2022";
+  let till = "05/05/2022";
+  let start = new Date(moment(from).format("MM/DD/YYYY"));
+  let end = new Date(moment(till).format("MM/DD/YYYY"));
 
+  let FinalExpense = [];
+  let FinalIncome = [];
+  let FinalTransactions = [];
+  FinalExpense = OneTimeExpense.concat(RecurringExpense);
+  for (let i in FinalExpense) {
+    FinalExpense[i].Type = "Debit";
+  }
+  FinalIncome = OneTimeIncome.concat(RecurringIncome);
+  for (let i in FinalIncome) {
+    FinalIncome[i].Type = "Credit";
+  }
+  FinalTransactions = FinalIncome.concat(FinalExpense);
+  for (let i in FinalTransactions) {
+    FinalTransactions[i].TranactionDate = new Date(
+      FinalTransactions[i].TranactionDate
+    );
+  }
+  const sortedActivities = FinalTransactions.sort(
+    (a, b) => a.TranactionDate - b.TranactionDate
+  );
+  let FilteredData = [];
+  for (let i in sortedActivities) {
+    if (
+      sortedActivities[i].TranactionDate >= start &&
+      sortedActivities[i].TranactionDate <= end
+    ) {
+      FilteredData.push(sortedActivities[i]);
+    }
+  }
+  let Transactions = [];
+  for (i in FilteredData) {
+    FilteredData[i].TranactionDate = moment(
+      FilteredData[i].TranactionDate
+    ).format("MM/DD/YYYY");
+    let element = {
+      Sr_no: parseFloat(i),
+      Transaction_Name: FilteredData[i].Name,
+      Amount: FilteredData[i].Amount,
+      Type: FilteredData[i].Type,
+      Date: FilteredData[i].TranactionDate,
+    };
+    Transactions.push(element);
+  }
+  const modeledData = {
+    Name: Name.Name,
+    From: moment(from).format("MM/DD/YYYY"),
+    Till: moment(till).format("MM/DD/YYYY"),
+    Transactions: Transactions,
+  };
 
-let FinalExpense =[]
-let FinalIncome =[]
-let FinalTransactions=[]
-FinalExpense= OneTimeExpense.concat(RecurringExpense);
-for(let i in FinalExpense){
-  FinalExpense[i].Type="Debit"
-}
-FinalIncome= OneTimeIncome.concat(RecurringIncome);
-for(let i in FinalIncome){
-  FinalIncome[i].Type="Credit"
-}
-FinalTransactions= FinalIncome.concat(FinalExpense);
-for(let i in FinalTransactions){
-  FinalTransactions[i].TranactionDate=new Date(FinalTransactions[i].TranactionDate)
-}
-const sortedActivities = FinalTransactions.sort((a, b) => a.TranactionDate - b.TranactionDate)
-let FilteredData=[]
-for(let i in sortedActivities){
-  if (sortedActivities[i].TranactionDate >= start && sortedActivities[i].TranactionDate <= end)
-  {
-    FilteredData.push(sortedActivities[i])
-  }
-}
-let Transactions=[]
-for(i in FilteredData){
-  FilteredData[i].TranactionDate=moment(FilteredData[i].TranactionDate).format("MM/DD/YYYY");
-  let element={
-    Sr_no: i+1,
-    Transaction_Name: FilteredData[i].Name,
-    Amount: FilteredData[i].Amount,
-    Type: FilteredData[i].Type,
-    Date: FilteredData[i].TranactionDate,
-  }
-  Transactions.push(element)
-}
-const modeledData={
-Name: Name.Name,
-From: moment(from).format("MM/DD/YYYY"),
-Till: moment(till).format("MM/DD/YYYY"),
-Transactions: Transactions,
-}
- await reportGenerator.createInvoice(modeledData,"Deep.pdf")
-console.log('Done')
-})
+  let pdfFile = await reportGenerator.createInvoice(modeledData, "Deep.pdf");
+  pdfFile.pipe(res);
+});
 
 module.exports = router;
 /*
