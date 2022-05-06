@@ -107,41 +107,41 @@ module.exports = {
 	createInvoice,
 };
 
-const userdata = {
-	Name: 'Deep Manek',
-	From: '02-05-2022',
-	Till: '03-05-2022',
-	Transactions: [
-		{
-			Sr_no: 1,
-			Transaction_Name: 'Gas',
-			Amount: 23,
-			Type: 'Debit',
-			Date: '02-03-2022',
-		},
-		{
-			Sr_no: 2,
-			Transaction_Name: 'Zel',
-			Amount: 100,
-			Type: 'Credit',
-			Date: '02-04-2022',
-		},
-		{
-			Sr_no: 3,
-			Transaction_Name: 'Pizza',
-			Amount: 7.5,
-			Type: 'Debit',
-			Date: '02-05-2022',
-		},
-		{
-			Sr_no: 4,
-			Transaction_Name: 'Stevens',
-			Amount: 60000,
-			Type: 'Debit',
-			Date: '02-08-2022',
-		},
-	],
-};
-const Path = 'report.pdf';
+// const userdata = {
+// 	Name: 'Deep Manek',
+// 	From: '02-05-2022',
+// 	Till: '03-05-2022',
+// 	Transactions: [
+// 		{
+// 			Sr_no: 1,
+// 			Transaction_Name: 'Gas',
+// 			Amount: 23,
+// 			Type: 'Debit',
+// 			Date: '02-03-2022',
+// 		},
+// 		{
+// 			Sr_no: 2,
+// 			Transaction_Name: 'Zel',
+// 			Amount: 100,
+// 			Type: 'Credit',
+// 			Date: '02-04-2022',
+// 		},
+// 		{
+// 			Sr_no: 3,
+// 			Transaction_Name: 'Pizza',
+// 			Amount: 7.5,
+// 			Type: 'Debit',
+// 			Date: '02-05-2022',
+// 		},
+// 		{
+// 			Sr_no: 4,
+// 			Transaction_Name: 'Stevens',
+// 			Amount: 60000,
+// 			Type: 'Debit',
+// 			Date: '02-08-2022',
+// 		},
+// 	],
+// };
+// const Path = 'report.pdf';
 
-createInvoice(userdata, Path);
+// createInvoice(userdata, Path);
