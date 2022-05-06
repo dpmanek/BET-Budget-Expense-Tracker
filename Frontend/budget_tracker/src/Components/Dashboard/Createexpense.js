@@ -170,7 +170,7 @@ const Createexpense = () => {
                 <option value="Food and Drinks">Food and Drinks</option>
                 <option value="Shopping">Shopping</option>
                 <option value="Housing">Housing</option>
-                <option value="Transorpation">Transorpation</option>
+                <option value="Transorpation">Transportation</option>
                 <option value="Vehicle">Vehicle</option>
                 <option value="Life and Entertainment">
                   Life and Entertainment
@@ -203,7 +203,7 @@ const Createexpense = () => {
               Is this a reccuring expense?
               <div class="form-check ">
                 <input
-                  class="form-check-input des"
+                  class="form-check-input"
                   type="radio"
                   id="flexRadioDefault1"
                   value="yes"
@@ -216,7 +216,7 @@ const Createexpense = () => {
               </div>
               <div class="form-check">
                 <input
-                  class="form-check-input des"
+                  class="form-check-input"
                   type="radio"
                   id="flexRadioDefault2"
                   value="no"

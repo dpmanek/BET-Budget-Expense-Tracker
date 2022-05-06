@@ -25,9 +25,9 @@ const Feedback = () => {
             Customer Reviews
           </h1>
         </div>
-        <div>
-        <div>
-      <table className="table table-border">
+        
+        {/* <div> */}
+      {/* <table className="table table-border">
         <thead>
           <th>Name</th>
           <th>Rating</th>
@@ -45,8 +45,21 @@ const Feedback = () => {
             );
           })}
         </tbody>
-      </table>
-    </div>
+      </table> */}
+
+    {/* </div> */}
+        <div>
+          {feedback.map((d) => {
+            return (
+              <div class="card p-3 mt-2">
+                <div>{d.name}<br></br> Rating: {d.Review.Rating}<br></br>Feedback: {d.Review.Feedback}</div>
+                
+              </div>
+              
+            );
+          })}
+                          
+          
         </div>
       </div>
     </div>

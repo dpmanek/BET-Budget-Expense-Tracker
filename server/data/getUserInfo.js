@@ -5,6 +5,21 @@ const dataValidation = require("./dataValidation")
 
 
 module.exports = {
+    async getName(email){ // this is just an example Function this needs to be modified
+        if(!email) throw "No Email";
+        email = dataValidation.checkEmail(email);
+        email = email.toLowerCase();
+        //data validation
+        
+        const userCollection = await allUsers();
+        //checks if user with the same email already exists
+        const userFound = await userCollection.findOne({Email: email});
+        if(userFound){
+            return {'Name':userFound.FirstName+" "+userFound.LastName };
+        }
+
+        else throw "User with this email not found"
+    },
     async getDOB(email){ // this is just an example Function this needs to be modified
         if(!email) throw "No Email";
         email = dataValidation.checkEmail(email);

@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const userDataFunctions = require("../data/getUserInfo");
 const transactionFunc = require("../data/transactions");
+const reportGenerator = require("../data/reportGenerator");
+
 var xss = require("xss");
 const moment = require("moment");
 // route will be used to get all the specific data
@@ -221,6 +223,104 @@ router.delete("/deleteExpense", async (req, res) => {
   console.log("Request Processed Deleted Expense");
   res.send({ data: userInfo });
 });
+
+router.get("/getIncome", async (req, res) => {
+  let email = req.userId;
+  let transactionId = xss(req.body.TransactionID);
+  
+  console.log("request recieved");
+  // data validation ToDo
+
+  let userInfo = await transactionFunc.getIncome(
+    email,
+    transactionId
+  ); //change to get user review
+
+  console.log("Request Processed Deleted Expense");
+  res.send({ data: userInfo });
+});
+
+router.get("/getExpense", async (req, res) => {
+  let email = req.userId;
+  let transactionId = xss(req.body.TransactionID);
+  
+  console.log("request recieved");
+  // data validation ToDo
+
+  let userInfo = await transactionFunc.getExpense(
+    email,
+    transactionId
+  ); //change to get user review
+
+  console.log("Request Processed Deleted Expense");
+  res.send({ data: userInfo });
+});
+
+
+router.get('/reportGeneration',async(req,res)=>{
+  let UserID = req.userId;
+  console.log("request recieved");
+  // data validation ToDo
+ let Name = await userDataFunctions.getName(UserID)
+  let userInfo = await userDataFunctions.getUserTransactions(UserID);
+
+  let expense = userInfo.Expenditure;
+  let OneTimeExpense = expense.OneTime;
+  let RecurringExpense = expense.Recurring;
+  let income = userInfo.Income;
+  let OneTimeIncome = income.OneTime;
+  let RecurringIncome = income.Recurring;
+
+let from ="05/01/2022"
+let till="05/05/2022"
+let start = new Date(moment(from).format("MM/DD/YYYY"));
+let end = new Date(moment(till).format("MM/DD/YYYY"));
+
+
+let FinalExpense =[]
+let FinalIncome =[]
+let FinalTransactions=[]
+FinalExpense= OneTimeExpense.concat(RecurringExpense);
+for(let i in FinalExpense){
+  FinalExpense[i].Type="Debit"
+}
+FinalIncome= OneTimeIncome.concat(RecurringIncome);
+for(let i in FinalIncome){
+  FinalIncome[i].Type="Credit"
+}
+FinalTransactions= FinalIncome.concat(FinalExpense);
+for(let i in FinalTransactions){
+  FinalTransactions[i].TranactionDate=new Date(FinalTransactions[i].TranactionDate)
+}
+const sortedActivities = FinalTransactions.sort((a, b) => a.TranactionDate - b.TranactionDate)
+let FilteredData=[]
+for(let i in sortedActivities){
+  if (sortedActivities[i].TranactionDate >= start && sortedActivities[i].TranactionDate <= end)
+  {
+    FilteredData.push(sortedActivities[i])
+  }
+}
+let Transactions=[]
+for(i in FilteredData){
+  FilteredData[i].TranactionDate=moment(FilteredData[i].TranactionDate).format("MM/DD/YYYY");
+  let element={
+    Sr_no: i+1,
+    Transaction_Name: FilteredData[i].Name,
+    Amount: FilteredData[i].Amount,
+    Type: FilteredData[i].Type,
+    Date: FilteredData[i].TranactionDate,
+  }
+  Transactions.push(element)
+}
+const modeledData={
+Name: Name.Name,
+From: moment(from).format("MM/DD/YYYY"),
+Till: moment(till).format("MM/DD/YYYY"),
+Transactions: Transactions,
+}
+ await reportGenerator.createInvoice(modeledData,"Deep.pdf")
+console.log('Done')
+})
 
 module.exports = router;
 /*
