@@ -8,6 +8,7 @@ const Card = () => {
   const redirectRoute = (path) => {
     navigate(path);
   };
+
   return (
     <div>
       <div class="cards-container">
@@ -16,14 +17,14 @@ const Card = () => {
             <p className="landing-text__title">Review Us..</p>
             <p className="landing-text__paragraph">
               Your Feedback will help us Improve.
-            
+              </p>
             <button
               className="btn btn-primary"
               onClick={() => redirectRoute("/review")}
             >
               Review
             </button>
-            </p>
+            
           </div>
           <div>
             <img className="pig" src="/r1.jpg" />
