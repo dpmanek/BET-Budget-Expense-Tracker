@@ -17,7 +17,7 @@ const OurTeam= ()=>{
                 </div>
 
                 <div class="col-md-3 profile-card">
-                    <div class="img"><img src="Deep.jpg"/></div>
+                    <div class="img"><img src="DeepM.jpg"/></div>
                     <div class="caption">
                         <h3>Deep Manek</h3>
                         <div class="link">
