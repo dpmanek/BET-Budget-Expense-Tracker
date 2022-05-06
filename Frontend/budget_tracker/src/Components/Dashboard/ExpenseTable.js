@@ -66,7 +66,7 @@ const ExpenseTable = () => {
               <th>Delete</th>
             </thead>
             <tbody>
-              {data.map((d) => {
+              {oneTime.map((d) => {
                 return (
                   <tr>
                     <td>{d.Name}</td>
@@ -107,7 +107,7 @@ const ExpenseTable = () => {
               <th>Delete</th>
             </thead>
             <tbody>
-              {oneTime.map((d) => {
+              {data.map((d) => {
                 return (
                   <tr>
                     <td>{d.Name}</td>
