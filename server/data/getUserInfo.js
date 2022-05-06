@@ -1,7 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const allUsers = mongoCollections.users;
 const dataValidation = require("./dataValidation")
-
+const moment = require("moment");
 
 
 module.exports = {
@@ -123,6 +123,9 @@ async getUserTransactions(UserId){
 			userOneTimeExpenditure[i]._id = userOneTimeExpenditure[i]._id.toString();
 		}
 	}
+
+
+
 	return userData.Money;
 }
 }
