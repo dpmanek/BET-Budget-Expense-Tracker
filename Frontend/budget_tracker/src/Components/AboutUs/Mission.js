@@ -3,10 +3,10 @@ import "./OurTeam.css"
 
 const posR={
     marginBottom: '190px',
-    boxShadow: '5px 6px 6px 2px #e9ecef',
+    // boxShadow: '5px 6px 6px 2px #e9ecef',
     alignItems: "center",
-    borderRadius: 50, 
-    backgroundColor: "#f7f7f7", 
+    // borderRadius: 50, 
+    // backgroundColor: "#f7f7f7", 
     fontWeight: "bold",
     height: 280,
     width: 500
