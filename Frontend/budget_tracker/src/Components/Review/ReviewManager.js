@@ -29,7 +29,7 @@ const ReviewManager = () => {
        </div>
             
      </React.Fragment>):(<React.Fragment>
-       <h1>Want to add a Review ? <a href="/login">Sign In</a></h1>
+       <div class="card p-3 mt-2" style={{alignItems: "center", borderRadius: 20, backgroundColor: "#6ecebc", fontWeight: "bold"}}><h1>Want to add a review ? <a href="/login">Sign In</a></h1></div>
        <Feedback />
      </React.Fragment>)}
    </div>

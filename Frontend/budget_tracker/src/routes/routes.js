@@ -13,6 +13,7 @@ import Layout from "../Components/layout/layout";
 import ReviewManager from "../Components/Review/ReviewManager";
 import AboutUs from "../Components/AboutUs/AboutUs";
 import Report from "../Components/Dashboard/Report";
+import Errors from "../Components/Errors"
 const Routesr = () => {
   return (
     <>
@@ -32,6 +33,7 @@ const Routesr = () => {
           {/* Public: All can use */}
           <Routing exact path="/review" element={<ReviewManager />} />
           <Routing exact path="/about-us" element={<AboutUs />} />
+          <Routing exact path="*" element={<Errors />} />
         </Switch>
       </Layout>
     </>
