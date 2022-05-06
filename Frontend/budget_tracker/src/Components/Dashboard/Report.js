@@ -4,6 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Report.css";
 import AuthService from "../../services/auth.service";
 
+const posR={
+  marginBottom: '190px',
+  boxShadow: '5px 6px 6px 2px #e9ecef',
+  alignItems: "center",
+  borderRadius: 20, 
+  backgroundColor: "#6ecebc", 
+  fontWeight: "bold"
+}
+
 const Report = () => {
   let navigate = useNavigate();
   const initialValues = {
@@ -140,10 +149,10 @@ const Report = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <h1>Restricted area</h1>
-          <h2>
-            <a href="/login">Sign In</a> to Generate Report
-          </h2>
+          <div class="card p-3 mt-2 " style={posR} >
+        <h1>Restricted area</h1>
+        <h2><a href="/login">Sign In</a> to Generate Report</h2>
+        </div>
         </React.Fragment>
       )}
     </div>
