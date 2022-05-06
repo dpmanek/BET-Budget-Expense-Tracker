@@ -42,8 +42,9 @@ app.use("/user/data", (req, res, next) => {
     tokeninBody = undefined;
   }
 
-  // let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtldmluQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoia2V2aW4iLCJpYXQiOjE2NTE1OTk4OTksImV4cCI6MTY1MTY4NjI5OX0.5ahbrHoNt9Y2aT4LxeKijqYwgbePqkbJIO5iewYvGkE"
-  // let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pcmF2amFpbjk4QGdtYWlsLmNvbSIsInVzZXJOYW1lIjoiTmlyYXYiLCJpYXQiOjE2NTE4MDgwMDgsImV4cCI6MTY1MTg5NDQwOH0.uHxn9_2eXdfeXNDzmbMCi_bs6F43FIShQJFcvLWkmkw"
+  
+  //let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtldmluQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoia2V2aW4iLCJpYXQiOjE2NTE1OTk4OTksImV4cCI6MTY1MTY4NjI5OX0.5ahbrHoNt9Y2aT4LxeKijqYwgbePqkbJIO5iewYvGkE"
+  // let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtldmluMUBnbWFpbC5jb20iLCJ1c2VyTmFtZSI6ImtldmluIiwiaWF0IjoxNjUxODYxODAzLCJleHAiOjE2NTE5NDgyMDN9.OVq8A_jWWeguWmD_B9xxGtWmNU4j_yGmpybX3MCuM-4"
   if (!token && !tokeninBody) {
     return res.status(403).send({ message: "No token provided!" });
   }
