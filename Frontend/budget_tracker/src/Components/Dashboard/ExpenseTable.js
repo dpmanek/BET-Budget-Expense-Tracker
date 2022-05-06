@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import mockData from "./mockData.json";
 import UserService from "../../services/user.service";
+import transactionService from "../../services/add.transaction";
 
 const ExpenseTable = () => {
   const [data, setdata] = useState([]);
@@ -27,12 +28,13 @@ const ExpenseTable = () => {
     event.preventDefault();
     let id = event.target.value;
 
-    axios
-      .post("", { id })
-      .then((data) => {
+    transactionService.deleteUserExpense(id)
+    .then((data) => {
         window.location.href = "/dashboard";
       })
-      .catch((e) => {});
+      .catch((e) => {
+        console.log("Error")
+      });
   };
 
   const changeExpense = (event) => {

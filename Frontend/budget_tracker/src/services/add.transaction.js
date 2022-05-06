@@ -17,10 +17,25 @@ const postUserIncome = (body) => {
     });;
   }
 
+const deleteUserIncome = (TransactionID) => {
+    return  axios.delete(API_URL + "/deleteIncome", { data: { headers: authHeader(),TransactionID: TransactionID}}).then((response) => {
+      return response.data;
+    });;
+   
+  }
+
+  const deleteUserExpense = (TransactionID) => {
+    return  axios.delete(API_URL + "/deleteExpense", { data: { headers: authHeader(),TransactionID: TransactionID}}).then((response) => {
+      return response.data;
+    });;
+   
+  }
 
 
 const transactionService = {
     postUserExpense,
     postUserIncome,
+    deleteUserIncome,
+    deleteUserExpense,
 };
 export default transactionService;

@@ -190,6 +190,38 @@ router.get("/getPieChartData", async (req, res) => {
   }
 });
 
+router.delete("/deleteIncome", async (req, res) => {
+  let email = req.userId;
+  let transactionId = xss(req.body.TransactionID);
+  
+  console.log("request recieved");
+  // data validation ToDo
+
+  let userInfo = await transactionFunc.deleteIncome(
+    email,
+    transactionId
+  ); //change to get user review
+
+  console.log("Request Processed Deleted Income");
+  res.send({ data: userInfo });
+});
+
+router.delete("/deleteExpense", async (req, res) => {
+  let email = req.userId;
+  let transactionId = xss(req.body.TransactionID);
+  
+  console.log("request recieved");
+  // data validation ToDo
+
+  let userInfo = await transactionFunc.deleteExpense(
+    email,
+    transactionId
+  ); //change to get user review
+
+  console.log("Request Processed Deleted Expense");
+  res.send({ data: userInfo });
+});
+
 module.exports = router;
 /*
 catch(e){

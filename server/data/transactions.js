@@ -267,10 +267,10 @@ const deleteIncome = async (UserId, transactionID) => {
 
     if (incomeRecurring && incomeRecurring.length >= 1) {
       for (i in incomeRecurring) {
-        if (incomeRecurring[i]._id === transactionID) {
+        if (incomeRecurring[i]._id.toString() === transactionID) {
           const data = await UserCollection.updateOne(
             { Email: UserId },
-            { $pull: { "Money.Income.Recurring": { _id: transactionID } } }
+            { $pull: { "Money.Income.Recurring": { _id: ObjectId(transactionID) } } }
           );
           if (!data.acknowledged || data.modifiedCount === 0)
             throw {
@@ -283,10 +283,10 @@ const deleteIncome = async (UserId, transactionID) => {
     }
     if (incomeOneTime && incomeOneTime.length >= 1) {
       for (i in incomeOneTime) {
-        if (incomeOneTime[i]._id === transactionID) {
+        if (incomeOneTime[i]._id.toString() === transactionID) {
           const data = await UserCollection.updateOne(
             { Email: UserId },
-            { $pull: { "Money.Income.OneTime": { _id: transactionID } } }
+            { $pull: { "Money.Income.OneTime": { _id: ObjectId(transactionID) } } }
           );
           if (!data.acknowledged || data.modifiedCount === 0)
             throw {
@@ -323,10 +323,10 @@ const deleteExpense = async (UserId, transactionID) => {
 
     if (expenseRecurring && expenseRecurring.length >= 1) {
       for (i in expenseRecurring) {
-        if (expenseRecurring[i]._id === transactionID) {
+        if (expenseRecurring[i]._id.toString() === transactionID) {
           const data = await UserCollection.updateOne(
             { Email: UserId },
-            { $pull: { "Money.Expenditure.Recurring": { _id: transactionID } } }
+            { $pull: { "Money.Expenditure.Recurring": { _id: ObjectId(transactionID) } } }
           );
           if (!data.acknowledged || data.modifiedCount === 0)
             throw {
@@ -339,10 +339,10 @@ const deleteExpense = async (UserId, transactionID) => {
     }
     if (expenseOneTime && expenseOneTime.length >= 1) {
       for (i in expenseOneTime) {
-        if (expenseOneTime[i]._id === transactionID) {
+        if (expenseOneTime[i]._id.toString() === transactionID) {
           const data = await UserCollection.updateOne(
             { Email: UserId },
-            { $pull: { "Money.Expenditure.OneTime": { _id: transactionID } } }
+            { $pull: { "Money.Expenditure.OneTime": { _id: ObjectId(transactionID) } } }
           );
           if (!data.acknowledged || data.modifiedCount === 0)
             throw {
@@ -389,7 +389,7 @@ const updateExpense = async (
 
     if (expenseRecurring && expenseRecurring.length >= 1) {
       for (i in expenseRecurring) {
-        if (expenseRecurring[i]._id === transactionID) {
+        if (expenseRecurring[i]._id.str === transactionID) {
           const data = await UserCollection.updateOne(
             { Email: UserId },
             { $set: { "Money.Expenditure.Recurring": { _id: transactionID } } }
