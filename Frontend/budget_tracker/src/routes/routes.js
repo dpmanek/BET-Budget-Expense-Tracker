@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { Routes as Switch, Route as Routing } from "react-router-dom";
 import Createexpense from "../Components/Dashboard/Createexpense";
 import Createincome from "../Components/Dashboard/Createincome";
@@ -8,33 +8,31 @@ import Content from "../Components/Content/Content";
 import Login from "../Components/login/login";
 import Signup from "../Components/Signup";
 
-import Layout from '../Components/layout/layout'
+import Layout from "../Components/layout/layout";
 // import Review from "../Components/Review/Review";
 import ReviewManager from "../Components/Review/ReviewManager";
-import AboutUs from '../Components/AboutUs/AboutUs';
-import Errors from '../Components/Errors'
+import AboutUs from "../Components/AboutUs/AboutUs";
+import Report from "../Components/Dashboard/Report";
 const Routesr = () => {
   return (
     <>
-    <Layout>
-      <Switch>
-        {/* Auth Routes */}
-        <Routing exact path="/" element={<Content />} />
-        <Routing exact path="/login" element={<Login />} />
-        <Routing exact path="/signup" element={<Signup />} />
-        
-        {/* Private: Only logged in user can access */}
-        <Routing exact path="/dashboard" element={<Dashboard />} />
-        <Routing exact path="/addexpense" element={<Createexpense />} />
-        <Routing exact path="/addincome" element={<Createincome />} />
-        
-        {/* Public: All can use */}
-        <Routing exact path="/review" element={<ReviewManager />} />
-        <Routing exact path="/about-us" element={<AboutUs/>}/>
-        <Routing exact path ="*" element={<Errors/>}/>
-       
-      
-      </Switch>
+      <Layout>
+        <Switch>
+          {/* Auth Routes */}
+          <Routing exact path="/" element={<Content />} />
+          <Routing exact path="/login" element={<Login />} />
+          <Routing exact path="/signup" element={<Signup />} />
+
+          {/* Private: Only logged in user can access */}
+          <Routing exact path="/dashboard" element={<Dashboard />} />
+          <Routing exact path="/addexpense" element={<Createexpense />} />
+          <Routing exact path="/addincome" element={<Createincome />} />
+          <Routing exact path="/report" element={<Report />} />
+
+          {/* Public: All can use */}
+          <Routing exact path="/review" element={<ReviewManager />} />
+          <Routing exact path="/about-us" element={<AboutUs />} />
+        </Switch>
       </Layout>
     </>
   );

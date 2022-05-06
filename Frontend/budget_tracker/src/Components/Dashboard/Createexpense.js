@@ -25,7 +25,7 @@ const Createexpense = () => {
   };
   //
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -53,12 +53,12 @@ const Createexpense = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(formErrors);
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(formValues);
-    }
-  }, [formErrors]);
+  // useEffect(() => {
+  //   console.log(formErrors);
+  //   if (Object.keys(formErrors).length === 0 && isSubmit) {
+  //     console.log(formValues);
+  //   }
+  // }, [formErrors]);
 
   const validate = (values) => {
     const alpha = /^[0-9]+$/;
@@ -69,33 +69,38 @@ const Createexpense = () => {
     if (!values.name) {
       errors.name = "Name is required";
     }
-    const flag = alpha.test(values.description);
+    const flag = alpha.test(values.name);
     if (flag == true) {
       errors.name = "Name cannot be just Numerical!";
     }
     if (!values.category) {
       errors.category = "Category is required";
     }
+    if (Object.keys(errors).length === 0) {
+      return null;
+    }
     return errors;
   };
 
-  const addExpenses = (event) => {
+  const addExpenses = async (event) => {
     setError("");
     setSuccess("");
     event.preventDefault();
-    setFormErrors(validate(formValues));
+    await setFormErrors(await validate(formValues));
     setIsSubmit(true);
-
-    transactionService
-      .postUserExpense(formValues)
-      .then((data) => {
-        console.log(data, "====================");
-        setSuccess("Expense added successfully!!");
-        navigate("/dashboard");
-      })
-      .catch((e) => {
-        setError("Opps, something went wrong :(");
-      });
+    console.log(event, " --- ", formErrors);
+    if (Object.keys(formErrors).length == 0) {
+      await transactionService
+        .postUserExpense(formValues)
+        .then((data) => {
+          console.log(data, "====================");
+          setSuccess("Expense added successfully!!");
+          navigate("/dashboard");
+        })
+        .catch((e) => {
+          setError("Opps, something went wrong :(");
+        });
+    }
   };
 
   return (
@@ -123,7 +128,7 @@ const Createexpense = () => {
                   onChange={handleChange}
                 />
               </div>
-              <p>{formErrors.name}</p>
+              <p>{formErrors ? formErrors.name : ""}</p>
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">
                   Description
@@ -150,7 +155,7 @@ const Createexpense = () => {
                   onChange={handleChange}
                 />
               </div>
-              <p>{formErrors.amount}</p>
+              <p>{formErrors ? formErrors.amount : ""}</p>
               <label for="exampleInputEmail1" className="form-label">
                 Category
               </label>
@@ -178,7 +183,7 @@ const Createexpense = () => {
                 <option value="Others">Others</option>
                 <option value="Missing">Missing</option>
               </select>
-              <p>{formErrors.category}</p>
+              <p>{formErrors ? formErrors.category : ""}</p>
               <div className="mb-3 position">
                 <label for="date" class="col-form-label">
                   Date
@@ -192,9 +197,9 @@ const Createexpense = () => {
                     value={formValues.date}
                     onChange={handleChange}
                   />
-                  <p>{formErrors.date}</p>
                 </div>
               </div>
+              <p>{formErrors ? formErrors.date : ""}</p>
               Is this a reccuring expense?
               <div class="form-check ">
                 <input
