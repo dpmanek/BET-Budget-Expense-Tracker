@@ -62,20 +62,6 @@ export const Manager = ({ spendingTotal, expenseTotal }) => {
         </div>
       </div>
       <Pie />
-      <form className="d-flex">
-        <input
-          className="form-control me-2 pos"
-          type="search"
-          placeholder="Search expenses"
-        />
-        <button className="btn btn-outline-success" type="submit">
-          Search
-        </button>
-      </form>
-      {/* <div>
-      <h3>User : {Name} </h3>
-      <h3>Date of Birth : {DOB}</h3>
-    </div> */}
     </div>
   );
 };

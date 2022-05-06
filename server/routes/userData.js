@@ -160,7 +160,7 @@ router.get("/getPieChartData", async (req, res) => {
 
   FinalExpense = OneTime.concat(Recurring);
   if (FinalExpense.length === 0) {
-		res.send({ data: [{name:"No expense Added",y:100}] });
+		res.send({ data: [{name:"No expense Added",y:0}] });
   } else {
     for (let i = 0; i < FinalExpense.length; i++) {
       if (i === 0) {
@@ -188,6 +188,38 @@ router.get("/getPieChartData", async (req, res) => {
     console.log("Request Processed");
     res.send({ data: Output });
   }
+});
+
+router.delete("/deleteIncome", async (req, res) => {
+  let email = req.userId;
+  let transactionId = xss(req.body.TransactionID);
+  
+  console.log("request recieved");
+  // data validation ToDo
+
+  let userInfo = await transactionFunc.deleteIncome(
+    email,
+    transactionId
+  ); //change to get user review
+
+  console.log("Request Processed Deleted Income");
+  res.send({ data: userInfo });
+});
+
+router.delete("/deleteExpense", async (req, res) => {
+  let email = req.userId;
+  let transactionId = xss(req.body.TransactionID);
+  
+  console.log("request recieved");
+  // data validation ToDo
+
+  let userInfo = await transactionFunc.deleteExpense(
+    email,
+    transactionId
+  ); //change to get user review
+
+  console.log("Request Processed Deleted Expense");
+  res.send({ data: userInfo });
 });
 
 module.exports = router;
