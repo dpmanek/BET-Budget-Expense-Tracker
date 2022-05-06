@@ -16,7 +16,7 @@ function createInvoice(userData, path) {
 //function input parameter will be increased to replace userdata
 function generateHeader(doc, userData) {
 	doc
-		.image('../public/images/logo.png', 50, 45, { width: 50 })
+		//.image('../public/images/logo.png', 50, 45, { width: 50 })
 		.fillColor('#000')
 		.fontSize(20)
 		.text('BET', 275, 50, { align: 'right' })
