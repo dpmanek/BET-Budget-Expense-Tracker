@@ -28,12 +28,16 @@ const ExpenseTable = () => {
     event.preventDefault();
     let id = event.target.value;
 
-    transactionService.deleteUserExpense(id)
-    .then((data) => {
-        window.location.href = "/dashboard";
+    transactionService
+      .deleteUserExpense(id)
+      .then((d) => {
+        let tmpData = data.filter((d) => d._id != id);
+        let one = oneTime.filter((d) => d._id != id);
+        setOneTime(one);
+        setdata(tmpData);
       })
       .catch((e) => {
-        console.log("Error")
+        console.log("Error");
       });
   };
 
