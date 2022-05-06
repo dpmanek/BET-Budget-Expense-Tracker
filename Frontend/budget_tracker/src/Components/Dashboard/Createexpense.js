@@ -28,16 +28,20 @@ const Createexpense = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
+  //  useEffect(() => {
+  //   console.log(formErrors);
+  //   if (Object.keys(formErrors).length === 0 && isSubmit) {
+  //     console.log(formValues);
+  //   }
+  // }, [formErrors]);
 
   const [accessToken, setAccessToken] = useState("");
+
   useEffect(() => {
     var data = AuthService.getCurrentUser();
     if (data) {
-      // setContent(data.user.userName);
       setAccessToken(data.accessToken);
     } else {
-      // setContent("");
       setAccessToken(undefined);
     }
 
@@ -53,16 +57,9 @@ const Createexpense = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   console.log(formErrors);
-  //   if (Object.keys(formErrors).length === 0 && isSubmit) {
-  //     console.log(formValues);
-  //   }
-  // }, [formErrors]);
-
   const validate = (values) => {
     const alpha = /^[0-9]+$/;
-    const errors = {};
+    let errors = {};
     if (!values.amount) {
       errors.amount = "Amount is required";
     }
@@ -76,9 +73,6 @@ const Createexpense = () => {
     if (!values.category) {
       errors.category = "Category is required";
     }
-    if (Object.keys(errors).length === 0) {
-      return null;
-    }
     return errors;
   };
 
@@ -86,10 +80,9 @@ const Createexpense = () => {
     setError("");
     setSuccess("");
     event.preventDefault();
-    await setFormErrors(await validate(formValues));
-    setIsSubmit(true);
-    console.log(event, " --- ", formErrors);
-    if (Object.keys(formErrors).length == 0) {
+    let error = await validate(formValues);
+    await setFormErrors(error);
+    if (Object.keys(error).length == 0) {
       await transactionService
         .postUserExpense(formValues)
         .then((data) => {
@@ -128,7 +121,7 @@ const Createexpense = () => {
                   onChange={handleChange}
                 />
               </div>
-              <p>{formErrors ? formErrors.name : ""}</p>
+              <p className="disError">{formErrors ? formErrors.name : ""}</p>
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">
                   Description
@@ -155,7 +148,7 @@ const Createexpense = () => {
                   onChange={handleChange}
                 />
               </div>
-              <p>{formErrors ? formErrors.amount : ""}</p>
+              <p className="disError">{formErrors ? formErrors.amount : ""}</p>
               <label for="exampleInputEmail1" className="form-label">
                 Category
               </label>
@@ -183,7 +176,9 @@ const Createexpense = () => {
                 <option value="Others">Others</option>
                 <option value="Missing">Missing</option>
               </select>
-              <p>{formErrors ? formErrors.category : ""}</p>
+              <p className="disError">
+                {formErrors ? formErrors.category : ""}
+              </p>
               <div className="mb-3 position">
                 <label for="date" class="col-form-label">
                   Date
@@ -199,7 +194,7 @@ const Createexpense = () => {
                   />
                 </div>
               </div>
-              <p>{formErrors ? formErrors.date : ""}</p>
+              <p className="disError">{formErrors ? formErrors.date : ""}</p>
               Is this a reccuring expense?
               <div class="form-check ">
                 <input
@@ -230,7 +225,7 @@ const Createexpense = () => {
               <button type="submit" className="btn btn-primary" value="Submit">
                 Submit
               </button>
-              <div>{error != "" ? error : success}</div>
+              <div className="disError">{error != "" ? error : success}</div>
             </form>
           </div>
         </React.Fragment>

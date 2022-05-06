@@ -62,6 +62,18 @@ export const Manager = ({ spendingTotal, expenseTotal }) => {
         </div>
       </div>
       <Pie />
+      <div>
+        <h4>
+          To view a customized report on your expense, click on the button below
+        </h4>
+        <button
+          className="btn btn-outline-success dash-success"
+          type="button"
+          onClick={() => redirectRoute("/report")}
+        >
+          Generate Report
+        </button>
+      </div>
     </div>
   );
 };

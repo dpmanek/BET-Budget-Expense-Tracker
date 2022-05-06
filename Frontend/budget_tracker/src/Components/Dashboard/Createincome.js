@@ -29,9 +29,19 @@ const Createincome = () => {
   const [success, setSuccess] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+  //  useEffect(() => {
+  //   console.log(formErrors);
+  //   if (Object.keys(formErrors).length === 0 && isSubmit) {
+  //     console.log(formValues);
+  //   }
+  // }, [formErrors]);
 
   const [accessToken, setAccessToken] = useState("");
+
   useEffect(() => {
+    // if (Object.keys(formErrors).length === 0 && isSubmit) {
+    //   console.log(formValues);
+    // }
     var data = AuthService.getCurrentUser();
     if (data) {
       // setContent(data.user.userName);
@@ -53,16 +63,9 @@ const Createincome = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   console.log(formErrors);
-  //   if (Object.keys(formErrors).length === 0 && isSubmit) {
-  //     console.log(formValues);
-  //   }
-  // }, [formErrors]);
-
   const validate = (values) => {
     const alpha = /^[0-9]+$/;
-    const errors = {};
+    let errors = {};
     if (!values.amount) {
       errors.amount = "Amount is required";
     }
@@ -76,9 +79,6 @@ const Createincome = () => {
     if (!values.category) {
       errors.category = "Category is required";
     }
-    if (Object.keys(errors).length === 0) {
-      return null;
-    }
     return errors;
   };
 
@@ -86,9 +86,9 @@ const Createincome = () => {
     setError("");
     setSuccess("");
     event.preventDefault();
-    await setFormErrors(await validate(formValues));
-    setIsSubmit(true);
-    if (Object.keys(formErrors).length == 0) {
+    let error = await validate(formValues);
+    await setFormErrors(error);
+    if (Object.keys(error).length == 0) {
       await transactionService
         .postUserIncome(formValues)
         .then((data) => {
@@ -127,7 +127,7 @@ const Createincome = () => {
                   onChange={handleChange}
                 />
               </div>
-              <p>{formErrors ? formErrors.name : ""}</p>
+              <p className="disError">{formErrors ? formErrors.name : ""}</p>
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">
                   Description
@@ -154,7 +154,7 @@ const Createincome = () => {
                   onChange={handleChange}
                 />
               </div>
-              <p>{formErrors ? formErrors.amount : ""}</p>
+              <p className="disError">{formErrors ? formErrors.amount : ""}</p>
               <label for="exampleInputEmail1" className="form-label">
                 Category
               </label>
@@ -182,7 +182,9 @@ const Createincome = () => {
                 <option value="Salary">Salary</option>
                 <option value="Other">Other</option>
               </select>
-              <p>{formErrors ? formErrors.category : ""}</p>
+              <p className="disError">
+                {formErrors ? formErrors.category : ""}
+              </p>
               <div className="mb-3 position">
                 <label for="date" class="col-form-label">
                   Date
@@ -198,11 +200,11 @@ const Createincome = () => {
                   />
                 </div>
               </div>
-              <p>{formErrors ? formErrors.date : ""}</p>
-              Is this a reccuring income?
+              <p className="disError">{formErrors ? formErrors.date : ""}</p>
+              Is this a reccuring Income?
               <div class="form-check ">
                 <input
-                  class="form-check-input des"
+                  class="form-check-input"
                   type="radio"
                   id="flexRadioDefault1"
                   value="yes"
@@ -215,7 +217,7 @@ const Createincome = () => {
               </div>
               <div class="form-check">
                 <input
-                  class="form-check-input des"
+                  class="form-check-input"
                   type="radio"
                   id="flexRadioDefault2"
                   value="no"
@@ -229,7 +231,7 @@ const Createincome = () => {
               <button type="submit" className="btn btn-primary" value="Submit">
                 Submit
               </button>
-              <div>{error != "" ? error : success}</div>
+              <div className="disError">{error != "" ? error : success}</div>
             </form>
           </div>
         </React.Fragment>

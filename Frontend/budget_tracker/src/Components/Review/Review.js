@@ -4,40 +4,61 @@ import axios from "axios";
 import reviewService from "../../services/review.service";
 
 const Review = () => {
-  const [error, setErorr] = useState("");
+  //validation
+  const initialValues = {
+    rating: "",
+    feedback: "",
+  };
+  const [formValues, setFormValues] = useState(initialValues);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+  //
+
+  const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
-  const [rating, setRating] = useState("");
-  const [feedback, setFeedback] = useState("");
-  
-  
-  const addFeedback = (event) => {
-    setErorr("");
+  const [formErrors, setFormErrors] = useState({});
+
+  const validate = (values) => {
+    const alpha = /^[0-9]+$/;
+    let errors = {};
+    if (!values.rating) {
+      errors.rating = "Rating is required";
+    }
+    if (!values.feedback) {
+      errors.feedback = "Feedback is required";
+    }
+    const flag = alpha.test(values.name);
+    if (flag == true) {
+      errors.feedback = "Feedback cannot be just Numerical!";
+    }
+    return errors;
+  };
+
+  const addReview = async (event) => {
+    setError("");
     setSuccess("");
     event.preventDefault();
-    //console.log(feedback, rating);
-
-    let body = {
-      feedback,
-      rating,
-    };
-    reviewService.postUserReview(body)
-      .then((res) => {
-        setSuccess("Review added successfully !");
-      })
-      .catch((e) => {
-        setErorr(`Opps, something went wrong :${e}`);
-      });
+    let error = await validate(formValues);
+    await setFormErrors(error);
+    if (Object.keys(error).length == 0) {
+      await reviewService
+        .postUserReview(formValues)
+        .then((data) => {
+          setSuccess("Review added successfully !");
+        })
+        .catch((e) => {
+          setError(`Opps, something went wrong :${e}`);
+        });
+    }
   };
 
-  const changeRating = (event) => {
-    event.preventDefault();
-    setRating(event.target.value);
-  };
   return (
     <div>
-      <form className="place1" onSubmit={addFeedback}>
+      <form className="place1" onSubmit={addReview}>
         <h3 className="pl">Like our app? Leave a feedback</h3>
-        <fieldset className="rating" onChange={changeRating}>
+        <fieldset className="rating" onChange={handleChange}>
           <input type="radio" id="star5" name="rating" value="5" />
           <label className="full" for="star5" title="Awesome - 5 stars"></label>
           <input type="radio" id="star4half" name="rating" value="4.5" />
@@ -87,22 +108,23 @@ const Review = () => {
           <input type="radio" id="starhalf" name="rating" value="0.5" />
           <label
             className="half"
-
             for="starhalf"
             title="Sucks big time - 0.5 stars"
           ></label>
+          <p className="disError">{formErrors ? formErrors.rating : ""}</p>
         </fieldset>
         <div className="mb-3">
           <input
             id="msg"
             type="text"
             className="form-control-position validate[required,length[6,300]] feedback-input"
-            name="msg"
+            name="feedback"
             placeholder="Feedback"
-            value={feedback}
-            onChange={(event) => setFeedback(event.target.value)}
+            value={formValues.feedback}
+            onChange={handleChange}
           />
         </div>
+        <p className="disError">{formErrors ? formErrors.feedback : ""}</p>
         <button type="submit" className="btn btn-primary" value="Submit">
           Submit
         </button>
