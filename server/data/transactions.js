@@ -431,9 +431,93 @@ const updateExpense = async (
     };
 };
 
-const getIncome = async (UserId) => {};
+const getIncome = async (UserId, transactionID) => {
+  if (!UserId) throw "No Email";
+  UserId = dataValidation.checkEmail(UserId);
 
-const getExpense = async (UserId, transactionID) => {};
+  if (!transactionID) throw "No Transaction ID";
+  // write data function to check transaction ID
+  let Foundflag = false
+  let Transaction= [];
+  let UserCollection = await Users();
+  const userFound = await UserCollection.findOne({ Email: UserId });
+  if (userFound) {
+    let incomeRecurring = userFound.Money.Income.Recurring;
+    let incomeOneTime = userFound.Money.Income.OneTime;
+
+    if (incomeRecurring && incomeRecurring.length >= 1) {
+      for (i in incomeRecurring) {
+        if (incomeRecurring[i]._id.toString() === transactionID) {
+          Transaction.push(incomeRecurring[i]);
+          Foundflag = true
+        }
+      }
+    }
+    if (incomeOneTime && incomeOneTime.length >= 1) {
+      for (i in incomeOneTime) {
+        if (incomeOneTime[i]._id.toString() === transactionID) {
+          Transaction.push(incomeOneTime[i]);
+          Foundflag = true
+        }
+      }
+    }
+    if (Foundflag === true) {
+      return Transaction;
+    } else {
+      throw `No Transaction of ${transactionID} ID Exists`;
+    }
+  } else
+    throw {
+      code: 400,
+      message: "User Not Found",
+    };
+
+
+
+};
+
+const getExpense = async (UserId, transactionID) => {
+  if (!UserId) throw "No Email";
+  UserId = dataValidation.checkEmail(UserId);
+
+  if (!transactionID) throw "No Transaction ID";
+  // write data function to check transaction ID
+  let Foundflag = false
+  let Transaction= [];
+  let UserCollection = await Users();
+  const userFound = await UserCollection.findOne({ Email: UserId });
+  if (userFound) {
+    let expenseRecurring = userFound.Money.Expenditure.Recurring;
+    let expenseOneTime = userFound.Money.Expenditure.OneTime;
+
+    if (expenseRecurring && expenseRecurring.length >= 1) {
+      for (i in expenseRecurring) {
+        if (expenseRecurring[i]._id.toString() === transactionID) {
+          Transaction.push(expenseRecurring[i]);
+          Foundflag = true
+        }
+      }
+    }
+    if (expenseOneTime && expenseOneTime.length >= 1) {
+      for (i in expenseOneTime) {
+        if (expenseOneTime[i]._id.toString() === transactionID) {
+          Transaction.push(expenseOneTime[i]);
+          Foundflag = true
+        }
+      }
+    }
+    if (Foundflag === true) {
+      return Transaction;
+    } else {
+      throw `No Transaction of ${transactionID} ID Exists`;
+    }
+  } else
+    throw {
+      code: 400,
+      message: "User Not Found",
+    };
+
+};
 
 module.exports = {
   createIncome,
@@ -444,4 +528,6 @@ module.exports = {
   deleteExpense,
   updateIncome,
   updateExpense,
+  getIncome,
+  getExpense,
 };

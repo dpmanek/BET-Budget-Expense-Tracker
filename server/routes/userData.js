@@ -224,6 +224,39 @@ router.delete("/deleteExpense", async (req, res) => {
   res.send({ data: userInfo });
 });
 
+router.get("/getIncome", async (req, res) => {
+  let email = req.userId;
+  let transactionId = xss(req.body.TransactionID);
+  
+  console.log("request recieved");
+  // data validation ToDo
+
+  let userInfo = await transactionFunc.getIncome(
+    email,
+    transactionId
+  ); //change to get user review
+
+  console.log("Request Processed Deleted Expense");
+  res.send({ data: userInfo });
+});
+
+router.get("/getExpense", async (req, res) => {
+  let email = req.userId;
+  let transactionId = xss(req.body.TransactionID);
+  
+  console.log("request recieved");
+  // data validation ToDo
+
+  let userInfo = await transactionFunc.getExpense(
+    email,
+    transactionId
+  ); //change to get user review
+
+  console.log("Request Processed Deleted Expense");
+  res.send({ data: userInfo });
+});
+
+
 router.get('/reportGeneration',async(req,res)=>{
   let UserID = req.userId;
   console.log("request recieved");
