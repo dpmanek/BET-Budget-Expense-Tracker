@@ -304,7 +304,7 @@ let Transactions=[]
 for(i in FilteredData){
   FilteredData[i].TranactionDate=moment(FilteredData[i].TranactionDate).format("MM/DD/YYYY");
   let element={
-    Sr_no: i+1,
+    Sr_no: parseFloat(i),
     Transaction_Name: FilteredData[i].Name,
     Amount: FilteredData[i].Amount,
     Type: FilteredData[i].Type,
@@ -318,8 +318,10 @@ From: moment(from).format("MM/DD/YYYY"),
 Till: moment(till).format("MM/DD/YYYY"),
 Transactions: Transactions,
 }
- await reportGenerator.createInvoice(modeledData,"Deep.pdf")
-console.log('Done')
+
+  let pdfFile =await reportGenerator.createInvoice(modeledData,"Deep.pdf")
+  pdfFile.pipe(res);
+ 
 })
 
 module.exports = router;
