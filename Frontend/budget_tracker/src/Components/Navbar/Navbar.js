@@ -51,6 +51,14 @@ function Navbar(props) {
               <a href="#" id="justtext">
                 <i class="fa fa-fw fa-user"></i>Welcome {content} !
               </a>
+
+              <button
+                className="btn btn-outline-success navbar-success"
+                type="button"
+                onClick={() => redirectRoute("/generateticket")} //Redirects to Review
+              >
+                Generate Ticket
+              </button>
               <button
                 className="btn btn-outline-success navbar-success"
                 type="button"
