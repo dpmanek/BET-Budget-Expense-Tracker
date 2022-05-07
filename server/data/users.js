@@ -3,6 +3,8 @@ const allUsers = mongoCollections.users;
 const bcrypt = require('bcryptjs');
 const dataValidation = require('./dataValidation');
 const { ObjectId } = require('mongodb');
+const Mailer = require('./mail');
+
 
 const createUser = async (newFirstName, newLastName, newEmail, newPassword) => {
 	if (!newFirstName) throw 'No FirstName';
@@ -58,7 +60,11 @@ const createUser = async (newFirstName, newLastName, newEmail, newPassword) => {
 
 	if (!insertInfo.acknowledged || !insertInfo.insertedId)
 		throw ' User was unable to Sign up MongoDB Server Error'; // Not sure about this part confirm once
-	else return { userInserted: true };
+	else {
+		let UserCreatedSubject = `BET: New Account Created!!`
+		let UserCreatedBody = `New Account Created Name: ${newFirstName} ${newLastName} Email: ${newEmail} Welcome To BET, Thank you for Registering. Saving Money Just Got Easier!!!.`
+		Mailer.sendEmail(newEmail,UserCreatedSubject,UserCreatedBody);
+		return { userInserted: true };}
 };
 
 const checkUser = async (email, password) => {
@@ -84,7 +90,7 @@ const checkUser = async (email, password) => {
 		return {
 			authenticated: true,
 			email: userFound.Email,
-			userName: userFound.FirstName			,
+			userName: userFound.FirstName,
 		};
 	else throw 'Either the username or password is invalid';
 };

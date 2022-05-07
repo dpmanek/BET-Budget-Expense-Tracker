@@ -2,6 +2,8 @@ const router = require('express').Router();
 const userDataFunctions = require('../data/getUserInfo');
 const transactionFunc = require('../data/transactions');
 const reportGenerator = require('../data/reportGenerator');
+const fs = require('fs');
+var path = require('path');
 
 var xss = require('xss');
 const moment = require('moment');
@@ -283,12 +285,12 @@ router.get('/monthlyComparision', async (req, res) => {
   console.log('Request Processed Monthly Comparisn Sending')
 	res.send({ data: data });
 });
-router.get('/reportGeneration', async (req, res) => {
+router.post('/reportGeneration', async (req, res) => {
 	let UserID = req.userId;
 	console.log('request recieved');
 	// data validation ToDo
 	let Name = await userDataFunctions.getName(UserID);
-	let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(UserID);
+	let userInfo = await userDataFunctions.getUserTransactions(UserID);
 
 	let expense = userInfo.Expenditure;
 	let OneTimeExpense = expense.OneTime;
@@ -297,8 +299,8 @@ router.get('/reportGeneration', async (req, res) => {
 	let OneTimeIncome = income.OneTime;
 	let RecurringIncome = income.Recurring;
 
-	let from = '05/01/2022';
-	let till = '05/05/2022';
+	let from = req.body.body.dateone;
+	let till = req.body.body.datetwo;
 	let start = new Date(moment(from).format('MM/DD/YYYY'));
 	let end = new Date(moment(till).format('MM/DD/YYYY'));
 
@@ -352,8 +354,18 @@ router.get('/reportGeneration', async (req, res) => {
 		Transactions: Transactions,
 	};
 
-	let pdfFile = await reportGenerator.createInvoice(modeledData, 'Deep.pdf');
+	let pdfFile = await reportGenerator.createInvoice(modeledData);
+	let filename = 'Report'
+	filename = encodeURIComponent(filename) + '.pdf'
+	res.setHeader('Content-disposition', 'attachment; filename="' + filename + '"')
+   	res.setHeader('Content-type', 'application/pdf')
 	pdfFile.pipe(res);
+	//res.sendFile(pdfFile);
+	//res.send(pdfFile)
+	 //pdfFile.pipe(fs.createWriteStream('./server/public/reports/Report.pdf'));
+	//pdfFile.pipe(fs.createWriteStream('./Frontend/budget_tracker/public/Report.pdf'));
+	//res.sendFile('./server/public/reports/Report.pdf');
+	//res.sendFile('Report.pdf', { root: path.join(__dirname, '../public/reports') });
 });
 
 module.exports = router;
