@@ -43,12 +43,20 @@ const getPieChartData = () => {
       return response.data;
     });
 };
+const getmonthlyComparision = () => {
+	return axios
+		.get(API_URL + '/monthlyComparision', { headers: authHeader() })
+		.then((response) => {
+			return response.data;
+		});
+};
 
 const UserService = {
   getPublicContent,
   getUserTransactionData,
   getUserDOB,
   getPieChartData,
+  getmonthlyComparision
 };
 
 export default UserService;
