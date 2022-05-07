@@ -10,7 +10,7 @@ const ExpenseTable = () => {
   const [toggleTable, setToggleTable] = useState("OneTime");
 
   useEffect(() => {
-    UserService.getUserTransactionData(true).then((response) => {
+    UserService.getUserTransactionData().then((response) => {
       if (response.data) {
         setdata(response.data.Expenditure.OneTime);
         setOneTime(response.data.Expenditure.Recurring);

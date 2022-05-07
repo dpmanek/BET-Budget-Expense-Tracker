@@ -50,13 +50,6 @@ const createIncome = async (
 
   // Transaction_Date: tracks,
 
-  if (date) {
-    let [month, day, year] = date.split("/");
-    month = Number.parseInt(month);
-    day = Number.parseInt(day) - 1;
-    year = Number.parseInt(year);
-    date = new Date(year, month, day).toISOString();
-  }
 
   let income = {
     _id: ObjectId(),
@@ -142,14 +135,6 @@ const createExpense = async (
   let UserCollection = await Users();
 
   // Transaction_Date: tracks,
-
-  if (date) {
-    let [month, day, year] = date.split("/");
-    month = Number.parseInt(month);
-    day = Number.parseInt(day) - 1;
-    year = Number.parseInt(year);
-    date = new Date(year, month, day).toISOString();
-  }
 
   let expense = {
     _id: ObjectId(),

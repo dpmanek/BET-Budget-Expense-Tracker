@@ -11,16 +11,9 @@ const getPublicContent = () => {
 //using this function for specific user content eg income and expenses header will include the current accessToken
 // Call this function with true or False   true will return all transaction only of the current month false = return all transactions regardless of months
 const getUserTransactionData = (thisMonethOnly) => {
-  let date = new Date(),
-    y = date.getFullYear(),
-    m = date.getMonth();
-  let startDate = new Date(y, m, 1).toISOString();
-  let endDate = new Date(y, m + 1, 0).toISOString();
+  
   return axios
-    .get(API_URL + "/alltransactions", {
-      headers: authHeader(),
-      params: thisMonethOnly ? { startDate, endDate } : {},
-    })
+    .get(API_URL + "/alltransactions", {headers: authHeader()})
     .then((response) => {
       return response.data;
     });

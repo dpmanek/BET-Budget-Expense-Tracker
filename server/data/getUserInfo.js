@@ -93,7 +93,7 @@ module.exports = {
     } else throw "No users in the Database";
   },
 
-  async getUserTransactions(UserId, startDate, endDate) {
+  async getUserTransactions(UserId) {
     if (!UserId) throw "No Email";
     UserId = dataValidation.checkEmail(UserId);
     UserId = UserId.toLowerCase();
@@ -102,38 +102,7 @@ module.exports = {
     const userData = await userCollection.findOne({ Email: UserId });
     if (userData === null) throw { code: 404, message: "User Not Found" };
 
-    if (startDate && endDate) {
-        const userDetailsWithFilteredMoney = await userCollection.find({
-          Email: UserId,
-          Money: {
-            Income: {
-              Recurring: {
-                $elemMatch: {
-                  transactionDate: { $gte: startDate, $lte: endDate },
-                },
-              },
-              OneTime: {
-                $elemMatch: {
-                  transactionDate: { $gte: startDate, $lte: endDate },
-                },
-              },
-            },
-            Expense: {
-              Recurring: {
-                $elemMatch: {
-                  transactionDate: { $gte: startDate, $lte: endDate },
-                },
-              },
-              OneTime: {
-                $elemMatch: {
-                  transactionDate: { $gte: startDate, $lte: endDate },
-                },
-              },
-            },
-          },
-        }).toArray();
-        return userDetailsWithFilteredMoney.Money;
-      }
+    
 
 
     let userOneTimeIncome = userData.Money.Income.OneTime;
@@ -165,5 +134,73 @@ module.exports = {
     }
    
     return userData.Money;
+  },
+  async getUserTransactionsByCurrentMonth(UserId) {
+    if (!UserId) throw "No Email";
+    UserId = dataValidation.checkEmail(UserId);
+    UserId = UserId.toLowerCase();
+    let currentDate = moment().format('MM/DD/YYYY')
+    let currentMonth = currentDate.split("/");
+    console.log(currentDate);
+    const userCollection = await allUsers();
+    const userData = await userCollection.findOne({ Email: UserId });
+    if (userData === null) throw { code: 404, message: "User Not Found" };
+
+    let filteredUserData = {
+        Money:{
+            Income:{
+                OneTime:[],
+                Recurring:[],
+            },
+            Expenditure:{
+                OneTime:[],
+                Recurring:[],
+            },
+        }
+    }
+
+    let userOneTimeIncome = userData.Money.Income.OneTime;
+    let userRecurringIncome = userData.Money.Income.Recurring;
+    let userOneTimeExpenditure = userData.Money.Expenditure.OneTime;
+    let userRecurringExpenditure = userData.Money.Expenditure.Recurring;
+
+    if (userOneTimeIncome && userOneTimeIncome.length > 0) {
+      for (i in userOneTimeIncome) {
+        userOneTimeIncome[i]._id = userOneTimeIncome[i]._id.toString();
+        let transactionMonth = userOneTimeIncome[i].TranactionDate.split("/");
+        if(transactionMonth[0] === currentMonth[0]){
+            filteredUserData.Money.Income.OneTime.push(userOneTimeIncome[i]);
+        }
+      }
+    }
+    if (userRecurringIncome && userRecurringIncome.length > 0) {
+        for (i in userRecurringIncome) {
+            userRecurringIncome[i]._id = userRecurringIncome[i]._id.toString();
+            let transactionMonth = userRecurringIncome[i].TranactionDate.split("/");
+            if(transactionMonth[0] === currentMonth[0]){
+                filteredUserData.Money.Income.Recurring.push(userRecurringIncome[i]);
+            }
+          }
+    }
+    if (userRecurringExpenditure && userRecurringExpenditure.length > 0) {
+        for (i in userRecurringExpenditure) {
+            userRecurringExpenditure[i]._id = userRecurringExpenditure[i]._id.toString();
+            let transactionMonth = userRecurringExpenditure[i].TranactionDate.split("/");
+            if(transactionMonth[0] === currentMonth[0]){
+                filteredUserData.Money.Expenditure.Recurring.push(userRecurringExpenditure[i]);
+            }
+          }
+    }
+    if (userOneTimeExpenditure && userOneTimeExpenditure.length > 0) {
+        for (i in userOneTimeExpenditure) {
+            userOneTimeExpenditure[i]._id = userOneTimeExpenditure[i]._id.toString();
+            let transactionMonth = userOneTimeExpenditure[i].TranactionDate.split("/");
+            if(transactionMonth[0] === currentMonth[0]){
+                filteredUserData.Money.Expenditure.OneTime.push(userOneTimeExpenditure[i]);
+            }
+          }
+    }
+   
+    return filteredUserData.Money;
   },
 };
