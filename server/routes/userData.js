@@ -43,15 +43,8 @@ router.get('/totalIncome', async (req, res) => {
 	let UserID = req.userId;
 	console.log('request recieved');
 	// data validation ToDo
-	let userInfo = await transactionFunc.updateExpense(
-		UserID,
-		'transactionID',
-		Name,
-		Description,
-		Tags,
-		payment,
-		Amount,
-		Comments
+	let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
+		UserID	
 	); //change to get user review
 	console.log('Request Processed');
 	res.send({ data: userInfo });
@@ -61,8 +54,7 @@ router.get('/alltransactions', async (req, res) => {
 	let UserID = req.userId;
 	console.log('request recieved');
 	// data validation ToDo
-
-	let userInfo = await userDataFunctions.getUserTransactions(UserID);
+	let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(UserID);
 	console.log('Request Processed');
 	res.send({ data: userInfo });
 });
@@ -150,7 +142,7 @@ router.get('/getPieChartData', async (req, res) => {
 	console.log('request recieved');
 	// data validation ToDo
 
-	let userInfo = await userDataFunctions.getUserTransactions(UserID);
+	let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(UserID);
 	// console.log('@@@@@@@@:');
 	// console.log(userInfo);
 	// console.log('@@@@@@@@:');
@@ -288,7 +280,7 @@ router.get('/monthlyComparision', async (req, res) => {
 		TotalIncome: Incomedata,
 		TotalExpenditure: Expensedata,
 	};
-
+  console.log('Request Processed Monthly Comparisn Sending')
 	res.send({ data: data });
 });
 router.get('/reportGeneration', async (req, res) => {
@@ -296,7 +288,7 @@ router.get('/reportGeneration', async (req, res) => {
 	console.log('request recieved');
 	// data validation ToDo
 	let Name = await userDataFunctions.getName(UserID);
-	let userInfo = await userDataFunctions.getUserTransactions(UserID);
+	let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(UserID);
 
 	let expense = userInfo.Expenditure;
 	let OneTimeExpense = expense.OneTime;
