@@ -1,13 +1,15 @@
 const nodemailer = require('nodemailer');
+const mailCredentials = require('../config/authconfig');
+var path = require('path');
 
-const sendEmail = (email, subject, message) => {
+const sendEmail = (email, subject, message,pdfPath) => {
 	let transporter = nodemailer.createTransport({
 		host: 'smtp-mail.outlook.com', // hostname
 		secureConnection: false, // TLS requires secureConnection to be false
 		port: 587, // port for secure SMTP
 		auth: {
-			user: 'bet.budget.expense.tracker@outlook.com',
-			pass: 'bet123456',
+			user: mailCredentials.Mailusername,
+			pass: mailCredentials.Mailpassword,
 		},
 	});
 
@@ -24,8 +26,31 @@ const sendEmail = (email, subject, message) => {
 			// },
 		],
 	};
+	let mailOptionswithPDF = {
+		from: 'bet.budget.expense.tracker@outlook.com',
+		to: email,
+		subject: subject,
+		html: message,
+		attachments: [
+			{
+				filename: `Report.pdf`,
+				path: path.join(__dirname, `../public/reports/Report.pdf`),
+				contentType: 'application/pdf',
+			},
+		],
+	};
 
-	transporter.sendMail(mailOptions, function (err, info) {
+	if(pdfPath){
+		transporter.sendMail(mailOptionswithPDF, function (err, info) {
+			if (err) {
+				console.log(err);
+				return;
+			} else {
+				console.log('Sent :' + info);
+			}
+		});
+	}
+	else transporter.sendMail(mailOptions, function (err, info) {
 		if (err) {
 			console.log(err);
 			return;
