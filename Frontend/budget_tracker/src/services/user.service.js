@@ -18,6 +18,15 @@ const getUserTransactionData = () => {
     });
 };
 
+const getSpendingLimitAndMonthExpense = () => {
+  return axios
+    .get(API_URL + "/getSpendingLimitMonthExpense", {headers: authHeader()})
+    .then((response) => {
+      return response.data;
+    });
+};
+
+
 //using as an example
 //to get user information from server
 const getUserDOB = () => {
@@ -48,7 +57,8 @@ const UserService = {
   getUserTransactionData,
   getUserDOB,
   getPieChartData,
-  getmonthlyComparision
+  getmonthlyComparision,
+  getSpendingLimitAndMonthExpense,
 };
 
 export default UserService;

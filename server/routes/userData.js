@@ -45,7 +45,7 @@ router.get("/totalIncome", async (req, res) => {
   let UserID = req.userId;
   console.log("request recieved");
   // data validation ToDo
-  let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
+  let userInfo = await userDataFunctions.getSpendingLimitAndMonthExpense(
     UserID
   ); //change to get user review
   console.log("Request Processed");
@@ -363,6 +363,17 @@ router.get("/reportGeneration", async (req, res) => {
   let pdfFile = await reportGenerator.createInvoice(modeledData, "Deep.pdf");
   pdfFile.pipe(res);
 });
+
+router.get("/getSpendingLimitMonthExpense", async (req, res) => {
+	let UserID = req.userId;
+	console.log("request recieved");
+	// data validation ToDo
+	let userInfo = await userDataFunctions.getSpendingLimitAndMonthExpense(
+	  UserID
+	); //change to get user review
+	console.log("Request Processed");
+	res.send({ data: userInfo });
+  });
 
 module.exports = router;
 /*
