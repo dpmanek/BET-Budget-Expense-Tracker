@@ -5,11 +5,13 @@ import "./Manager.css";
 import Pie from "../Graphs/piechart";
 import UserService from "../../services/user.service";
 
-export const Manager = ({ spendingTotal, expenseTotal }) => {
+export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
   let navigate = useNavigate();
   const redirectRoute = (path) => {
     navigate(path);
   };
+
+  console.log("rendering Manager");
 
   const formatTotal = numeral(expenseTotal / 100).format("$0,0.00");
   /*
@@ -61,7 +63,7 @@ export const Manager = ({ spendingTotal, expenseTotal }) => {
           </button>
         </div>
       </div>
-      <Pie />
+      <Pie reloader={reloader} />
       <div>
         <h4>
           To view a customized report on your expense, click on the button below

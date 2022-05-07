@@ -7,14 +7,20 @@ const users = require("./users");
 const { ObjectId } = require("mongodb");
 const dataValidation = require("./dataValidation");
 
-
-
-const createIncome = async (userId, name, description, tags, amount, type, date) => {
+const createIncome = async (
+  userId,
+  name,
+  description,
+  tags,
+  amount,
+  type,
+  date
+) => {
   let UserId = !userId ? "kevin1@gmail.com" : userId;
   let Name = !name ? "icecream" : name;
   let Description = !description ? null : description;
   let Tags = !tags ? "sometag" : tags;
-  let Amount = !amount ? 500 : amount
+  let Amount = !amount ? 500 : amount;
   let Type = !type ? "OneTime" : type;
   /*errorChecking*/
 
@@ -97,7 +103,7 @@ const createExpense = async (
   let Name = !name ? "icecream" : name;
   let Description = !description ? null : description;
   let Tags = !tags ? "sometag" : tags;
-  let Date = !date ? undefined : date;
+  date = !date ? undefined : date;
   let Amount = !amount ? 500 : amount;
   let Type = !type ? "OneTime" : type;
 
@@ -134,7 +140,7 @@ const createExpense = async (
     Name: Name,
     Description: Description,
     Tags: Tags,
-    TranactionDate: Date,
+    TranactionDate: date,
     Amount: Amount,
   };
 
@@ -270,7 +276,11 @@ const deleteIncome = async (UserId, transactionID) => {
         if (incomeRecurring[i]._id.toString() === transactionID) {
           const data = await UserCollection.updateOne(
             { Email: UserId },
-            { $pull: { "Money.Income.Recurring": { _id: ObjectId(transactionID) } } }
+            {
+              $pull: {
+                "Money.Income.Recurring": { _id: ObjectId(transactionID) },
+              },
+            }
           );
           if (!data.acknowledged || data.modifiedCount === 0)
             throw {
@@ -286,7 +296,11 @@ const deleteIncome = async (UserId, transactionID) => {
         if (incomeOneTime[i]._id.toString() === transactionID) {
           const data = await UserCollection.updateOne(
             { Email: UserId },
-            { $pull: { "Money.Income.OneTime": { _id: ObjectId(transactionID) } } }
+            {
+              $pull: {
+                "Money.Income.OneTime": { _id: ObjectId(transactionID) },
+              },
+            }
           );
           if (!data.acknowledged || data.modifiedCount === 0)
             throw {
@@ -326,7 +340,11 @@ const deleteExpense = async (UserId, transactionID) => {
         if (expenseRecurring[i]._id.toString() === transactionID) {
           const data = await UserCollection.updateOne(
             { Email: UserId },
-            { $pull: { "Money.Expenditure.Recurring": { _id: ObjectId(transactionID) } } }
+            {
+              $pull: {
+                "Money.Expenditure.Recurring": { _id: ObjectId(transactionID) },
+              },
+            }
           );
           if (!data.acknowledged || data.modifiedCount === 0)
             throw {
@@ -342,7 +360,11 @@ const deleteExpense = async (UserId, transactionID) => {
         if (expenseOneTime[i]._id.toString() === transactionID) {
           const data = await UserCollection.updateOne(
             { Email: UserId },
-            { $pull: { "Money.Expenditure.OneTime": { _id: ObjectId(transactionID) } } }
+            {
+              $pull: {
+                "Money.Expenditure.OneTime": { _id: ObjectId(transactionID) },
+              },
+            }
           );
           if (!data.acknowledged || data.modifiedCount === 0)
             throw {
@@ -437,8 +459,8 @@ const getIncome = async (UserId, transactionID) => {
 
   if (!transactionID) throw "No Transaction ID";
   // write data function to check transaction ID
-  let Foundflag = false
-  let Transaction= [];
+  let Foundflag = false;
+  let Transaction = [];
   let UserCollection = await Users();
   const userFound = await UserCollection.findOne({ Email: UserId });
   if (userFound) {
@@ -449,7 +471,7 @@ const getIncome = async (UserId, transactionID) => {
       for (i in incomeRecurring) {
         if (incomeRecurring[i]._id.toString() === transactionID) {
           Transaction.push(incomeRecurring[i]);
-          Foundflag = true
+          Foundflag = true;
         }
       }
     }
@@ -457,7 +479,7 @@ const getIncome = async (UserId, transactionID) => {
       for (i in incomeOneTime) {
         if (incomeOneTime[i]._id.toString() === transactionID) {
           Transaction.push(incomeOneTime[i]);
-          Foundflag = true
+          Foundflag = true;
         }
       }
     }
@@ -471,9 +493,6 @@ const getIncome = async (UserId, transactionID) => {
       code: 400,
       message: "User Not Found",
     };
-
-
-
 };
 
 const getExpense = async (UserId, transactionID) => {
@@ -482,8 +501,8 @@ const getExpense = async (UserId, transactionID) => {
 
   if (!transactionID) throw "No Transaction ID";
   // write data function to check transaction ID
-  let Foundflag = false
-  let Transaction= [];
+  let Foundflag = false;
+  let Transaction = [];
   let UserCollection = await Users();
   const userFound = await UserCollection.findOne({ Email: UserId });
   if (userFound) {
@@ -493,16 +512,16 @@ const getExpense = async (UserId, transactionID) => {
     if (expenseRecurring && expenseRecurring.length >= 1) {
       for (i in expenseRecurring) {
         if (expenseRecurring[i]._id.toString() === transactionID) {
-          Transaction.push(expenseRecurring[i]);
-          Foundflag = true
+          Transaction.push({ ...expenseRecurring[i], recurringType: "yes" });
+          Foundflag = true;
         }
       }
     }
     if (expenseOneTime && expenseOneTime.length >= 1) {
       for (i in expenseOneTime) {
         if (expenseOneTime[i]._id.toString() === transactionID) {
-          Transaction.push(expenseOneTime[i]);
-          Foundflag = true
+          Transaction.push({ ...expenseOneTime[i], recurringType: "no" });
+          Foundflag = true;
         }
       }
     }
@@ -516,7 +535,6 @@ const getExpense = async (UserId, transactionID) => {
       code: 400,
       message: "User Not Found",
     };
-
 };
 
 module.exports = {
