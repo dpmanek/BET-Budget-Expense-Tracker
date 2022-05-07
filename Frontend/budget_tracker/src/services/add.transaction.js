@@ -63,7 +63,7 @@ const deleteUserExpense = (TransactionID) => {
     });
 };
 
-const updateUserIncome = (TransactionID) => {
+const updateUserExpense = (TransactionID) => {
   return axios
     .put(API_URL + "/updateExpense", {
       headers: authHeader(),
@@ -74,7 +74,7 @@ const updateUserIncome = (TransactionID) => {
     });
 };
 
-const updateUserExpense = (TransactionID) => {
+const updateUserIncome = (TransactionID) => {
   return axios
     .put(API_URL + "/updateIncome", {
       headers: authHeader(),

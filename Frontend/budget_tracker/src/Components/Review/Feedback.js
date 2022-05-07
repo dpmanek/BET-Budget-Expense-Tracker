@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Feedback.css";
 import reviewService from "../../services/review.service";
 
-const Feedback = () => {
+const Feedback = (props) => {
   const [feedback, setfeedback] = useState([]);
 
   useEffect(() => {
@@ -13,10 +13,8 @@ const Feedback = () => {
         setfeedback("");
       }
     });
-  }, []);  
+  }, [props]);
 
- 
- 
   return (
     <div className="feedback-div">
       <div>
@@ -25,9 +23,9 @@ const Feedback = () => {
             Customer Reviews
           </h1>
         </div>
-        
+
         {/* <div> */}
-      {/* <table className="table table-border">
+        {/* <table className="table table-border">
         <thead>
           <th>Name</th>
           <th>Rating</th>
@@ -47,19 +45,19 @@ const Feedback = () => {
         </tbody>
       </table> */}
 
-    {/* </div> */}
+        {/* </div> */}
         <div>
           {feedback.map((d) => {
             return (
               <div class="card p-3 mt-2">
-                <div>{d.name}<br></br> Rating: {d.Review.Rating}<br></br>Feedback: {d.Review.Feedback}</div>
-                
+                <div>
+                  {d.name}
+                  <br></br> Rating: {d.Review.Rating}
+                  <br></br>Feedback: {d.Review.Feedback}
+                </div>
               </div>
-              
             );
           })}
-                          
-          
         </div>
       </div>
     </div>

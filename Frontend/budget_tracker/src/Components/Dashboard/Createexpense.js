@@ -38,6 +38,7 @@ const Createexpense = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
   const [formErrors, setFormErrors] = useState({});
+  const [edit, setEdit] = useState(false);
   //  useEffect(() => {
   //   console.log(formErrors);
   //   if (Object.keys(formErrors).length === 0 && isSubmit) {
@@ -57,6 +58,7 @@ const Createexpense = () => {
 
     const expenseId = new URL(window.location.href).searchParams.get("q");
     if (expenseId) {
+      setEdit(true);
       transactionService.getUserExpense(expenseId).then((expense) => {
         const date = new Date(expense.Date);
         const newInitialValues = {
@@ -101,6 +103,18 @@ const Createexpense = () => {
     let error = await validate(formValues);
     await setFormErrors(error);
     if (Object.keys(error).length == 0) {
+      if (edit) {
+        let id = formValues._id;
+        await transactionService
+          .deleteUserExpense(id)
+          .then((d) => {
+            setError("");
+          })
+          .catch((e) => {
+            setError("Opps, something went wrong :(");
+          });
+      }
+
       await transactionService
         .postUserExpense(formValues)
         .then((data) => {
