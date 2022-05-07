@@ -50,7 +50,6 @@ const createIncome = async (
 
   // Transaction_Date: tracks,
 
-
   let income = {
     _id: ObjectId(),
     Name: Name,
@@ -513,7 +512,7 @@ const getExpense = async (UserId, transactionID) => {
     if (expenseRecurring && expenseRecurring.length >= 1) {
       for (i in expenseRecurring) {
         if (expenseRecurring[i]._id.toString() === transactionID) {
-          Transaction.push(expenseRecurring[i]);
+          Transaction.push({ ...expenseRecurring[i], recurringType: "yes" });
           Foundflag = true;
         }
       }
@@ -521,7 +520,7 @@ const getExpense = async (UserId, transactionID) => {
     if (expenseOneTime && expenseOneTime.length >= 1) {
       for (i in expenseOneTime) {
         if (expenseOneTime[i]._id.toString() === transactionID) {
-          Transaction.push(expenseOneTime[i]);
+          Transaction.push({ ...expenseOneTime[i], recurringType: "no" });
           Foundflag = true;
         }
       }
