@@ -1,74 +1,84 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
+import UserService from '../../services/user.service';
 
-const options = {
-	chart: {
-		type: 'column',
-	},
-	title: {
-		text: 'Monthly Expense Comparision',
-	},
-	xAxis: {
-		categories: [
-			'Jan',
-			'Feb',
-			'Mar',
-			'Apr',
-			'May',
-			'Jun',
-			'Jul',
-			'Aug',
-			'Sep',
-			'Oct',
-			'Nov',
-			'Dec',
-		],
-		crosshair: true,
-	},
-	yAxis: {
-		min: 0,
+
+const BarChart = () => {
+	const [data, setdata] = useState([]);
+	useEffect(() => {
+		UserService.getmonthlyComparision().then((response) => {
+			if (response) {
+				// console.log('@@@@@@@@@@@@@@@' + JSON.stringify(response));
+				setdata(response.data);
+			} else {
+				console.log('No response', '=============');
+			}
+		});
+	}, []);
+	const options = {
+		chart: {
+			type: 'column',
+		},
 		title: {
-			text: 'Expense',
+			text: 'Monthly Expense Comparision',
 		},
-	},
-	tooltip: {
-		headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-		pointFormat:
-			'<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-			'<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
-		footerFormat: '</table>',
-		shared: true,
-		useHTML: true,
-	},
-	plotOptions: {
-		column: {
-			pointPadding: 0.2,
-			borderWidth: 0,
-		},
-	},
-	series: [
-		{
-			name: 'Total Income',
-			data: [
-				49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1,
-				95.6, 54.4,
+		xAxis: {
+			categories: [
+				'Jan',
+				'Feb',
+				'Mar',
+				'Apr',
+				'May',
+				'Jun',
+				'Jul',
+				'Aug',
+				'Sep',
+				'Oct',
+				'Nov',
+				'Dec',
 			],
+			crosshair: true,
 		},
-		{
-			name: 'Total Expenditure',
-			data: [
-				83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6,
-				92.3,
-			],
+		yAxis: {
+			min: 0,
+			title: {
+				text: 'Expense',
+			},
 		},
-	],
-};
+		tooltip: {
+			headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+			pointFormat:
+				'<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+				'<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+			footerFormat: '</table>',
+			shared: true,
+			useHTML: true,
+		},
+		plotOptions: {
+			column: {
+				pointPadding: 0.2,
+				borderWidth: 0,
+			},
+		},
+		series: [
+			{
+				name: 'Total Income',
+				data: data.TotalIncome,
+			},
+			{
+				name: 'Total Expenditure',
+				data: data.TotalExpenditure,
+			},
+		],
+	};
 
-const BarChart = () => (
+	return(
+
 	<div>
 		<HighchartsReact highcharts={Highcharts} options={options} />
 	</div>
-);
+	)
+};
 
 export default BarChart;
