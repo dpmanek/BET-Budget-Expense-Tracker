@@ -173,22 +173,22 @@ module.exports = {
         }
       }
     }
-    if (userRecurringIncome && userRecurringIncome.length > 0) {
+    if (userRecurringIncome && userRecurringIncome.length > 0) { //recurring is a monthly thing
         for (i in userRecurringIncome) {
             userRecurringIncome[i]._id = userRecurringIncome[i]._id.toString();
-            let transactionMonth = userRecurringIncome[i].TranactionDate.split("/");
-            if(transactionMonth[0] === currentMonth[0]){
-                filteredUserData.Money.Income.Recurring.push(userRecurringIncome[i]);
-            }
+            //let transactionMonth = userRecurringIncome[i].TranactionDate.split("/");
+            //if(transactionMonth[0] === currentMonth[0]){
+               filteredUserData.Money.Income.Recurring.push(userRecurringIncome[i]);
+            //}
           }
     }
     if (userRecurringExpenditure && userRecurringExpenditure.length > 0) {
         for (i in userRecurringExpenditure) {
             userRecurringExpenditure[i]._id = userRecurringExpenditure[i]._id.toString();
-            let transactionMonth = userRecurringExpenditure[i].TranactionDate.split("/");
-            if(transactionMonth[0] === currentMonth[0]){
+            // let transactionMonth = userRecurringExpenditure[i].TranactionDate.split("/");
+            // if(transactionMonth[0] === currentMonth[0]){
                 filteredUserData.Money.Expenditure.Recurring.push(userRecurringExpenditure[i]);
-            }
+            // }
           }
     }
     if (userOneTimeExpenditure && userOneTimeExpenditure.length > 0) {
@@ -203,4 +203,42 @@ module.exports = {
    
     return filteredUserData.Money;
   },
+
+  async getSpendingLimitAndMonthExpense(UserId){
+    let transactionByMonth = await this.getUserTransactionsByCurrentMonth(UserId);
+    let totalMonthExpenses = 0;
+    let totalMonthIncome = 0;
+
+    if(transactionByMonth.Expenditure.OneTime.length > 0){
+    for(i in transactionByMonth.Expenditure.OneTime){
+      totalMonthExpenses += transactionByMonth.Expenditure.OneTime[i].Amount;
+    }
+  }
+  if(transactionByMonth.Expenditure.Recurring.length > 0){
+    for(i in transactionByMonth.Expenditure.Recurring){
+      totalMonthExpenses += transactionByMonth.Expenditure.Recurring[i].Amount;
+    }
+  }
+  if(transactionByMonth.Income.OneTime.length > 0){
+    for(i in transactionByMonth.Income.OneTime.length){
+      totalMonthIncome += transactionByMonth.Income.OneTime.length[i].Amount;
+    }
+  }
+  if(transactionByMonth.Income.Recurring.length > 0){
+    for(i in transactionByMonth.Income.Recurring){
+      totalMonthIncome += transactionByMonth.Income.Recurring[i].Amount;
+    }
+  }
+
+  let totalSpendingLimit = totalMonthIncome - totalMonthExpenses;
+
+
+    let output = {
+      SpendingLimit:totalSpendingLimit,
+      CurrentMonthExpenses:totalMonthExpenses,
+      CurrentMonthIncome:totalMonthIncome
+    }
+
+    return output;
+  }
 };

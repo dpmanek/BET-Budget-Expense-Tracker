@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
+// import { Link,useNavigate} from "react-router-dom";
 import axios from "axios";
 import mockData from "./mockData.json";
 import UserService from "../../services/user.service";
 import transactionService from "../../services/add.transaction";
+import { Link, useNavigate } from "react-router-dom";
 
 const ExpenseTable = ({ updatePieState }) => {
+  let navigate = useNavigate();
   const [data, setdata] = useState([]);
   const [oneTime, setOneTime] = useState([]);
   const [incomeData, setIncomedata] = useState([]);
   const [incomeOneTime, setIncomeOneTime] = useState([]);
   const [toggleTable, setToggleTable] = useState("OneTime");
   const [toggleIncomeTable, setIncomeToggleTable] = useState("OneTime");
+//   let navigate = useNavigate();
 
   useEffect(() => {
     UserService.getUserTransactionData().then((response) => {
@@ -27,13 +31,17 @@ const ExpenseTable = ({ updatePieState }) => {
   const handleEdit = (event) => {
     event.preventDefault();
     let val = event.target.value;
-    window.location.href = "/addexpense?q=" + val;
+
+   // window.location.href = "/addexpense?q=" + val;
+    navigate('/addexpense?q=' + val);
+
   };
 
   const handleEditIncome = (event) => {
     event.preventDefault();
     let val = event.target.value;
-    window.location.href = "/addincome?q=" + val;
+    //window.location.href = "/addincome?q=" + val;
+    navigate("/addincome?q=" + val);
   };
 
   const handleDelete = (event) => {

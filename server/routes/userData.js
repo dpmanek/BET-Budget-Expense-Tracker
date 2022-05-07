@@ -1,7 +1,9 @@
-const router = require("express").Router();
-const userDataFunctions = require("../data/getUserInfo");
-const transactionFunc = require("../data/transactions");
-const reportGenerator = require("../data/reportGenerator");
+const router = require('express').Router();
+const userDataFunctions = require('../data/getUserInfo');
+const transactionFunc = require('../data/transactions');
+const reportGenerator = require('../data/reportGenerator');
+const fs = require('fs');
+var path = require('path');
 
 var xss = require("xss");
 const moment = require("moment");
@@ -43,7 +45,7 @@ router.get("/totalIncome", async (req, res) => {
   let UserID = req.userId;
   console.log("request recieved");
   // data validation ToDo
-  let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
+  let userInfo = await userDataFunctions.getSpendingLimitAndMonthExpense(
     UserID
   ); //change to get user review
   console.log("Request Processed");
@@ -361,6 +363,17 @@ router.get("/reportGeneration", async (req, res) => {
   let pdfFile = await reportGenerator.createInvoice(modeledData, "Deep.pdf");
   pdfFile.pipe(res);
 });
+
+router.get("/getSpendingLimitMonthExpense", async (req, res) => {
+	let UserID = req.userId;
+	console.log("request recieved");
+	// data validation ToDo
+	let userInfo = await userDataFunctions.getSpendingLimitAndMonthExpense(
+	  UserID
+	); //change to get user review
+	console.log("Request Processed");
+	res.send({ data: userInfo });
+  });
 
 module.exports = router;
 /*
