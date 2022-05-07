@@ -81,7 +81,7 @@ const Createexpense = () => {
       errors.name = "Name is required";
     }
     const flag = alpha.test(values.name);
-    if (flag == true) {
+    if (flag === true) {
       errors.name = "Name cannot be just Numerical!";
     }
     if (!values.category) {
@@ -96,7 +96,7 @@ const Createexpense = () => {
     event.preventDefault();
     let error = await validate(formValues);
     await setFormErrors(error);
-    if (Object.keys(error).length == 0) {
+    if (Object.keys(error).length === 0) {
       if (edit) {
         let id = formValues._id;
         await transactionService
@@ -130,7 +130,7 @@ const Createexpense = () => {
             <h1 className="">Add Expense</h1>
             <form className="" onSubmit={addExpenses}>
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">
+                <label htmlFor="exampleInputEmail1" className="form-label">
                   Name
                 </label>
                 <input
@@ -144,7 +144,7 @@ const Createexpense = () => {
               </div>
               <p className="disError">{formErrors ? formErrors.name : ""}</p>
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">
+                <label htmlFor="exampleInputEmail1" className="form-label">
                   Description
                 </label>
                 <input
@@ -157,7 +157,7 @@ const Createexpense = () => {
                 />
               </div>
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">
+                <label htmlFor="exampleInputEmail1" className="form-label">
                   Amount
                 </label>
                 <input
@@ -170,7 +170,7 @@ const Createexpense = () => {
                 />
               </div>
               <p className="disError">{formErrors ? formErrors.amount : ""}</p>
-              <label for="exampleInputEmail1" className="form-label">
+              <label htmlFor="exampleInputEmail1" className="form-label">
                 Category
               </label>
               <select
@@ -180,7 +180,7 @@ const Createexpense = () => {
                 value={formValues.category}
                 onChange={handleChange}
               >
-                <option selected>Select your category</option>
+                <option >Select your category</option>
                 <option value="Food and Drinks">Food and Drinks</option>
                 <option value="Shopping">Shopping</option>
                 <option value="Housing">Housing</option>
@@ -201,13 +201,13 @@ const Createexpense = () => {
                 {formErrors ? formErrors.category : ""}
               </p>
               <div className="mb-3 position">
-                <label for="date" class="col-form-label">
+                <label htmlFor="date" className="col-form-label">
                   Date
                 </label>
-                <div class="input-group date position" id="datepicker">
+                <div className="input-group date position" id="datepicker">
                   <input
                     type="date"
-                    class="form-control"
+                    className="form-control"
                     id="date"
                     name="date"
                     value={formValues.date}
@@ -217,9 +217,9 @@ const Createexpense = () => {
               </div>
               <p className="disError">{formErrors ? formErrors.date : ""}</p>
               Is this a reccuring expense?
-              <div class="form-check ">
+              <div className="form-check ">
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="radio"
                   id="flexRadioDefault1"
                   value="yes"
@@ -227,13 +227,13 @@ const Createexpense = () => {
                   name="recurringType"
                   onChange={handleChange}
                 />
-                <label class="form-check-label" for="flexRadioDefault1">
+                <label className="form-check-label" htmlFor="flexRadioDefault1">
                   Yes
                 </label>
               </div>
-              <div class="form-check">
+              <div className="form-check">
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="radio"
                   id="flexRadioDefault2"
                   value="no"
@@ -241,20 +241,20 @@ const Createexpense = () => {
                   checked={formValues.recurringType === "no"}
                   onChange={handleChange}
                 />
-                <label class="form-check-label" for="flexRadioDefault2">
+                <label className="form-check-label" htmlFor="flexRadioDefault2">
                   No
                 </label>
               </div>
               <button type="submit" className="btn btn-primary" value="Submit">
                 Submit
               </button>
-              <div className="disError">{error != "" ? error : success}</div>
+              <div className="disError">{error !== "" ? error : success}</div>
             </form>
           </div>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div class="card p-3 mt-2 " style={posR}>
+          <div className="card p-3 mt-2 " style={posR}>
             <h1>Restricted area</h1>
             <h2>
               <a href="/login">Sign In</a> to Access DashBoard

@@ -32,7 +32,7 @@ const Review = () => {
       errors.feedback = "Feedback is required";
     }
     const flag = alpha.test(values.name);
-    if (flag == true) {
+    if (flag === true) {
       errors.feedback = "Feedback cannot be just Numerical!";
     }
     return errors;
@@ -44,7 +44,7 @@ const Review = () => {
     event.preventDefault();
     let error = await validate(formValues);
     await setFormErrors(error);
-    if (Object.keys(error).length == 0) {
+    if (Object.keys(error).length === 0) {
       await reviewService
         .postUserReview(formValues)
         .then((data) => {
@@ -66,57 +66,57 @@ const Review = () => {
             <input type="radio" id="star5" name="rating" value="5" />
             <label
               className="full"
-              for="star5"
+              htmlFor="star5"
               title="Awesome - 5 stars"
             ></label>
             <input type="radio" id="star4half" name="rating" value="4.5" />
             <label
               className="half"
-              for="star4half"
+              htmlFor="star4half"
               title="Pretty good - 4.5 stars"
             ></label>
             <input type="radio" id="star4" name="rating" value="4" />
             <label
               className="full"
-              for="star4"
+              htmlFor="star4"
               title="Pretty good - 4 stars"
             ></label>
             <input type="radio" id="star3half" name="rating" value="3.5" />
             <label
               className="half"
-              for="star3half"
+              htmlFor="star3half"
               title="Meh - 3.5 stars"
             ></label>
             <input type="radio" id="star3" name="rating" value="3" />
-            <label className="full" for="star3" title="Meh - 3 stars"></label>
+            <label className="full" htmlFor="star3" title="Meh - 3 stars"></label>
             <input type="radio" id="star2half" name="rating" value="2.5" />
             <label
               className="half"
-              for="star2half"
+              htmlFor="star2half"
               title="Kinda bad - 2.5 stars"
             ></label>
             <input type="radio" id="star2" name="rating" value="2" />
             <label
               className="full"
-              for="star2"
+              htmlFor="star2"
               title="Kinda bad - 2 stars"
             ></label>
             <input type="radio" id="star1half" name="rating" value="1.5" />
             <label
               className="half"
-              for="star1half"
+              htmlFor="star1half"
               title="Meh - 1.5 stars"
             ></label>
             <input type="radio" id="star1" name="rating" value="1" />
             <label
               className="full"
-              for="star1"
+              htmlFor="star1"
               title="Sucks big time - 1 star"
             ></label>
             <input type="radio" id="starhalf" name="rating" value="0.5" />
             <label
               className="half"
-              for="starhalf"
+              htmlFor="starhalf"
               title="Sucks big time - 0.5 stars"
             ></label>
             <p className="disError">{formErrors ? formErrors.rating : ""}</p>
@@ -136,7 +136,7 @@ const Review = () => {
           <button type="submit" className="btn btn-primary" value="Submit">
             Submit
           </button>
-          <div>{error != "" ? error : success}</div>
+          <div>{error !== "" ? error : success}</div>
         </form>
       </div>
       <div className="col-md-6">
