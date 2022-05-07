@@ -7,10 +7,10 @@ const getUserIncome = (TransactionID) => {
   return axios
     .get(API_URL + "/getIncome", {
       headers: authHeader(),
-      TransactionID: TransactionID,
+      params: { id: TransactionID },
     })
     .then((response) => {
-      return response.data;
+      return response.data.data[0];
     });
 };
 

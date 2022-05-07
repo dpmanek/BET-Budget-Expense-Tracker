@@ -39,12 +39,6 @@ const Createexpense = () => {
   const [success, setSuccess] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [edit, setEdit] = useState(false);
-  //  useEffect(() => {
-  //   console.log(formErrors);
-  //   if (Object.keys(formErrors).length === 0 && isSubmit) {
-  //     console.log(formValues);
-  //   }
-  // }, [formErrors]);
 
   const [accessToken, setAccessToken] = useState("");
 

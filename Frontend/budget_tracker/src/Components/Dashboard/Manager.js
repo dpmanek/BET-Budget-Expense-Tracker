@@ -14,22 +14,23 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
   console.log("rendering Manager");
 
   //const formatTotal = numeral(expenseTotal / 100).format("$0,0.00");
- 
+
   const [SpendingLimit, setSpendingLimit] = useState("");
   const [MonthExpense, setMonthExpense] = useState("");
 
   useEffect(() => {
     UserService.getSpendingLimitAndMonthExpense().then((response) => {
       if (response) {
-        if (response.data.SpendingLimit) setSpendingLimit(`$${response.data.SpendingLimit}`);
-        if (response.data.CurrentMonthExpenses) setMonthExpense(`$${response.data.CurrentMonthExpenses}`);
+        if (response.data.SpendingLimit)
+          setSpendingLimit(`$${response.data.SpendingLimit}`);
+        if (response.data.CurrentMonthExpenses)
+          setMonthExpense(`$${response.data.CurrentMonthExpenses}`);
       } else {
         setSpendingLimit("");
         setMonthExpense("");
       }
     });
   }, []);
-
 
   return (
     <div className="row col-md-12 page">
@@ -74,6 +75,18 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
           onClick={() => redirectRoute("/report")}
         >
           Generate Report
+        </button>
+      </div>
+      <div>
+        <h4>
+          To view monthly comaprison of your expenses, click on the button below
+        </h4>
+        <button
+          className="btn btn-outline-success dash-success"
+          type="button"
+          onClick={() => redirectRoute("/report")}
+        >
+          Monthly Comparison
         </button>
       </div>
     </div>
