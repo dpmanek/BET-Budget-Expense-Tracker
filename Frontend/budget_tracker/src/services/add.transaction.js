@@ -18,10 +18,10 @@ const getUserExpense = (TransactionID) => {
   return axios
     .get(API_URL + "/getExpense", {
       headers: authHeader(),
-      TransactionID: TransactionID,
+      params: { id: TransactionID },
     })
     .then((response) => {
-      return response.data;
+      return response.data.data[0];
     });
 };
 
