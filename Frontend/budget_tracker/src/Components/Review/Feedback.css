@@ -61,7 +61,7 @@ body{margin-top:0px;}
 .align-center {
     text-align: center;
 }
-[class*="line-b"] {
+[className*="line-b"] {
     position: relative;
     padding-bottom: 20px;
     border-color: #E6AF2A;

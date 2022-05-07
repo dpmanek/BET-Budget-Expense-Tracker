@@ -64,7 +64,7 @@ const Login =() =>{
 				<div className={styles.left}>
 					<form className={styles.form_container} onSubmit={handleSubmit}>
 						<h1>Login to Your Account</h1>
-						<label For="loginemail">Email</label>
+						<label htmlFor="loginemail">Email</label>
 						<input
 						id="loginemail"
 							type="email"
@@ -75,7 +75,7 @@ const Login =() =>{
 							required
 							className={styles.input}
 						/>
-						<label For="loginpassword">Password</label>
+						<label htmlFor="loginpassword">Password</label>
 						<input
 						id="loginpassword"
 							type="password"

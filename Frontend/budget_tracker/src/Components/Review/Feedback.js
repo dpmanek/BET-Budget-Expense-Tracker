@@ -49,7 +49,7 @@ const Feedback = (props) => {
         <div>
           {feedback.map((d) => {
             return (
-              <div class="card p-3 mt-2">
+              <div className="card p-3 mt-2">
                 <div>
                   {d.name}
                   <br></br> Rating: {d.Review.Rating}

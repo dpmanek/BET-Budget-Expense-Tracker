@@ -13,7 +13,7 @@ const posR={
 const Errors=()=>{
     return(
         
-        <div class="card p-3 mt-2 " style={posR} >
+        <div className="card p-3 mt-2 " style={posR} >
             <h1>Error: 404</h1>
             <h2>Lost your track?</h2>
             <h3>No worries. You can track the flow of your money</h3>
