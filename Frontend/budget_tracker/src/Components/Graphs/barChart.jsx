@@ -3,7 +3,6 @@ import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import UserService from '../../services/user.service';
 
-
 const BarChart = () => {
 	const [data, setdata] = useState([]);
 	useEffect(() => {
@@ -50,7 +49,7 @@ const BarChart = () => {
 			headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
 			pointFormat:
 				'<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-				'<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+				'<td style="padding:0"><b>{point.y:.1f}$ </b></td></tr>',
 			footerFormat: '</table>',
 			shared: true,
 			useHTML: true,
@@ -73,12 +72,11 @@ const BarChart = () => {
 		],
 	};
 
-	return(
-
-	<div>
-		<HighchartsReact highcharts={Highcharts} options={options} />
-	</div>
-	)
+	return (
+		<div>
+			<HighchartsReact highcharts={Highcharts} options={options} />
+		</div>
+	);
 };
 
 export default BarChart;

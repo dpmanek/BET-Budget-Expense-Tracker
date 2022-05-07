@@ -34,7 +34,7 @@ app.use('/users', (req, res, next) => {
 
 // verify token
 app.use('/user/data', (req, res, next) => {
-	let token = req.headers["x-access-token"];
+	let token = req.headers['x-access-token'];
 
 	try {
 		var tokeninBody = req.body.headers['x-access-token'];
@@ -42,34 +42,34 @@ app.use('/user/data', (req, res, next) => {
 		tokeninBody = undefined;
 	}
 
-  //let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtldmluQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoia2V2aW4iLCJpYXQiOjE2NTE1OTk4OTksImV4cCI6MTY1MTY4NjI5OX0.5ahbrHoNt9Y2aT4LxeKijqYwgbePqkbJIO5iewYvGkE"
-   //let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtldmluMUBnbWFpbC5jb20iLCJ1c2VyTmFtZSI6ImtldmluIiwiaWF0IjoxNjUxODYxODAzLCJleHAiOjE2NTE5NDgyMDN9.OVq8A_jWWeguWmD_B9xxGtWmNU4j_yGmpybX3MCuM-4"
-  if (!token && !tokeninBody) {
-    return res.status(403).send({ message: "No token provided!" });
-  }
-  if (token) {
-    jwt.verify(token, jwtkey.secret, (err, decoded) => {
-      if (err) {
-        return res.status(401).send({ message: "Unauthorized!" });
-      }
-      if (decoded) {
-        req.userId = decoded.email;
-        console.log("Access Token Verified");
-      }
-      next();
-    });
-  } else if (tokeninBody) {
-    jwt.verify(tokeninBody, jwtkey.secret, (err, decoded) => {
-      if (err) {
-        return res.status(401).send({ message: "Unauthorized!" });
-      }
-      if (decoded) {
-        req.userId = decoded.email;
-        console.log("Access Token Verified");
-      }
-      next();
-    });
-  }
+	//let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtldmluQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoia2V2aW4iLCJpYXQiOjE2NTE1OTk4OTksImV4cCI6MTY1MTY4NjI5OX0.5ahbrHoNt9Y2aT4LxeKijqYwgbePqkbJIO5iewYvGkE"
+	//let token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5pcmF2amFpbjk4QGdtYWlsLmNvbSIsInVzZXJOYW1lIjoiTmlyYXYiLCJpYXQiOjE2NTE4NzY2NjcsImV4cCI6MTY1MTk2MzA2N30.qaHHrEOiYqgymDag_LtOQ2H_Ow7eTzTJ32SvkIyKOlE';
+	if (!token && !tokeninBody) {
+		return res.status(403).send({ message: 'No token provided!' });
+	}
+	if (token) {
+		jwt.verify(token, jwtkey.secret, (err, decoded) => {
+			if (err) {
+				return res.status(401).send({ message: 'Unauthorized!' });
+			}
+			if (decoded) {
+				req.userId = decoded.email;
+				console.log('Access Token Verified');
+			}
+			next();
+		});
+	} else if (tokeninBody) {
+		jwt.verify(tokeninBody, jwtkey.secret, (err, decoded) => {
+			if (err) {
+				return res.status(401).send({ message: 'Unauthorized!' });
+			}
+			if (decoded) {
+				req.userId = decoded.email;
+				console.log('Access Token Verified');
+			}
+			next();
+		});
+	}
 });
 
 // logging middle ware
