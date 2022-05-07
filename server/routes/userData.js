@@ -57,7 +57,7 @@ router.get("/totalIncome", async (req, res) => {
   res.send({ data: userInfo });
 });
 
-router.post("/alltransactions", async (req, res) => {
+router.get("/alltransactions", async (req, res) => {
   let {
     userId: UserID,
     query: { startDate, endDate },

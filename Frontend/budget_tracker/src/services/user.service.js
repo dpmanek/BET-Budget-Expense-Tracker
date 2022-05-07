@@ -13,11 +13,11 @@ const getPublicContent = () => {
 const getUserTransactionData = (thisMonethOnly) => {
   let date = new Date(),
     y = date.getFullYear(),
-    m = date.getMonth() + 1;
+    m = date.getMonth();
   let startDate = new Date(y, m, 1).toISOString();
   let endDate = new Date(y, m + 1, 0).toISOString();
   return axios
-    .post(API_URL + "/alltransactions", {
+    .get(API_URL + "/alltransactions", {
       headers: authHeader(),
       params: thisMonethOnly ? { startDate, endDate } : {},
     })

@@ -102,6 +102,40 @@ module.exports = {
     const userData = await userCollection.findOne({ Email: UserId });
     if (userData === null) throw { code: 404, message: "User Not Found" };
 
+    if (startDate && endDate) {
+        const userDetailsWithFilteredMoney = await userCollection.find({
+          Email: UserId,
+          Money: {
+            Income: {
+              Recurring: {
+                $elemMatch: {
+                  transactionDate: { $gte: startDate, $lte: endDate },
+                },
+              },
+              OneTime: {
+                $elemMatch: {
+                  transactionDate: { $gte: startDate, $lte: endDate },
+                },
+              },
+            },
+            Expense: {
+              Recurring: {
+                $elemMatch: {
+                  transactionDate: { $gte: startDate, $lte: endDate },
+                },
+              },
+              OneTime: {
+                $elemMatch: {
+                  transactionDate: { $gte: startDate, $lte: endDate },
+                },
+              },
+            },
+          },
+        }).toArray();
+        return userDetailsWithFilteredMoney.Money;
+      }
+
+
     let userOneTimeIncome = userData.Money.Income.OneTime;
     let userRecurringIncome = userData.Money.Income.Recurring;
     let userOneTimeExpenditure = userData.Money.Expenditure.OneTime;
@@ -129,38 +163,7 @@ module.exports = {
           userOneTimeExpenditure[i]._id.toString();
       }
     }
-    if (startDate && endDate) {
-      const userDetailsWithFilteredMoney = userCollection.find({
-        Email: UserId,
-        Money: {
-          Income: {
-            Recurring: {
-              $elemMatch: {
-                transactionDate: { $gte: startDate, $lte: endDate },
-              },
-            },
-            OneTime: {
-              $elemMatch: {
-                transactionDate: { $gte: startDate, $lte: endDate },
-              },
-            },
-          },
-          Expense: {
-            Recurring: {
-              $elemMatch: {
-                transactionDate: { $gte: startDate, $lte: endDate },
-              },
-            },
-            OneTime: {
-              $elemMatch: {
-                transactionDate: { $gte: startDate, $lte: endDate },
-              },
-            },
-          },
-        },
-      });
-      return userDetailsWithFilteredMoney.Money;
-    }
+   
     return userData.Money;
   },
 };
