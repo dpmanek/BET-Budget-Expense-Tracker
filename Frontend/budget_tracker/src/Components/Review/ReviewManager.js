@@ -32,7 +32,7 @@ const ReviewManager = () => {
       ) : (
         <React.Fragment>
           <div
-            class="card p-3 mt-2"
+            className="card p-3 mt-2"
             style={{
               alignItems: "center",
               borderRadius: 20,

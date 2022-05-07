@@ -10,10 +10,10 @@ const Layout =(props)=> {
     return (      
       <>
         <Navbar/>
-        <div class="row">
-          <div class="col-md-1">{/* Azure Bot */}</div>
-          <div class="col-md-10">{props.children}</div>
-          <div class="col-md-1">
+        <div className="row">
+          <div className="col-md-1">{/* Azure Bot */}</div>
+          <div className="col-md-10">{props.children}</div>
+          <div className="col-md-1">
             {/* Google DialogFlow Bot*/}
           </div>
         </div>
