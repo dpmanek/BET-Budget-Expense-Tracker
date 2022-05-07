@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// import { Link, useNavigate } from "react-router-dom";
+// import { Link,useNavigate} from "react-router-dom";
 import axios from "axios";
 import mockData from "./mockData.json";
 import UserService from "../../services/user.service";
@@ -14,7 +14,7 @@ const ExpenseTable = ({ updatePieState }) => {
   const [incomeOneTime, setIncomeOneTime] = useState([]);
   const [toggleTable, setToggleTable] = useState("OneTime");
   const [toggleIncomeTable, setIncomeToggleTable] = useState("OneTime");
-  // let navigate = useNavigate();
+  //   let navigate = useNavigate();
 
   useEffect(() => {
     UserService.getUserTransactionData().then((response) => {
@@ -31,6 +31,7 @@ const ExpenseTable = ({ updatePieState }) => {
   const handleEdit = (event) => {
     event.preventDefault();
     let val = event.target.value;
+
     // window.location.href = "/addexpense?q=" + val;
     navigate("/addexpense?q=" + val);
   };
