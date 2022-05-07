@@ -1,9 +1,9 @@
-const router = require('express').Router();
-const userDataFunctions = require('../data/getUserInfo');
-const transactionFunc = require('../data/transactions');
-const reportGenerator = require('../data/reportGenerator');
-const fs = require('fs');
-var path = require('path');
+const router = require("express").Router();
+const userDataFunctions = require("../data/getUserInfo");
+const transactionFunc = require("../data/transactions");
+const reportGenerator = require("../data/reportGenerator");
+const fs = require("fs");
+var path = require("path");
 
 
 var xss = require("xss");
@@ -219,7 +219,7 @@ router.delete("/deleteExpense", async (req, res) => {
 
 router.get("/getIncome", async (req, res) => {
   let email = req.userId;
-  let transactionId = xss(req.body.TransactionID);
+  let transactionId = req.query.id;
 
   console.log("request recieved");
   // data validation ToDo
@@ -382,15 +382,15 @@ router.get("/reportGeneration", async (req, res) => {
 });
 
 router.get("/getSpendingLimitMonthExpense", async (req, res) => {
-	let UserID = req.userId;
-	console.log("request recieved");
-	// data validation ToDo
-	let userInfo = await userDataFunctions.getSpendingLimitAndMonthExpense(
-	  UserID
-	); //change to get user review
-	console.log("Request Processed");
-	res.send({ data: userInfo });
-  });
+  let UserID = req.userId;
+  console.log("request recieved");
+  // data validation ToDo
+  let userInfo = await userDataFunctions.getSpendingLimitAndMonthExpense(
+    UserID
+  ); //change to get user review
+  console.log("Request Processed");
+  res.send({ data: userInfo });
+});
 
 module.exports = router;
 /*

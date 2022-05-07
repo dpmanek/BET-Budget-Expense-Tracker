@@ -11,7 +11,7 @@ const Card = () => {
 
   return (
     <div>
-      <div class="cards-container">
+      <div className="cards-container">
         <div className="landing-body">
           <div className="landing-text-info-area">
             <p className="landing-text__title">Review Us..</p>
@@ -27,7 +27,7 @@ const Card = () => {
             
           </div>
           <div>
-            <img className="pig" src="/r1.jpg" />
+            <img className="pig" src="/r1.jpg" alt="Pig"/>
             {/* src="https://startbootstrap.com/assets/img/freepik/wall-post-pana.svg */}
           </div>
         </div>

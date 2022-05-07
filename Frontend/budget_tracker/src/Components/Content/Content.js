@@ -16,6 +16,7 @@ const Content = () => {
     },
     {
       id: 1,
+      image:"pie.jpg",
       title: "Keep tabs on your spending",
       description:
         "See which expenses eat up too much of the pie. Personalize your reports with custom categories and descriptions.",

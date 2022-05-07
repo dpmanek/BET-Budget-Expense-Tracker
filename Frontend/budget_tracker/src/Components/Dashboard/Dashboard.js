@@ -48,7 +48,7 @@ const Dashboard = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div class="card p-3 mt-2 " style={posR}>
+          <div className="card p-3 mt-2 " style={posR}>
             <h1>Restricted area</h1>
             <h2>
               <a href="/login">Sign In</a> to Access DashBoard

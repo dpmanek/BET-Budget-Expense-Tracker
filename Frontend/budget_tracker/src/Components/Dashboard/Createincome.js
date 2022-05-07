@@ -20,6 +20,7 @@ const Createincome = () => {
 
   //validation
   const initialValues = {
+    _id: null,
     name: "",
     description: "",
     amount: "",
@@ -37,38 +38,36 @@ const Createincome = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
-  //  useEffect(() => {
-  //   console.log(formErrors);
-  //   if (Object.keys(formErrors).length === 0 && isSubmit) {
-  //     console.log(formValues);
-  //   }
-  // }, [formErrors]);
+  const [edit, setEdit] = useState(false);
 
   const [accessToken, setAccessToken] = useState("");
 
   useEffect(() => {
-    // if (Object.keys(formErrors).length === 0 && isSubmit) {
-    //   console.log(formValues);
-    // }
     var data = AuthService.getCurrentUser();
     if (data) {
-      // setContent(data.user.userName);
       setAccessToken(data.accessToken);
     } else {
-      // setContent("");
       setAccessToken(undefined);
     }
 
-    let tmp = window.location.href.split("?");
-    if (tmp.length > 1) {
-      let id = tmp[1].split("=")[1];
-      axios
-        .get("")
-        .then((data) => {
-          setFormValues(data.data);
-        })
-        .catch((e) => {});
+    const incomeId = new URL(window.location.href).searchParams.get("q");
+    if (incomeId) {
+      setEdit(true);
+      transactionService.getUserIncome(incomeId).then((income) => {
+        const date = new Date(income.Date);
+        const newInitialValues = {
+          _id: income._id,
+          name: income.Name,
+          description: income.Description,
+          amount: income.Amount,
+          category: income.Tags,
+          date: income.TranactionDate.replace(/(..).(..).(....)/, "$3-$1-$2"),
+          recurringType: income.recurringType,
+        };
+        console.log("income", income);
+        console.log("newInitialValues", newInitialValues);
+        setFormValues(newInitialValues);
+      });
     }
   }, []);
 
@@ -98,10 +97,21 @@ const Createincome = () => {
     let error = await validate(formValues);
     await setFormErrors(error);
     if (Object.keys(error).length == 0) {
+      if (edit) {
+        let id = formValues._id;
+        await transactionService
+          .deleteUserIncome(id)
+          .then((d) => {
+            setError("");
+          })
+          .catch((e) => {
+            setError("Opps, something went wrong :(");
+          });
+      }
       await transactionService
         .postUserIncome(formValues)
         .then((data) => {
-          console.log(data, "====================");
+          // console.log(data, "====================");
           setSuccess("Income added successfully!!");
           navigate("/dashboard");
         })
@@ -212,6 +222,7 @@ const Createincome = () => {
                   type="radio"
                   id="flexRadioDefault1"
                   value="yes"
+                  checked={formValues.recurringType === "yes"}
                   name="recurringType"
                   onChange={handleChange}
                 />
@@ -226,6 +237,7 @@ const Createincome = () => {
                   id="flexRadioDefault2"
                   value="no"
                   name="recurringType"
+                  checked={formValues.recurringType === "no"}
                   onChange={handleChange}
                 />
                 <label class="form-check-label" for="flexRadioDefault2">

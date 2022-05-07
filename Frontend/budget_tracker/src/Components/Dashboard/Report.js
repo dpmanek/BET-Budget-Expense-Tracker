@@ -107,13 +107,13 @@ const Report = () => {
                 Select Starting Date
               </label>
               <div className="mb-3 position">
-                <label for="dateone" class="col-form-label">
+                <label for="dateone" className="col-form-label">
                   Date
                 </label>
-                <div class="input-group date position" id="datepicker">
+                <div className="input-group date position" id="datepicker">
                   <input
                     type="date"
-                    class="form-control"
+                    className="form-control"
                     id="dateone"
                     name="dateone"
                     value={formValues.date}
@@ -126,13 +126,13 @@ const Report = () => {
                 Select Ending Date
               </label>
               <div className="mb-3 position">
-                <label for="datetwo" class="col-form-label">
+                <label for="datetwo" className="col-form-label">
                   Date
                 </label>
-                <div class="input-group date position" id="datepicker">
+                <div className="input-group date position" id="datepicker">
                   <input
                     type="date"
-                    class="form-control"
+                    className="form-control"
                     id="datetwo"
                     name="datetwo"
                     value={formValues.date}
@@ -156,7 +156,7 @@ const Report = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div class="card p-3 mt-2 " style={posR} >
+          <div className="card p-3 mt-2 " style={posR} >
         <h1>Restricted area</h1>
         <h2><a href="/login">Sign In</a> to Generate Report</h2>
         </div>
