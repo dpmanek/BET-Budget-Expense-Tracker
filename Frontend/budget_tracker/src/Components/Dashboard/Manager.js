@@ -13,30 +13,30 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
 
   console.log("rendering Manager");
 
-  const formatTotal = numeral(expenseTotal / 100).format("$0,0.00");
-  /*
-  const [Name, setName] = useState("");
-  const [DOB, setDOB] = useState("");
+  //const formatTotal = numeral(expenseTotal / 100).format("$0,0.00");
+ 
+  const [SpendingLimit, setSpendingLimit] = useState("");
+  const [MonthExpense, setMonthExpense] = useState("");
 
   useEffect(() => {
-    UserService.getUserData().then((response) => {
+    UserService.getSpendingLimitAndMonthExpense().then((response) => {
       if (response) {
-        if (response.data.FirstName) setName(response.data.FirstName);
-        if (response.data.DOB) setDOB(response.data.DOB);
+        if (response.data.SpendingLimit) setSpendingLimit(`$${response.data.SpendingLimit}`);
+        if (response.data.CurrentMonthExpenses) setMonthExpense(`$${response.data.CurrentMonthExpenses}`);
       } else {
-        setName("");
-        setDOB("");
+        setSpendingLimit("");
+        setMonthExpense("");
       }
     });
   }, []);
-  */
+
 
   return (
     <div className="row col-md-12 page">
       <div className="col-md-6">
         <h2 className="page-header__title">
           This month's expenses:
-          <span>{formatTotal}</span>
+          <span>{MonthExpense}</span>
         </h2>
         <div className="page-header__actions">
           <button
@@ -51,7 +51,7 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
       <div className="col-md-6">
         <h2 className="page-header__title">
           Spending Limit:
-          <span>{formatTotal}</span>
+          <span>{SpendingLimit}</span>
         </h2>
         <div className="page-header__actions">
           <button

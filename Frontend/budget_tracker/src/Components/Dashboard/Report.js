@@ -3,6 +3,7 @@ import React, { useState, Fragment, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Report.css";
 import AuthService from "../../services/auth.service";
+import ReportService from "../../services/report.service";
 
 const posR={
   marginBottom: '190px',
@@ -76,18 +77,17 @@ const Report = () => {
     setFormErrors(validate(formValues));
     setIsSubmit(true);
 
-    axios
-      .post("url", formValues)
-      .then((data) => {
-        if (validate.errors.length == 0) {
+  //      if (validate.errors.length == 0) {
+          ReportService.getUserReportSpecificRange(formValues).then((data) => {
           setSuccess("Report generated successfully");
           //   navigate("/dashboard");
-        }
-      })
-      .catch((e) => {
-        setError("Opps, something went wrong :(");
-      });
-  };
+          }).catch((e) => {
+            setError("Opps, something went wrong :(");
+        })
+//      }
+      
+      };
+  
 
   return (
     <div>
