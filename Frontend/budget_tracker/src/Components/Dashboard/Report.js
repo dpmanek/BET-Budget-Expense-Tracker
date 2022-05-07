@@ -77,18 +77,25 @@ const Report = () => {
     setFormErrors(validate(formValues));
     setIsSubmit(true);
 
-  //      if (validate.errors.length == 0) {
-          ReportService.getUserReportSpecificRange(formValues).then((data) => {
-          setSuccess("Report generated successfully");
-          //   navigate("/dashboard");
+       //if (validate.errors.length == 0) {
+          ReportService.getUserReportSpecificRange(formValues).then((response) => {
+            //ReportService.getUserReport()
+            const file = new Blob([response.data], {
+              type: "application/pdf"
+            });
+            //Build a URL from the file
+            const fileURL = URL.createObjectURL(file);
+           
+            //Open the URL on new Window
+            window.open(fileURL);
+            setSuccess("Report generated successfully");
           }).catch((e) => {
             setError("Opps, something went wrong :(");
         })
-//      }
+    // }
       
       };
   
-
   return (
     <div>
       {accessToken !== undefined ? (

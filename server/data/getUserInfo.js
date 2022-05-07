@@ -219,6 +219,7 @@ module.exports = {
       totalMonthExpenses += transactionByMonth.Expenditure.Recurring[i].Amount;
     }
   }
+  if(transactionByMonth.Income.OneTime.length > 0 || transactionByMonth.Income.OneTime.length > 0){
   if(transactionByMonth.Income.OneTime.length > 0){
     for(i in transactionByMonth.Income.OneTime.length){
       totalMonthIncome += transactionByMonth.Income.OneTime.length[i].Amount;
@@ -229,6 +230,7 @@ module.exports = {
       totalMonthIncome += transactionByMonth.Income.Recurring[i].Amount;
     }
   }
+}
 
   let totalSpendingLimit = totalMonthIncome - totalMonthExpenses;
 

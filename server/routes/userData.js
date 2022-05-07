@@ -5,6 +5,7 @@ const reportGenerator = require("../data/reportGenerator");
 const fs = require("fs");
 var path = require("path");
 
+
 var xss = require("xss");
 const moment = require("moment");
 // route will be used to get all the specific data
@@ -289,7 +290,7 @@ router.get("/monthlyComparision", async (req, res) => {
   console.log("Request Processed Monthly Comparisn Sending");
   res.send({ data: data });
 });
-router.get("/reportGeneration", async (req, res) => {
+router.post("/reportGeneration", async (req, res) => {
   let UserID = req.userId;
   console.log("request recieved");
   // data validation ToDo
@@ -360,8 +361,24 @@ router.get("/reportGeneration", async (req, res) => {
     Transactions: Transactions,
   };
 
-  let pdfFile = await reportGenerator.createInvoice(modeledData, "Deep.pdf");
+  let pdfFile =  reportGenerator.createInvoice(modeledData);
   pdfFile.pipe(res);
+  //pdfFile.pipe(fs.createWriteStream('./server/routes/Report.pdf'));
+  
+});
+
+router.get("/reportGeneration", async (req, res) => {
+	res.sendFile(`${__dirname}/Report.pdf`)
+// 	const src = fs.createReadStream('../public/reports/Report.pdf');
+
+//   res.writeHead(200, {
+//     'Content-Type': 'application/pdf',
+//     'Content-Disposition': 'attachment; filename=sample.pdf',
+//     'Content-Transfer-Encoding': 'Binary'
+//   });
+
+//   src.pipe(res); 
+
 });
 
 router.get("/getSpendingLimitMonthExpense", async (req, res) => {
