@@ -34,8 +34,12 @@ const sendEmail = (email, subject, message) => {
 		}
 	});
 };
-sendEmail(
-	'dpmanek@gmail.com',
-	'BET: User ID create',
-	'Welcome to BET Family. Your new account is created'
-);
+
+module.exports = {
+	sendEmail,
+};
+// sendEmail(
+// 	'dpmanek@gmail.com',
+// 	'BET: User ID create',
+// 	'Welcome to BET Family. Your new account is created'
+// );
