@@ -80,7 +80,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import UserService from '../../services/user.service';
 
-const Pie = () => {
+const Pie = ({reloader}) => {
 	const [data, setdata] = useState([]);
 	useEffect(() => {
 		UserService.getPieChartData().then((response) => {
@@ -91,7 +91,7 @@ const Pie = () => {
 				console.log('No response', '=============');
 			}
 		});
-	}, []);
+	}, [reloader]);
 
 	const options = {
 		chart: {

@@ -6,14 +6,14 @@ import AuthService from "../../services/auth.service";
 import "./backbutton.css";
 import transactionService from "../../services/add.transaction";
 
-const posR={
-  marginBottom: '190px',
-  boxShadow: '5px 6px 6px 2px #e9ecef',
+const posR = {
+  marginBottom: "190px",
+  boxShadow: "5px 6px 6px 2px #e9ecef",
   alignItems: "center",
-  borderRadius: 20, 
-  backgroundColor: "#6ecebc", 
-  fontWeight: "bold"
-}
+  borderRadius: 20,
+  backgroundColor: "#6ecebc",
+  fontWeight: "bold",
+};
 
 const Createincome = () => {
   let navigate = useNavigate();
@@ -116,11 +116,6 @@ const Createincome = () => {
       {accessToken !== undefined ? (
         <React.Fragment>
           <div className="row col-md-8 offset-md-4">
-            <a href="/dashboard">
-              <button class="btn">
-                <i class="fa fa-home"></i> Home
-              </button>
-            </a>
             <h1 className="">Add Income</h1>
             <form className="" onSubmit={addIncome}>
               <div className="mb-3">
@@ -246,10 +241,12 @@ const Createincome = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div class="card p-3 mt-2 " style={posR} >
-        <h1>Restricted area</h1>
-        <h2><a href="/login">Sign In</a> to Access DashBoard</h2>
-        </div>
+          <div class="card p-3 mt-2 " style={posR}>
+            <h1>Restricted area</h1>
+            <h2>
+              <a href="/login">Sign In</a> to Access DashBoard
+            </h2>
+          </div>
         </React.Fragment>
       )}
     </div>

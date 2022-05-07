@@ -1,25 +1,25 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "./Createpage.css";
 import axios from "axios";
 import AuthService from "../../services/auth.service";
 import "./backbutton.css";
 import transactionService from "../../services/add.transaction";
 
-const posR={
-  marginBottom: '190px',
-  boxShadow: '5px 6px 6px 2px #e9ecef',
+const posR = {
+  marginBottom: "190px",
+  boxShadow: "5px 6px 6px 2px #e9ecef",
   alignItems: "center",
-  borderRadius: 20, 
-  backgroundColor: "#6ecebc", 
-  fontWeight: "bold"
-}
+  borderRadius: 20,
+  backgroundColor: "#6ecebc",
+  fontWeight: "bold",
+};
 
 const Createexpense = () => {
   let navigate = useNavigate();
 
-  //validation
   const initialValues = {
+    _id: null,
     name: "",
     description: "",
     amount: "",
@@ -28,6 +28,7 @@ const Createexpense = () => {
     recurringType: "",
   };
   const [formValues, setFormValues] = useState(initialValues);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -54,15 +55,23 @@ const Createexpense = () => {
       setAccessToken(undefined);
     }
 
-    let tmp = window.location.href.split("?");
-    if (tmp.length > 1) {
-      let id = tmp[1].split("=")[1];
-      axios
-        .get("")
-        .then((data) => {
-          setFormValues(data.data);
-        })
-        .catch((e) => {});
+    const expenseId = new URL(window.location.href).searchParams.get("q");
+    if (expenseId) {
+      transactionService.getUserExpense(expenseId).then((expense) => {
+        const date = new Date(expense.Date);
+        const newInitialValues = {
+          _id: expense._id,
+          name: expense.Name,
+          description: expense.Description,
+          amount: expense.Amount,
+          category: expense.Tags,
+          date: expense.TranactionDate.replace(/(..).(..).(....)/, "$3-$1-$2"),
+          recurringType: expense.recurringType,
+        };
+        console.log("expense", expense);
+        console.log("newInitialValues", newInitialValues);
+        setFormValues(newInitialValues);
+      });
     }
   }, []);
 
@@ -95,7 +104,7 @@ const Createexpense = () => {
       await transactionService
         .postUserExpense(formValues)
         .then((data) => {
-          console.log(data, "====================");
+          // console.log(data, "====================");
           setSuccess("Expense added successfully!!");
           navigate("/dashboard");
         })
@@ -110,11 +119,6 @@ const Createexpense = () => {
       {accessToken !== undefined ? (
         <React.Fragment>
           <div className="row col-md-8 offset-md-4">
-            <a href="/dashboard">
-              <button class="btn">
-                <i class="fa fa-home"></i> Home
-              </button>
-            </a>
             <h1 className="">Add Expense</h1>
             <form className="" onSubmit={addExpenses}>
               <div className="mb-3">
@@ -211,6 +215,7 @@ const Createexpense = () => {
                   type="radio"
                   id="flexRadioDefault1"
                   value="yes"
+                  checked={formValues.recurringType === "yes"}
                   name="recurringType"
                   onChange={handleChange}
                 />
@@ -225,6 +230,7 @@ const Createexpense = () => {
                   id="flexRadioDefault2"
                   value="no"
                   name="recurringType"
+                  checked={formValues.recurringType === "no"}
                   onChange={handleChange}
                 />
                 <label class="form-check-label" for="flexRadioDefault2">
@@ -240,10 +246,12 @@ const Createexpense = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div class="card p-3 mt-2 " style={posR} >
-        <h1>Restricted area</h1>
-        <h2><a href="/login">Sign In</a> to Access DashBoard</h2>
-        </div>
+          <div class="card p-3 mt-2 " style={posR}>
+            <h1>Restricted area</h1>
+            <h2>
+              <a href="/login">Sign In</a> to Access DashBoard
+            </h2>
+          </div>
         </React.Fragment>
       )}
     </div>
