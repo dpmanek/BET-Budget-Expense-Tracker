@@ -130,7 +130,7 @@ const Createexpense = () => {
             <h1 className="">Add Expense</h1>
             <form className="" onSubmit={addExpenses}>
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">
+                <label htmlFor="exampleInputEmail1" className="form-label">
                   Name
                 </label>
                 <input
@@ -144,7 +144,7 @@ const Createexpense = () => {
               </div>
               <p className="disError">{formErrors ? formErrors.name : ""}</p>
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">
+                <label htmlFor="exampleInputEmail1" className="form-label">
                   Description
                 </label>
                 <input
@@ -157,7 +157,7 @@ const Createexpense = () => {
                 />
               </div>
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">
+                <label htmlFor="exampleInputEmail1" className="form-label">
                   Amount
                 </label>
                 <input
@@ -170,7 +170,7 @@ const Createexpense = () => {
                 />
               </div>
               <p className="disError">{formErrors ? formErrors.amount : ""}</p>
-              <label for="exampleInputEmail1" className="form-label">
+              <label htmlFor="exampleInputEmail1" className="form-label">
                 Category
               </label>
               <select
@@ -201,7 +201,7 @@ const Createexpense = () => {
                 {formErrors ? formErrors.category : ""}
               </p>
               <div className="mb-3 position">
-                <label for="date" className="col-form-label">
+                <label htmlFor="date" className="col-form-label">
                   Date
                 </label>
                 <div className="input-group date position" id="datepicker">
@@ -227,7 +227,7 @@ const Createexpense = () => {
                   name="recurringType"
                   onChange={handleChange}
                 />
-                <label className="form-check-label" for="flexRadioDefault1">
+                <label className="form-check-label" htmlFor="flexRadioDefault1">
                   Yes
                 </label>
               </div>
@@ -241,7 +241,7 @@ const Createexpense = () => {
                   checked={formValues.recurringType === "no"}
                   onChange={handleChange}
                 />
-                <label className="form-check-label" for="flexRadioDefault2">
+                <label className="form-check-label" htmlFor="flexRadioDefault2">
                   No
                 </label>
               </div>

@@ -103,11 +103,11 @@ const Report = () => {
           <div className="row col-md-8 offset-md-4">
             <h3>Select dates to generate a report</h3>
             <form className="" onSubmit={genReport}>
-              <label for="exampleInputEmail1" className="form-label">
+              <label htmlFor="exampleInputEmail1" className="form-label">
                 Select Starting Date
               </label>
               <div className="mb-3 position">
-                <label for="dateone" className="col-form-label">
+                <label htmlFor="dateone" className="col-form-label">
                   Date
                 </label>
                 <div className="input-group date position" id="datepicker">
@@ -122,11 +122,11 @@ const Report = () => {
                 </div>
               </div>
               <p>{formErrors.dateone}</p>
-              <label for="exampleInputEmail1" className="form-label">
+              <label htmlFor="exampleInputEmail1" className="form-label">
                 Select Ending Date
               </label>
               <div className="mb-3 position">
-                <label for="datetwo" className="col-form-label">
+                <label htmlFor="datetwo" className="col-form-label">
                   Date
                 </label>
                 <div className="input-group date position" id="datepicker">
