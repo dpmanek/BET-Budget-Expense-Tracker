@@ -14,11 +14,9 @@ const ExpenseTable = ({ updatePieState }) => {
   const [incomeOneTime, setIncomeOneTime] = useState([]);
   const [toggleTable, setToggleTable] = useState("OneTime");
   const [toggleIncomeTable, setIncomeToggleTable] = useState("OneTime");
-//   let navigate = useNavigate();
 
   useEffect(() => {
     UserService.getUserTransactionData().then((response) => {
-      console.log(response, "=================");
       if (response.data) {
         setdata(response.data.Expenditure.OneTime);
         setOneTime(response.data.Expenditure.Recurring);
@@ -31,16 +29,12 @@ const ExpenseTable = ({ updatePieState }) => {
   const handleEdit = (event) => {
     event.preventDefault();
     let val = event.target.value;
-
-   // window.location.href = "/addexpense?q=" + val;
-    navigate('/addexpense?q=' + val);
-
+    navigate("/addexpense?q=" + val);
   };
 
   const handleEditIncome = (event) => {
     event.preventDefault();
     let val = event.target.value;
-    //window.location.href = "/addincome?q=" + val;
     navigate("/addincome?q=" + val);
   };
 
@@ -206,7 +200,7 @@ const ExpenseTable = ({ updatePieState }) => {
             <option value="Recurring">Recurring</option>
           </select>
         </div>
-        {toggleIncomeTable != "OneTime" ? (
+        {toggleIncomeTable != "Recurring" ? (
           <React.Fragment>
             <table className="table table-border">
               <thead>
