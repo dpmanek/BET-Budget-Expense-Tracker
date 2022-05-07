@@ -96,7 +96,7 @@ const ExpenseTable = ({ updatePieState }) => {
           name="expenseType"
           onChange={changeExpense}
         >
-          <option selected value="OneTime">
+          <option value="OneTime">
             One Time
           </option>
           <option value="Recurring">Recurring</option>
@@ -194,7 +194,7 @@ const ExpenseTable = ({ updatePieState }) => {
             name="expenseType"
             onChange={changeIncome}
           >
-            <option selected value="OneTime">
+            <option value="OneTime">
               One Time
             </option>
             <option value="Recurring">Recurring</option>

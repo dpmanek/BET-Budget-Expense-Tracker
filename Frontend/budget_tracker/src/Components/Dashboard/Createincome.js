@@ -179,7 +179,7 @@ const Createincome = () => {
                 value={formValues.category}
                 onChange={handleChange}
               >
-                <option selected>Select your category</option>
+                <option >Select your category</option>
                 <option value="Checks">Checks</option>
                 <option value="Coupons">Coupons</option>
                 <option value="Dues">Dues</option>

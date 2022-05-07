@@ -180,7 +180,7 @@ const Createexpense = () => {
                 value={formValues.category}
                 onChange={handleChange}
               >
-                <option selected>Select your category</option>
+                <option >Select your category</option>
                 <option value="Food and Drinks">Food and Drinks</option>
                 <option value="Shopping">Shopping</option>
                 <option value="Housing">Housing</option>
