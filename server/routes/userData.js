@@ -394,7 +394,7 @@ router.get('/getSpendingLimitMonthExpense', async (req, res) => {
 router.post('/createComplaint', async (req, res) => {
 	let issue = xss(req.body.issue);
 	let complaintNumber = await ticketGeneration.createIncident(issue);
-	res.status({ data: complaintNumber });
+	res.send({ data: complaintNumber });
 });
 
 router.post('/trackComplaint', async (req, res) => {
