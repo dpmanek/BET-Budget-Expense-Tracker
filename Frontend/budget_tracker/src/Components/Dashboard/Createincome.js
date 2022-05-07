@@ -81,7 +81,7 @@ const Createincome = () => {
       errors.name = "Name is required";
     }
     const flag = alpha.test(values.name);
-    if (flag == true) {
+    if (flag === true) {
       errors.name = "Name cannot be just Numerical!";
     }
     if (!values.category) {
@@ -96,7 +96,7 @@ const Createincome = () => {
     event.preventDefault();
     let error = await validate(formValues);
     await setFormErrors(error);
-    if (Object.keys(error).length == 0) {
+    if (Object.keys(error).length === 0) {
       if (edit) {
         let id = formValues._id;
         await transactionService
@@ -200,13 +200,13 @@ const Createincome = () => {
                 {formErrors ? formErrors.category : ""}
               </p>
               <div className="mb-3 position">
-                <label for="date" class="col-form-label">
+                <label for="date" className="col-form-label">
                   Date
                 </label>
-                <div class="input-group date position" id="datepicker">
+                <div className="input-group date position" id="datepicker">
                   <input
                     type="date"
-                    class="form-control"
+                    className="form-control"
                     id="date"
                     name="date"
                     value={formValues.date}
@@ -216,9 +216,9 @@ const Createincome = () => {
               </div>
               <p className="disError">{formErrors ? formErrors.date : ""}</p>
               Is this a reccuring Income?
-              <div class="form-check ">
+              <div className="form-check ">
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="radio"
                   id="flexRadioDefault1"
                   value="yes"
@@ -226,13 +226,13 @@ const Createincome = () => {
                   name="recurringType"
                   onChange={handleChange}
                 />
-                <label class="form-check-label" for="flexRadioDefault1">
+                <label className="form-check-label" for="flexRadioDefault1">
                   Yes
                 </label>
               </div>
-              <div class="form-check">
+              <div className="form-check">
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="radio"
                   id="flexRadioDefault2"
                   value="no"
@@ -240,20 +240,20 @@ const Createincome = () => {
                   checked={formValues.recurringType === "no"}
                   onChange={handleChange}
                 />
-                <label class="form-check-label" for="flexRadioDefault2">
+                <label className="form-check-label" for="flexRadioDefault2">
                   No
                 </label>
               </div>
               <button type="submit" className="btn btn-primary" value="Submit">
                 Submit
               </button>
-              <div className="disError">{error != "" ? error : success}</div>
+              <div className="disError">{error !== "" ? error : success}</div>
             </form>
           </div>
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div class="card p-3 mt-2 " style={posR}>
+          <div className="card p-3 mt-2 " style={posR}>
             <h1>Restricted area</h1>
             <h2>
               <a href="/login">Sign In</a> to Access DashBoard

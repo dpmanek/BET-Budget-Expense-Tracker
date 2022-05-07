@@ -33,8 +33,8 @@ function Navbar(props) {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark custom-color py-0 ">
       <div className="container-fluid co width-change">
-        <Link class="navbar-brand hover-change" to="/">
-          <a className="navbar-brand hover-change">
+        <Link className="navbar-brand hover-change" to="/">
+          {/* <a className="navbar-brand hover-change"> */}
             <img
               src="/pigIllustration.png"
               alt="BET Logo"
@@ -42,14 +42,14 @@ function Navbar(props) {
               height="20"
             />
             BET
-          </a>
+          {/* </a> */}
         </Link>
 
         <form className="d-flex">
           {accessToken !== undefined ? (
             <React.Fragment>
               <a href="#" id="justtext">
-                <i class="fa fa-fw fa-user"></i>Welcome {content} !
+                <i className="fa fa-fw fa-user"></i>Welcome {content} !
               </a>
 
               <button
