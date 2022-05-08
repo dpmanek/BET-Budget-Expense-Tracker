@@ -1,21 +1,20 @@
 import React from 'react';
 import { useState, useEffect} from "react";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import AuthService from '../../services/auth.service';
 
 const Signup = () => {
-	const [successful, setSuccessful] = useState(false);
-    const [message, setMessage] = useState("");
+	const [formErrors, setFormErrors] = useState(null);
+	const [success, setSuccess] = useState(""); 
 	const [data, setData] = useState({
 		firstName: "",
 		lastName: "",
 		email: "",
 		password: "",
 	});
-	const [error, setError] = useState("");
-	const navigate = useNavigate();
+	const [error, setError] = useState({});
+	let navigate = useNavigate();
 	
 	//redirect user to dashboard if already logged in
 	useEffect(() => { //checks only if current user is there major checking on dashboard
@@ -31,30 +30,67 @@ const Signup = () => {
 		setData({ ...data, [input.name]: input.value });
 	};
 
+	const validate = (values) => {
+		
+		let errors = {};
+		const first = /^[a-zA-Z()]+$/.test(values.firstName)
+		const last = /^[a-zA-Z()]+$/.test(values.lastName)
+		const flag = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)
+		if (flag === false) {
+			errors.email = "Email ID is invalid!!";
+		  }
+		
+		if(values.password.length<6){
+			errors.password = "Length of password should be greater than 6";
+		}
+
+		if(values.password.length>10){
+			errors.password = "Length of password should be lesser than 10";
+		}
+
+		if(first === false){
+			errors.firstName = "Name cannot contain numerical values";
+		}
+		if(last === false){
+			errors.lastName = "Name cannot contain numerical values";
+		}
+
+		if (!values.email) {
+		  errors.email = "Email ID is required";
+		}
+		if (!values.password) {
+		  errors.password = "Password is required";
+		}
+		if (!values.firstName) {
+			errors.firstName = "First Name is required";  
+		}
+
+		if (!values.lastName) {
+		errors.lastName = "Last Name is required";
+		}
+	
+		return errors;
+	  };
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setMessage("");
-    	setSuccessful(false);
-    	//form.current.validateAll();
-  //  if (checkBtn.current.context._errors.length === 0) {
+		setError("");
+    	setSuccess("");
+		setFormErrors("")
+		let errorPage = await validate(data);
+        await setError(errorPage);
+    	
+   if (Object.keys(errorPage).length === 0) {
       AuthService.signup(data.firstName,data.lastName,data.email,data.password).then(
         (response) => {
-          setMessage(response.data.message);
-          setSuccessful(true);
+        //   setMessage(response.data.message);
 		  navigate("/login");
-        },
-        (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
-          setMessage(resMessage);
-          setSuccessful(false);
-        }
-      );
-	// }
+		  setSuccess("Signed UP successfully!!");
+        })
+		.catch((e)=>{
+			setFormErrors("Something went wrong!!");
+		})
+	}
   };
 	return (
 		<div className={styles.signup_container}>
@@ -78,9 +114,10 @@ const Signup = () => {
 							name="firstName"
 							onChange={handleChange}
 							value={data.firstName}
-							required
+							// required
 							className={styles.input}
 						/>
+						<p className="disError">{error ? error.firstName : ""}</p>
 						<label htmlFor="lastName">Last Name</label>
 						<input
 						id="lastName"
@@ -89,9 +126,9 @@ const Signup = () => {
 							name="lastName"
 							onChange={handleChange}
 							value={data.lastName}
-							required
 							className={styles.input}
 						/>
+						<p className="disError">{error ? error.lastName : ""}</p>
 						<label htmlFor="email">Email</label>
 						<input
 						id="email"
@@ -100,9 +137,9 @@ const Signup = () => {
 							name="email"
 							onChange={handleChange}
 							value={data.email}
-							required
 							className={styles.input}
 						/>
+						<p className="disError">{error ? error.email : ""}</p>
 						<label htmlFor="password">Password</label>
 						<input
 						id="password"
@@ -111,14 +148,14 @@ const Signup = () => {
 							name="password"
 							onChange={handleChange}
 							value={data.password}
-							required
 							className={styles.input}
 						/>
-						{error && <div className={styles.error_msg}>{error}</div>}
+						<p className="disError">{error ? error.password : ""}</p>
 						<button type="submit" className={styles.green_btn}>
 							Sign Up
 						</button>
 					</form>
+					<div className="loginError">{formErrors !== "" ? formErrors : success}</div>
 				</div>
 			</div>
 		</div>

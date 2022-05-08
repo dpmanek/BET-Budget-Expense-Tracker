@@ -8,15 +8,12 @@ import AuthService from '../../services/auth.service';
 const Login =() =>{
     let navigate = useNavigate();
 	const [data, setData] = useState({ email: "", password: "" });
-	const [error, setError] = useState("") //error checking
-	
-	//states for loading once login button is clicked
-	const [loading, setLoading] = useState(false);
-	//message for if its complete or no
-  	const [message, setMessage] = useState("");
+	const [error, setError] = useState({}) //error checking
+	const [formErrors, setFormErrors] = useState(null);
+  const [success, setSuccess] = useState(""); 
 
 	  //redirect user to dashboard if already logged in
-	  useEffect(() => { //checks only if current user is there major checking on dashboard
+	  useEffect(() => {
 		var currentUser = AuthService.getCurrentUser()
 		if(currentUser){
 			navigate('/dashboard');
@@ -26,36 +23,50 @@ const Login =() =>{
 
 
 	const handleChange = ({ currentTarget: input }) => {
-		//you can add dynamic front end checking here
+		
 		setData({ ...data, [input.name]: input.value });
 	};
 
+	const validate = (values) => {
+		
+		let errors = {};
+		const flag = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)
+		if (flag === false) {
+			errors.email = "Email ID is invalid!!";
+		  }
+
+		if (!values.email) {
+		  errors.email = "Email ID is required";
+		}
+		if (!values.password) {
+		  errors.password = "Password is required";
+		}
+	
+		return errors;
+	  };
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setMessage("");
-		setLoading(true);
-		//add form validation
-		//if (checkBtn.current.context._errors.length === 0) {
+		setError("");
+    	setSuccess("");
+		setFormErrors("")
+
+		
+		let errorPage = await validate(data);
+        await setError(errorPage);
+		
+		if (Object.keys(errorPage).length === 0) {
 		  AuthService.login(data.email, data.password).then(
 			() => {
 			  navigate("/dashboard");
 			  window.location.reload();
+			  setSuccess("Logged In successfully!!");
 			  
-			},
-			(error) => {
-			  const resMessage =
-				(error.response &&
-				  error.response.data &&
-				  error.response.data.message) ||
-				error.message ||
-				error.toString();
-			  setLoading(false);
-			  setMessage(resMessage);
-			}
-		  );
-	//	} else {
-		  setLoading(false);
-		//}
+			})
+			.catch((e)=>{
+				setFormErrors("Either email ID or password is incorrect!!");
+			})
+		}
 	  };
 
 	return (
@@ -72,9 +83,9 @@ const Login =() =>{
 							name="email"
 							onChange={handleChange}
 							value={data.email}
-							required
 							className={styles.input}
 						/>
+						<p className="disError">{error ? error.email : ""}</p>
 						<label htmlFor="loginpassword">Password</label>
 						<input
 						id="loginpassword"
@@ -83,18 +94,15 @@ const Login =() =>{
 							name="password"
 							onChange={handleChange}
 							value={data.password}
-							required
 							className={styles.input}
 						/>
-						{error && <div className={styles.error_msg}>{error}</div>}
-						<button className="btn btn-success btn-round-lg btn-lg " disabled={loading}>
-              {loading && (
-                <span className="spinner-border spinner-border-sm"></span>
-              )}
+						<p className="disError">{error ? error.password : ""}</p>
+						<button className="btn btn-success btn-round-lg btn-lg ">
               <span>Login</span>
             </button>
 		
 					</form>
+					<div className="loginError">{formErrors !== "" ? formErrors : success}</div>
 				</div>
 				<div className={styles.right}>
 					<h1>New Here ?</h1>

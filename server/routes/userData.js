@@ -14,62 +14,56 @@ const moment = require("moment");
 router.post("/review", async (req, res) => {
   let UserID = req.userId;
   try {
-	if(req.body) data = req.body.body;
-	else throw 'No Request Body';
-	}
-catch(e){
-	return res.status(204).send({ Error: e});
-}
+    if (req.body) data = req.body.body;
+    else throw "No Request Body";
+  } catch (e) {
+    return res.status(204).send({ Error: e });
+  }
   let rating = xss(data.rating);
   let feedback = xss(data.feedback);
-try{
-	
-	if(!rating) throw 'No Rating';
-	if(!feedback) throw 'No FeedBack';
-	
-	rating = dataValidation.checkRating(rating);
-	feedback = dataValidation.checkFeedback(feedback);
-}
-catch(e){
-	return res.status(400).send({ Error:e});
-}		
-try{
-  let userInfo = await userDataFunctions.postReview(UserID, rating, feedback); //change to get user review
-	if(userInfo){
-		res.status(200).send({ data: userInfo });
-	}
-}
-catch(e){
-	return res.status(400).send({ Error:e});
-}
+  try {
+    if (!rating) throw "No Rating";
+    if (!feedback) throw "No FeedBack";
+
+    rating = dataValidation.checkRating(rating);
+    feedback = dataValidation.checkFeedback(feedback);
+  } catch (e) {
+    return res.status(400).send({ Error: e });
+  }
+  try {
+    let userInfo = await userDataFunctions.postReview(UserID, rating, feedback); //change to get user review
+    if (userInfo) {
+      res.status(200).send({ data: userInfo });
+    }
+  } catch (e) {
+    return res.status(400).send({ Error: e });
+  }
 });
 
 router.get("/review", async (req, res) => {
   let UserID = req.userId;
 
-  try{
-  let userInfo = await userDataFunctions.getReview(UserID); //change to get user review
-  if(userInfo){
-	res.status(200).send({ data: userInfo });
-}
-  }
-  catch(e){
-	return res.status(400).send({ Error:e}); 
+  try {
+    let userInfo = await userDataFunctions.getReview(UserID); //change to get user review
+    if (userInfo) {
+      res.status(200).send({ data: userInfo });
+    }
+  } catch (e) {
+    return res.status(400).send({ Error: e });
   }
 });
 
 router.get("/alltransactions", async (req, res) => {
   let UserID = req.userId;
-	try{
-  let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
-    UserID
-  );
-  if(userInfo){
-	res.status(200).send({ data: userInfo });
-}
-  }
-  catch(e){
-	return res.status(400).send({ Error:e}); 
+  try {
+    let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
+      UserID
+    );
+    if (userInfo) {
+      res.status(200).send({ data: userInfo });
+    }
+  } catch (e) {
+    return res.status(400).send({ Error: e });
   }
 });
 
@@ -426,6 +420,29 @@ router.post("/trackComplaint", async (req, res) => {
     res.send({ data: response[0] });
   });
   //let status = await ticketGeneration.fetchIncident(incident);
+});
+
+router.post("/addSetAside", async (req, res) => {
+  let UserID = req.userId;
+  try {
+    if (req.body.body) {
+      data = req.body.body;
+    } else {
+      throw "No Request Body";
+    }
+  } catch (e) {
+    return res.status(204).send({ Error: e });
+  }
+  await transactionFunc.createSetAside(UserID, Amount, Purpose);
+  return res.status(200).send({});
+});
+router.delete("/removeSetAside", async (req, res) => {
+  let UserId = req.userId;
+  let transactionId = xss(req.body.TransactionID);
+
+  let userInfo = await transactionFunc.deleteSetAside(UserId, transactionId); //change to get user review
+
+  res.send({ data: userInfo });
 });
 
 module.exports = router;

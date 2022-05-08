@@ -16,6 +16,7 @@ import Report from "../Components/Dashboard/Report";
 import Errors from "../Components/Errors";
 import BarChart from "../Components/Graphs/barChart";
 import Ticket from "../Components/Ticket/Ticket";
+import Setaside from "../Components/Dashboard/Setaside";
 
 const Routesr = () => {
   return (
@@ -34,6 +35,7 @@ const Routesr = () => {
           <Routing exact path="/report" element={<Report />} />
           <Routing exact path="/monthlyComparision" element={<BarChart />} />
           <Routing exact path="/generateticket" element={<Ticket />} />
+          <Routing exact path="/setaside" element={<Setaside />} />
 
           {/* Public: All can use */}
           <Routing exact path="/review" element={<ReviewManager />} />
