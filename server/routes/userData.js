@@ -72,7 +72,7 @@ router.post("/addExpense", async (req, res) => {
     var description = null;
   } else var description = xss(req.body.body.description);
   let amount = xss(req.body.body.amount);
-  amount = parseInt(amount);
+  amount = parseFloat(amount);
   let category = xss(req.body.body.category);
   if (!req.body.body.date) {
     let TranactionDate = new Date();
@@ -111,7 +111,7 @@ router.post("/addIncome", async (req, res) => {
     var description = null;
   } else var description = xss(req.body.body.description);
   let amount = xss(req.body.body.amount);
-  amount = parseInt(amount);
+  amount = parseFloat(amount);
   let category = xss(req.body.body.category);
   if (!req.body.body.date) {
     let TranactionDate = new Date();
@@ -379,33 +379,35 @@ router.get("/getSpendingLimitMonthExpense", async (req, res) => {
 });
 
 router.post("/createComplaint", async (req, res) => {
-  let issue = xss(req.body.body.bug);
-
+  let issue = xss(req.body.body.incident.bug);
+  console.log(issue, "here");
   //let complaintNumber = await ticketGeneration.createIncident(issue);
-
   const ServiceNow = new sn("dev92862", "admin", "$bWw-GBd5t4F");
-
   ServiceNow.Authenticate();
-
   const data = {
     short_description: issue,
     urgency: "1",
   };
-
   await ServiceNow.createNewTask(data, "incident", (response) => {
     res.send({ data: response.number });
+    console.log(response.number);
   });
 });
 
 router.post("/trackComplaint", async (req, res) => {
   //pending errorchecking for incident number
-  let incident = xss(req.body.body.incident);
+  let incident = xss(req.body.body);
   const ServiceNow = new sn("dev92862", "admin", "$bWw-GBd5t4F");
 
   ServiceNow.Authenticate();
   const filters = ["number=" + incident];
   const fields = ["number", "short_description", "urgency", "state"];
+  //   const fields = [];
   await ServiceNow.getTableData(fields, filters, "incident", (response) => {
+    if (!response[0]) {
+      //   console.log(response[0]);
+      return res.send({ data: "Ticket with this ID does not exist" });
+    }
     res.send({ data: response[0] });
   });
   //let status = await ticketGeneration.fetchIncident(incident);

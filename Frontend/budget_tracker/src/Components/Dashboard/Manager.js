@@ -1,4 +1,4 @@
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import numeral from "numeral";
 import "./Manager.css";
@@ -23,16 +23,16 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
       if (response) {
         if (response.data.SpendingLimit == 0)
           setSpendingLimit(`$${response.data.SpendingLimit}`);
-          else setSpendingLimit(`$${response.data.SpendingLimit}`);
+        else setSpendingLimit(`$${response.data.SpendingLimit}`);
         if (response.data.CurrentMonthExpenses == 0)
           setMonthExpense(`$${response.data.CurrentMonthExpenses}`);
-          else setMonthExpense(`$${response.data.CurrentMonthExpenses}`);
+        else setMonthExpense(`$${response.data.CurrentMonthExpenses}`);
       } else {
         setSpendingLimit("");
         setMonthExpense("");
       }
     });
-  }, []);
+  }, [reloader]);
 
   return (
     <div className="row col-md-12 page">

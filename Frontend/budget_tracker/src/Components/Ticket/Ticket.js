@@ -15,15 +15,25 @@ const posR = {
 };
 
 const Ticket = () => {
-  let navigate = useNavigate();
-  const initialValues = {
+  const initialValuesGenTicket = {
     bug: "",
   };
-  const [formValues, setFormValues] = useState(initialValues);
+  const [formGenTicketValues, setFormGenTicketValues] = useState(
+    initialValuesGenTicket
+  );
+  const [getTicketStatusTicketId, updateTicketIdToGetStatus] = useState("");
+  const [ticketStatus, updateTicketStatus] = useState(null);
+  const [getTicketID, setTicketID] = useState(null);
 
   const changeHandlerTicket = (e) => {
     const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
+    setFormGenTicketValues({ ...formGenTicketValues, [name]: value });
+  };
+
+  const handleTicketIdChange = (e) => {
+    const { value } = e.target;
+    updateTicketIdToGetStatus(value);
+    updateTicketStatus(null);
   };
 
   useEffect(() => {
@@ -38,28 +48,48 @@ const Ticket = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
   const [formErrors, setFormErrors] = useState({});
-  const [edit, setEdit] = useState(false);
+  const [formErrorsTicket, setFormErrorsTicket] = useState({});
   const [accessToken, setAccessToken] = useState("");
 
-  const validate = (values) => {
-    let errors = {};
-    if (!values.bugs) {
-      errors.bugs = "Bug is required";
+  const validateGenerateTicket = (values) => {
+    const alpha = /^[0-9]+$/;
+    let errorsTicket = {};
+    if (!values.bug) {
+      errorsTicket.bug = "Problem is required";
     }
-    return errors;
+    const flag = alpha.test(values.bug);
+    if (flag === true) {
+      errorsTicket.bug = "Problem cannot be just Numerical!";
+    }
+    return errorsTicket;
+  };
+
+  const validateGetTicketStatusInput = (values) => {
+    let errorsStatus = {};
+    let regex = /INC[0-9]{7}/;
+    if (!values) {
+      errorsStatus.ticketId = "Ticket ID is required";
+    }
+    const flag = regex.test(values);
+    if (flag === false) {
+      errorsStatus.ticketId = "Ticket ID is invalid";
+    }
+    return errorsStatus;
   };
 
   const genTicket = async (event) => {
+    console.log(formGenTicketValues, "========");
     setError("");
     setSuccess("");
     event.preventDefault();
-    //let error = await validate(formValues);
-    // await setFormErrors(error);
+    let error = await validateGenerateTicket(formGenTicketValues);
+    await setFormErrors(error);
     if (Object.keys(error).length === 0) {
-      console.log(formValues);
-      TicketService.createTicket(formValues)
+      console.log("before submission", formGenTicketValues);
+      TicketService.createTicket(formGenTicketValues)
         .then((data) => {
-          console.log(`@@@@@ ${JSON.stringify(data)}`);
+          // console.log(`@@@@@ ${JSON.stringify(data)}`);
+          setTicketID(data);
           setSuccess("Ticket generated successfully!!");
         })
         .catch((e) => {
@@ -68,64 +98,91 @@ const Ticket = () => {
     }
   };
 
-  //   const getStatus = async (event) => {
-  //     setError("");
-  //     setSuccess("");
-  //     event.preventDefault();
-  //     let error = await validate(formValues);
-  //     await setFormErrors(error);
-  //     if (Object.keys(error).length === 0) {
-  //       TicketService.postTicketID(formValues)
-  //         .then((data) => {
-  //           setSuccess("Status Rendered successfully!!");
-  //         })
-  //         .catch((e) => {
-  //           setError("Opps, something went wrong :(");
-  //         });
-  //     }
-  //   };
+  const getStatus = async (event) => {
+    setError("");
+    setSuccess("");
+    event.preventDefault();
+    let error = await validateGetTicketStatusInput(getTicketStatusTicketId);
+    await setFormErrorsTicket(error);
+    if (Object.keys(error).length === 0) {
+      TicketService.postTicketID(getTicketStatusTicketId)
+        .then((data) => {
+          if (data === "Ticket with this ID does not exist") {
+            setError("Ticket with this ID does not exist");
+          } else {
+            updateTicketStatus(data);
+            setSuccess("Status Rendered successfully!!");
+          }
+        })
+        .catch((e) => {
+          setError("Oops, something went wrong :(");
+        });
+    }
+  };
 
   return (
-    <div>
+    <div className="row col-md-8 offset-md-4 div-main">
       {accessToken !== undefined ? (
         <React.Fragment>
           <form onSubmit={genTicket}>
             <div className="mb-3">
               <label htmlFor="exampleInputEmail1" className="form-label">
-                Enter a bug
+                Enter a Problem
               </label>
               <input
                 type="text"
                 name="bug"
-                placeholder="Bug"
+                placeholder="Problem"
                 className="form-control position"
-                value={formValues.bug}
+                value={formGenTicketValues.bug}
                 onChange={changeHandlerTicket}
               />
+              <p className="disError">{formErrors ? formErrors.bug : ""}</p>
               <button type="submit" className="btn btn-primary" value="Submit">
                 Submit
               </button>
             </div>
+            {getTicketID && (
+              <div className="ticket-msg">
+                Your newly created Ticket ID is <i>{getTicketID}</i>
+              </div>
+            )}
           </form>
-          {/* <form onSubmit={getStatus}>
+          <form onSubmit={getStatus}>
             <div className="mb-3">
               <label htmlFor="exampleInputEmail1" className="form-label">
-                Enter ticket ID
+                Enter Ticket ID
               </label>
               <input
                 type="text"
                 name="status"
-                placeholder="Description"
+                placeholder="Ticket ID"
                 className="form-control position"
-                value={formValues.status}
-                // onChange={handleStatusChange}
+                value={getTicketStatusTicketId.status}
+                onChange={handleTicketIdChange}
               />
+              <p className="disError">
+                {formErrorsTicket ? formErrorsTicket.ticketId : ""}
+              </p>
               <button type="submit" className="btn btn-primary" value="Submit">
                 Submit
               </button>
             </div>
-            <div className="disError">{error !== "" ? error : success}</div>
-          </form> */}
+            {ticketStatus && (
+              <div className="ticket-status">
+                <label>Ticket ID: </label>
+                {getTicketStatusTicketId} <br />
+                <label>Problem Description: </label>
+                {ticketStatus.short_description == ""
+                  ? "N/A"
+                  : ticketStatus.short_description}
+                <br />
+                <label>Problem Status: </label>
+                {ticketStatus.state == "" ? "N/A" : ticketStatus.state} <br />
+              </div>
+            )}
+            <div className="thisError">{error !== "" ? error : success}</div>
+          </form>
         </React.Fragment>
       ) : (
         <React.Fragment>

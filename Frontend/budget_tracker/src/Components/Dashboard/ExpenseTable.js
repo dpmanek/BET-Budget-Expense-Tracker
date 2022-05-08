@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 // import { Link,useNavigate} from "react-router-dom";
 import axios from "axios";
 import mockData from "./mockData.json";
+import orderBy from "lodash/orderBy";
 import UserService from "../../services/user.service";
 import transactionService from "../../services/add.transaction";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,10 +19,24 @@ const ExpenseTable = ({ updatePieState }) => {
   useEffect(() => {
     UserService.getUserTransactionData().then((response) => {
       if (response.data) {
-        setdata(response.data.Expenditure.OneTime);
-        setOneTime(response.data.Expenditure.Recurring);
-        setIncomeOneTime(response.data.Income.OneTime);
-        setIncomedata(response.data.Income.Recurring);
+        setdata(
+          orderBy(response.data.Expenditure.OneTime, ["_id"], ["desc"]).slice(
+            0,
+            5
+          )
+        );
+        setOneTime(
+          orderBy(response.data.Expenditure.Recurring, ["_id"], ["desc"]).slice(
+            0,
+            5
+          )
+        );
+        setIncomeOneTime(
+          orderBy(response.data.Income.OneTime, ["_id"], ["desc"]).slice(0, 5)
+        );
+        setIncomedata(
+          orderBy(response.data.Income.Recurring, ["_id"], ["desc"]).slice(0, 5)
+        );
       }
     });
   }, []);
@@ -96,9 +111,7 @@ const ExpenseTable = ({ updatePieState }) => {
           name="expenseType"
           onChange={changeExpense}
         >
-          <option value="OneTime">
-            One Time
-          </option>
+          <option value="OneTime">One Time</option>
           <option value="Recurring">Recurring</option>
         </select>
       </div>
@@ -107,11 +120,11 @@ const ExpenseTable = ({ updatePieState }) => {
           <table className="table table-border">
             <thead>
               <tr>
-              <th>Expense Name</th>
-              <th>Amount</th>
-              <th>Date</th>
-              <th>Edit</th>
-              <th>Delete</th>
+                <th>Expense Name</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -119,7 +132,7 @@ const ExpenseTable = ({ updatePieState }) => {
                 return (
                   <tr>
                     <td>{d.Name}</td>
-                    <td>{d.Amount}</td>
+                    <td>${d.Amount}</td>
                     <td>{d.TranactionDate}</td>
                     <td>
                       <button
@@ -150,11 +163,11 @@ const ExpenseTable = ({ updatePieState }) => {
           <table className="table table-border">
             <thead>
               <tr>
-              <th>Expense Name</th>
-              <th>Amount</th>
-              <th>Date</th>
-              <th>Edit</th>
-              <th>Delete</th>
+                <th>Expense Name</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -162,7 +175,7 @@ const ExpenseTable = ({ updatePieState }) => {
                 return (
                   <tr>
                     <td>{d.Name}</td>
-                    <td>{d.Amount}</td>
+                    <td>${d.Amount}</td>
                     <td>{d.TranactionDate}</td>
                     <td>
                       <button
@@ -198,9 +211,7 @@ const ExpenseTable = ({ updatePieState }) => {
             name="expenseType"
             onChange={changeIncome}
           >
-            <option value="OneTime">
-              One Time
-            </option>
+            <option value="OneTime">One Time</option>
             <option value="Recurring">Recurring</option>
           </select>
         </div>
@@ -209,11 +220,11 @@ const ExpenseTable = ({ updatePieState }) => {
             <table className="table table-border">
               <thead>
                 <tr>
-                <th>Income Name</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                  <th>Income Name</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -221,7 +232,7 @@ const ExpenseTable = ({ updatePieState }) => {
                   return (
                     <tr>
                       <td>{d.Name}</td>
-                      <td>{d.Amount}</td>
+                      <td>${d.Amount}</td>
                       <td>{d.TranactionDate}</td>
                       <td>
                         <button
@@ -252,11 +263,11 @@ const ExpenseTable = ({ updatePieState }) => {
             <table className="table table-border">
               <thead>
                 <tr>
-                <th>Income Name</th>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                  <th>Income Name</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -264,7 +275,7 @@ const ExpenseTable = ({ updatePieState }) => {
                   return (
                     <tr>
                       <td>{d.Name}</td>
-                      <td>{d.Amount}</td>
+                      <td>${d.Amount}</td>
                       <td>{d.TranactionDate}</td>
                       <td>
                         <button

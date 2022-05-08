@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Feedback.css";
 import reviewService from "../../services/review.service";
+import orderBy from "lodash/orderBy";
 
 const Feedback = (props) => {
   const [feedback, setfeedback] = useState([]);
@@ -8,9 +9,13 @@ const Feedback = (props) => {
   useEffect(() => {
     reviewService.getAllReview().then((response) => {
       if (response) {
-        setfeedback(response.data);
+        const feedbackdata = orderBy(response.data, ["_id"], ["desc"]).slice(
+          0,
+          3
+        );
+        setfeedback(feedbackdata);
       } else {
-        setfeedback("");
+        setfeedback([]);
       }
     });
   }, [props]);

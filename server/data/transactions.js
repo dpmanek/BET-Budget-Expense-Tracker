@@ -72,11 +72,12 @@ const createIncome = async (
         message: "could not add album to band",
       };
     let totalincomeUpdated = await updateTotalIncome(UserId);
-    if(totalincomeUpdated)return "Done OneTime";
-    else throw {
-      code: 400,
-      message: "total Income Not Updated",
-    }
+    if (totalincomeUpdated) return "Done OneTime";
+    else
+      throw {
+        code: 400,
+        message: "total Income Not Updated",
+      };
   }
 
   if (Type === "Recurring") {
@@ -90,12 +91,13 @@ const createIncome = async (
         code: 400,
         message: "total Income Not Updated",
       };
-      let totalincomeUpdated = await updateTotalIncome(UserId);
-      if(totalincomeUpdated)return "Done Recurring";
-      else throw {
+    let totalincomeUpdated = await updateTotalIncome(UserId);
+    if (totalincomeUpdated) return "Done Recurring";
+    else
+      throw {
         code: 400,
         message: "total Income Not Updated",
-      }
+      };
   }
 };
 
@@ -165,12 +167,13 @@ const createExpense = async (
         message: "could not add album to band",
       };
 
-      let totalincomeUpdated = await updateTotalExpense(UserId);
-      if(totalincomeUpdated)return "Done OneTime";
-      else throw {
+    let totalincomeUpdated = await updateTotalExpense(UserId);
+    if (totalincomeUpdated) return "Done OneTime";
+    else
+      throw {
         code: 400,
         message: "total Income Not Updated",
-      }
+      };
   }
 
   if (type === "Recurring") {
@@ -184,12 +187,13 @@ const createExpense = async (
         code: 400,
         message: "could not add album to band",
       };
-      let totalincomeUpdated = await updateTotalExpense(UserId);
-      if(totalincomeUpdated)return "Done Recurring";
-      else throw {
+    let totalincomeUpdated = await updateTotalExpense(UserId);
+    if (totalincomeUpdated) return "Done Recurring";
+    else
+      throw {
         code: 400,
         message: "total Income Not Updated",
-      }
+      };
   }
 };
 
@@ -228,8 +232,7 @@ const updateTotalIncome = async (UserId) => {
         message: "Could Not Update Total Income",
       };
     return true;
-  } else
-    false
+  } else false;
 };
 
 const updateTotalExpense = async (UserId) => {
@@ -486,7 +489,7 @@ const getIncome = async (UserId, transactionID) => {
     if (incomeRecurring && incomeRecurring.length >= 1) {
       for (i in incomeRecurring) {
         if (incomeRecurring[i]._id.toString() === transactionID) {
-          Transaction.push(incomeRecurring[i]);
+          Transaction.push({ ...incomeRecurring[i], recurringType: "yes" });
           Foundflag = true;
         }
       }
@@ -494,7 +497,7 @@ const getIncome = async (UserId, transactionID) => {
     if (incomeOneTime && incomeOneTime.length >= 1) {
       for (i in incomeOneTime) {
         if (incomeOneTime[i]._id.toString() === transactionID) {
-          Transaction.push(incomeOneTime[i]);
+          Transaction.push({ ...incomeOneTime[i], recurringType: "no" });
           Foundflag = true;
         }
       }

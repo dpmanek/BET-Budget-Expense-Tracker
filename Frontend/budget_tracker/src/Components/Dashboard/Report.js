@@ -4,15 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Report.css";
 import AuthService from "../../services/auth.service";
 import ReportService from "../../services/report.service";
+import moment from "moment";
 
-const posR={
-  marginBottom: '190px',
-  boxShadow: '5px 6px 6px 2px #e9ecef',
+const posR = {
+  marginBottom: "190px",
+  boxShadow: "5px 6px 6px 2px #e9ecef",
   alignItems: "center",
-  borderRadius: 20, 
-  backgroundColor: "#6ecebc", 
-  fontWeight: "bold"
-}
+  borderRadius: 20,
+  backgroundColor: "#6ecebc",
+  fontWeight: "bold",
+};
 
 const Report = () => {
   let navigate = useNavigate();
@@ -30,6 +31,10 @@ const Report = () => {
   const [success, setSuccess] = useState("");
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
+
+  useEffect(() => {
+    setFormValues({ ...formValues, datetwo: "" });
+  }, [formValues.dateone]);
 
   const [accessToken, setAccessToken] = useState("");
   useEffect(() => {
@@ -77,25 +82,26 @@ const Report = () => {
     setFormErrors(validate(formValues));
     setIsSubmit(true);
 
-       //if (validate.errors.length == 0) {
-          ReportService.getUserReportSpecificRange(formValues).then((response) => {
-            //ReportService.getUserReport()
-            const file = new Blob([response.data], {
-              type: "application/pdf"
-            });
-            //Build a URL from the file
-            const fileURL = URL.createObjectURL(file);
-           
-            //Open the URL on new Window
-            window.open(fileURL);
-            setSuccess("Report generated successfully");
-          }).catch((e) => {
-            setError("Opps, something went wrong :(");
-        })
+    //if (validate.errors.length == 0) {
+    ReportService.getUserReportSpecificRange(formValues)
+      .then((response) => {
+        //ReportService.getUserReport()
+        const file = new Blob([response.data], {
+          type: "application/pdf",
+        });
+        //Build a URL from the file
+        const fileURL = URL.createObjectURL(file);
+
+        //Open the URL on new Window
+        window.open(fileURL);
+        setSuccess("Report generated successfully");
+      })
+      .catch((e) => {
+        setError("Opps, something went wrong :(");
+      });
     // }
-      
-      };
-  
+  };
+
   return (
     <div>
       {accessToken !== undefined ? (
@@ -116,7 +122,12 @@ const Report = () => {
                     className="form-control"
                     id="dateone"
                     name="dateone"
-                    value={formValues.date}
+                    max={
+                      moment()
+                        .format()
+                        .split("T")[0]
+                    }
+                    value={formValues.dateone}
                     onChange={handleChange}
                   />
                 </div>
@@ -135,7 +146,18 @@ const Report = () => {
                     className="form-control"
                     id="datetwo"
                     name="datetwo"
-                    value={formValues.date}
+                    min={
+                      moment(formValues.dateone)
+                        .add(1, "day")
+                        .format()
+                        .split("T")[0]
+                    }
+                    max={
+                      moment()
+                        .format()
+                        .split("T")[0]
+                    }
+                    value={formValues.datetwo}
                     onChange={handleChange}
                   />
                 </div>
@@ -156,10 +178,12 @@ const Report = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div className="card p-3 mt-2 " style={posR} >
-        <h1>Restricted area</h1>
-        <h2><a href="/login">Sign In</a> to Generate Report</h2>
-        </div>
+          <div className="card p-3 mt-2 " style={posR}>
+            <h1>Restricted area</h1>
+            <h2>
+              <a href="/login">Sign In</a> to Generate Report
+            </h2>
+          </div>
         </React.Fragment>
       )}
     </div>
