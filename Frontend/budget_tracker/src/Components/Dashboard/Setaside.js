@@ -85,7 +85,7 @@ const Setaside = () => {
       {accessToken !== undefined ? (
         <React.Fragment>
           <div className="row col-md-8 offset-md-4">
-            <h3 className="">Set a Goal</h3>
+            <h1 className="">Set a Goal</h1>
             <form className="" onSubmit={addGoal}>
               <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">

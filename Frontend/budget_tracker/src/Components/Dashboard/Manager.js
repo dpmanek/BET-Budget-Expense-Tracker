@@ -67,7 +67,7 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
         </div>
       </div>
       <div className="col-md-4">
-        <h2 className="page-header__title">Set a budget for your goals</h2>
+        <h1 className="page-header__title">Set a budget for your goals</h1>
         <div className="page-header__actions">
           <button
             className="btn btn-outline-success dash-success"

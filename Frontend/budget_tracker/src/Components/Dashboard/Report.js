@@ -97,8 +97,8 @@ const Report = () => {
 		<div>
 			{accessToken !== undefined ? (
 				<React.Fragment>
-					<div className="row col-md-8 offset-md-4">
-						<h3>Select dates to generate a report</h3>
+					<div className="card row col-md-8 card1">
+						<h1>Select dates to generate a report</h1>
 						<form className="" onSubmit={genReport}>
 							<label htmlFor="exampleInputEmail1" className="form-label">
 								Select Starting Date
