@@ -206,100 +206,121 @@ router.post("/addIncome", async (req, res) => {
 
 router.get("/getPieChartData", async (req, res) => {
   let UserID = req.userId;
+  let userInfo = undefined;
+  let Output = undefined;
 
-
-  let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
-    UserID
-  );
-
-  let expense = userInfo.Expenditure;
-  let OneTime = expense.OneTime;
-  let Recurring = expense.Recurring;
-  let FinalExpense = [];
-  let Output = [];
-
-  FinalExpense = OneTime.concat(Recurring);
-  if (FinalExpense.length === 0) {
-    res.send({ data: [{ name: "No expense Added", y: 0 }] });
-  } else {
-    for (let i = 0; i < FinalExpense.length; i++) {
-      if (i === 0) {
-        Output.push({
-          name: FinalExpense[i].Tags,
-          y: FinalExpense[i].Amount,
-        });
-      } else {
-        let comparer = FinalExpense[i];
-        let tagnotfound = true;
-        for (let j = 0; j < Output.length; j++) {
-          if (Output[j].name === comparer.Tags) {
-            Output[j].y = Output[j].y + comparer.Amount;
-            tagnotfound = false;
-          }
-          if (j === Output.length - 1 && tagnotfound) {
-            Output.push({
-              name: comparer.Tags,
-              y: comparer.Amount,
-            });
-          }
-        }
-      }
-    }
-    //console.log('Request Processed');
-    res.send({ data: Output });
-  }
+try{
+	userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
+		UserID
+	  );
+}
+catch(e){
+	return res.status(400).send({ Error: e });
+}
+try{
+	Output = await userDataFunctions.filterDataPieChart(userInfo)
+	res.send({ data: Output });
+}
+catch(e){
+	return res.status(400).send({ Error: e });
+}
 });
 
 router.delete("/deleteIncome", async (req, res) => {
-  let email = req.userId;
-  let transactionId = xss(req.body.TransactionID);
-
-  //console.log('request recieved');
-  // data validation ToDo
-
-  let userInfo = await transactionFunc.deleteIncome(email, transactionId); //change to get user review
-
-  //console.log('Request Processed Deleted Income');
-  res.send({ data: userInfo });
+	let email = req.userId;
+	let transactionId = xss(req.body.TransactionID);
+	let userInfo = undefined;
+	
+	try{
+	  if(!transactionId) throw "TransactionID Not Provided";
+	  transactionId = dataValidation.checkTransactionID(transactionId)
+	  }
+	  catch(e){
+	  return res.status(400).send({ Error: e });
+  }
+  try{
+	  userInfo = await transactionFunc.deleteIncome(email, transactionId); //change to get user review
+	  if(userInfo){
+	  res.status(200).send({ data: userInfo });
+  }
+  else throw "Something Went Wrong"
+  }
+  catch(e){
+	  return res.status(400).send({ Error: e });
+  }
 });
 
 router.delete("/deleteExpense", async (req, res) => {
   let email = req.userId;
   let transactionId = xss(req.body.TransactionID);
-
-  //console.log('request recieved');
-  // data validation ToDo
-
-  let userInfo = await transactionFunc.deleteExpense(email, transactionId); //change to get user review
-
-  //console.log('Request Processed Deleted Expense');
-  res.send({ data: userInfo });
+  let userInfo = undefined;
+  
+  try{
+	if(!transactionId) throw "TransactionID Not Provided";
+	transactionId = dataValidation.checkTransactionID(transactionId)
+	}
+	catch(e){
+	return res.status(400).send({ Error: e });
+}
+try{
+	userInfo = await transactionFunc.deleteExpense(email, transactionId); //change to get user review
+	if(userInfo){
+	res.status(200).send({ data: userInfo });
+}
+else throw "Something Went Wrong"
+}
+catch(e){
+	return res.status(400).send({ Error: e });
+}
 });
 
 router.get("/getIncome", async (req, res) => {
   let email = req.userId;
-  let transactionId = req.query.id;
+  let transactionId = xss(req.query.id);
+  let userInfo = undefined;
 
-  //console.log('request recieved');
-  // data validation ToDo
+try{
+	if(!transactionId) throw "TransactionID Not Provided";
+	transactionId = dataValidation.checkTransactionID(transactionId)
+}
+catch(e){
+	return res.status(400).send({ Error: e });
+}
+try{
+	userInfo = await transactionFunc.getIncome(email, transactionId); //change to get user review
+	if(userInfo){
+	res.status(200).send({ data: userInfo });
+}
+else throw "Something Went Wrong"
+}
+catch(e){
+	return res.status(400).send({ Error: e });
+}
 
-  let userInfo = await transactionFunc.getIncome(email, transactionId); //change to get user review
-
-  //console.log('Request Processed Deleted Expense');
-  res.send({ data: userInfo });
 });
 
 router.get("/getExpense", async (req, res) => {
-  let email = req.userId;
-  let transactionId = req.query.id;
-
-  //console.log('request recieved');
-  //console.log('transactionId received', transactionId);
-  // data validation ToDo
-
-  let userInfo = await transactionFunc.getExpense(email, transactionId); //change to get user review
-
-  res.send({ data: userInfo });
+	let email = req.userId;
+	let transactionId = xss(req.query.id);
+	let userInfo = undefined;
+  
+  try{
+	  if(!transactionId) throw "TransactionID Not Provided";
+	  transactionId = dataValidation.checkTransactionID(transactionId)
+  }
+  catch(e){
+	  return res.status(400).send({ Error: e });
+  }
+  try{
+	  userInfo = await transactionFunc.getExpense(email, transactionId); //change to get user review
+	  if(userInfo){
+	  res.status(200).send({ data: userInfo });
+  }
+  else throw "Something Went Wrong"
+  }
+  catch(e){
+	  return res.status(400).send({ Error: e });
+  }
 });
 
 router.get("/monthlyComparision", async (req, res) => {
@@ -355,35 +376,57 @@ router.get("/monthlyComparision", async (req, res) => {
 });
 router.post("/reportGeneration", async (req, res) => {
   let UserID = req.userId;
-  //console.log('request recieved');
-  // data validation ToDo
-  let Name = await userDataFunctions.getName(UserID);
-  let userInfo = await userDataFunctions.getUserTransactions(UserID);
+	let Name,userInfo,from,till,modeledData;
 
-  let from = xss(req.body.body.dateone);
-  let till = xss(req.body.body.datetwo);
-
-  let modeledData = await userDataFunctions.filterTransactionReportGeneration(
-    userInfo,
-    Name,
-    from,
-    till
-  );
-
-  let pdfFile = reportGenerator.createInvoice(modeledData);
-  pdfFile.pipe(res);
+	try{
+	if(!req.body.body) throw "Req Body Not Present"
+	from = xss(req.body.body.dateone);
+ 	till = xss(req.body.body.datetwo);
+	 if(!from) throw "No Starting Date";
+	 if(!till) throw "No End Date";
+	 from = dataValidation.checkTransactionDateReportGeneration(from);
+	 till = dataValidation.checkTransactionDateReportGeneration(till);
+	 from = new Date(moment(from).format("MM/DD/YYYY"));
+    till = new Date(moment(till).format("MM/DD/YYYY"));
+}
+	 catch(e){
+		return res.status(400).send({ Error: e });
+	 }
+	 try{
+		Name = await userDataFunctions.getName(UserID);
+		userInfo = await userDataFunctions.getUserTransactions(UserID);
+	 }
+	 catch(e){
+		return res.status(400).send({ Error: e });
+	 }
+	 try{
+		modeledData = await userDataFunctions.filterTransactionReportGeneration(
+			userInfo,
+			Name,
+			from,
+			till
+		  );
+		  let pdfFile = reportGenerator.createInvoice(modeledData);
+		  pdfFile.pipe(res);
+	 }
+	 catch(e){
+		return res.status(400).send({ Error: e });
+	 } 
   //pdfFile.pipe(fs.createWriteStream('./server/routes/Report.pdf'));
 });
 
 router.get("/getSpendingLimitMonthExpense", async (req, res) => {
   let UserID = req.userId;
-  //console.log('request recieved');
-  // data validation ToDo
-  let userInfo = await userDataFunctions.getSpendingLimitAndMonthExpense(
-    UserID
-  ); //change to get user review
-  //console.log('Request Processed');
-  res.send({ data: userInfo });
+  try {
+    let userInfo = await userDataFunctions.getSpendingLimitAndMonthExpense(
+		UserID
+	  ); 
+    if (userInfo) {
+      res.status(200).send({ data: userInfo });
+    }
+  } catch (e) {
+    return res.status(400).send({ Error: e });
+  }
 });
 
 router.post("/createComplaint", async (req, res) => {

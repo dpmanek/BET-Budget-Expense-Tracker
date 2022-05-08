@@ -1,4 +1,5 @@
 const emailvalidator = require('email-validator');
+const { ObjectId } = require('mongodb');
 
 const checkName = (string) => {
 	if (!string) throw 'String Undefined';
@@ -129,6 +130,25 @@ const checkTransactionDate = (date) =>{
 		}
 	} else throw 'Invalid Date Format needs to be MM/DD/YYYY';
 }
+const checkTransactionDateReportGeneration = (date) =>{
+	if(!date) throw "Date not Provided"
+	if (typeof date != 'string') throw'Date not String type'
+	date = date.trim();
+	if (date.length === 0) throw'Cannot have empty Date';
+	if (Date(date) !== 'Invalid Date' && !isNaN(new Date(date))) {
+		let splitDate = date.split('-');
+		if (splitDate.length === 3) {
+			if (
+				(splitDate[1].length, splitDate[2].length !== 2) ||
+				splitDate[0].length !== 4
+			)
+				throw 'Release date need to be in the format of MM/DD/YYY';
+			if (splitDate[0] < 1900 || splitDate[0] > 2023)
+				throw 'Only years 1900-2023 are valid values';
+			return date;
+		}
+	} else throw 'Invalid Date Format';
+}
 
 
 const checkPassword = (password) => {
@@ -150,6 +170,16 @@ const checkPassword = (password) => {
 	if (!(password.split('').length >= 6))
 		throw 'Password should have atleast 6 characters';
 };
+
+const checkTransactionID = (id)=>{
+	if (!id) throw `Error: You must provide a valid ID`;
+	if (typeof id !== 'string') throw 'Id must be a string';
+	if (id.trim().length === 0)
+		throw 'Id cannot be an empty string or just spaces';
+	id = id.trim();
+	if (!ObjectId.isValid(id)) throw 'invalid object ID';
+	return id;
+}
 
 
 const createIncome = (email, name, description, tags, amount, type, date) => {
@@ -224,4 +254,6 @@ module.exports = {
 	checkTransactionCategory,
 	checkTransactionDate,
 	checkAmountinDatafunction,
+	checkTransactionID,
+	checkTransactionDateReportGeneration,
 };
