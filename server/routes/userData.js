@@ -15,28 +15,33 @@ const moment = require("moment");
 router.post("/review", async (req, res) => {
   let UserID = req.userId;
   try {
-	if(req.body) data = req.body;
+	if(req.body) data = req.body.body;
 	else throw 'No Request Body';
 	}
 catch(e){
 	return res.status(204).send({ Error: e});
 }
-  let rating = xss(req.body.rating);
-  let feedback = xss(req.body.feedback);
+  let rating = xss(data.rating);
+  let feedback = xss(data.feedback);
 try{
 	if(!rating) throw 'No Rating';
 	if(!feedback) throw 'No FeedBack';
 
 	rating = dataValidation.checkRating(rating);
-	feedback = dataValidation.checkName(lastName);
+	feedback = dataValidation.checkFeedback(feedback);
 }
 catch(e){
 	return res.status(400).send({ Error:e});
 }		
-
+try{
   let userInfo = await userDataFunctions.postReview(UserID, rating, feedback); //change to get user review
-
-  res.send({ data: userInfo });
+	if(userInfo){
+		res.status(200).send({ data: userInfo });
+	}
+}
+catch(e){
+	return res.status(400).send({ Error:e});
+}
 });
 
 router.get("/review", async (req, res) => {

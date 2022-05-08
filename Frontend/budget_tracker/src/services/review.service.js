@@ -7,7 +7,7 @@ const Public_URL = `${config.Server_url}/public`;
 
 //to get user information from server
 const postUserReview = (body) => {
-  return  axios.post(API_URL + "/review", { headers: authHeader(),rating: body.rating, feedback: body.feedback}).then((response) => {
+  return  axios.post(API_URL + "/review",{ body: body }, { headers: authHeader() }).then((response) => {
     return response.data;
   });;
   //  "/review" is a route of the server 
