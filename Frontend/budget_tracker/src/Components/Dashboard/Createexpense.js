@@ -128,6 +128,7 @@ const Createexpense = () => {
                   Name
                 </label>
                 <input
+                  id="exampleInputEmail1"
                   type="text"
                   name="name"
                   placeholder="Name"
@@ -142,6 +143,7 @@ const Createexpense = () => {
                   Description
                 </label>
                 <input
+                id="exampleInputEmail1"
                   type="text"
                   name="description"
                   placeholder="Description (Optional)"
@@ -155,6 +157,7 @@ const Createexpense = () => {
                   Amount
                 </label>
                 <input
+                id="exampleInputEmail1"
                   type="number"
                   placeholder="Amount"
                   step="0.01"
