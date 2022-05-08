@@ -21,10 +21,12 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
   useEffect(() => {
     UserService.getSpendingLimitAndMonthExpense().then((response) => {
       if (response) {
-        if (response.data.SpendingLimit)
+        if (response.data.SpendingLimit == 0)
           setSpendingLimit(`$${response.data.SpendingLimit}`);
-        if (response.data.CurrentMonthExpenses)
+          else setSpendingLimit(`$${response.data.SpendingLimit}`);
+        if (response.data.CurrentMonthExpenses == 0)
           setMonthExpense(`$${response.data.CurrentMonthExpenses}`);
+          else setMonthExpense(`$${response.data.CurrentMonthExpenses}`);
       } else {
         setSpendingLimit("");
         setMonthExpense("");
@@ -84,7 +86,7 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
         <button
           className="btn btn-outline-success dash-success"
           type="button"
-          onClick={() => redirectRoute("/report")}
+          onClick={() => redirectRoute("/monthlyComparision")}
         >
           Monthly Comparison
         </button>

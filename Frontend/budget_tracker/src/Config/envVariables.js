@@ -1,6 +1,6 @@
 
 const config = {
-    url: 'http://localhost:3000',
+    Server_url: 'http://localhost:8080',
 }
 
 export default config;

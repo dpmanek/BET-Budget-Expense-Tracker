@@ -71,8 +71,12 @@ const createIncome = async (
         code: 400,
         message: "could not add album to band",
       };
-
-    return "Done OneTime";
+    let totalincomeUpdated = await updateTotalIncome(UserId);
+    if(totalincomeUpdated)return "Done OneTime";
+    else throw {
+      code: 400,
+      message: "total Income Not Updated",
+    }
   }
 
   if (Type === "Recurring") {
@@ -84,9 +88,14 @@ const createIncome = async (
     if (!data.acknowledged || data.modifiedCount === 0)
       throw {
         code: 400,
-        message: "could not add album to band",
+        message: "total Income Not Updated",
       };
-    return "Done recurring";
+      let totalincomeUpdated = await updateTotalIncome(UserId);
+      if(totalincomeUpdated)return "Done Recurring";
+      else throw {
+        code: 400,
+        message: "total Income Not Updated",
+      }
   }
 };
 
@@ -156,7 +165,12 @@ const createExpense = async (
         message: "could not add album to band",
       };
 
-    return "Done OneTime";
+      let totalincomeUpdated = await updateTotalExpense(UserId);
+      if(totalincomeUpdated)return "Done OneTime";
+      else throw {
+        code: 400,
+        message: "total Income Not Updated",
+      }
   }
 
   if (type === "Recurring") {
@@ -170,7 +184,12 @@ const createExpense = async (
         code: 400,
         message: "could not add album to band",
       };
-    return "Done recurring";
+      let totalincomeUpdated = await updateTotalExpense(UserId);
+      if(totalincomeUpdated)return "Done Recurring";
+      else throw {
+        code: 400,
+        message: "total Income Not Updated",
+      }
   }
 };
 
@@ -208,12 +227,9 @@ const updateTotalIncome = async (UserId) => {
         code: 400,
         message: "Could Not Update Total Income",
       };
-    return "Total Income Updated";
+    return true;
   } else
-    throw {
-      code: 400,
-      message: "User Not Found",
-    };
+    false
 };
 
 const updateTotalExpense = async (UserId) => {

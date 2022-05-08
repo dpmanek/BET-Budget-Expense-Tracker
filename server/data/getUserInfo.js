@@ -208,6 +208,7 @@ module.exports = {
     let transactionByMonth = await this.getUserTransactionsByCurrentMonth(UserId);
     let totalMonthExpenses = 0;
     let totalMonthIncome = 0;
+    let IncomePresentFlag = false;
 
     if(transactionByMonth.Expenditure.OneTime.length > 0){
     for(i in transactionByMonth.Expenditure.OneTime){
@@ -219,28 +220,112 @@ module.exports = {
       totalMonthExpenses += transactionByMonth.Expenditure.Recurring[i].Amount;
     }
   }
-  if(transactionByMonth.Income.OneTime.length > 0 || transactionByMonth.Income.OneTime.length > 0){
+  //Checking if income is present
+  if(transactionByMonth.Income.OneTime.length > 0 || transactionByMonth.Income.Recurring.length > 0){
   if(transactionByMonth.Income.OneTime.length > 0){
-    for(i in transactionByMonth.Income.OneTime.length){
-      totalMonthIncome += transactionByMonth.Income.OneTime.length[i].Amount;
+    for(i in transactionByMonth.Income.OneTime){
+      totalMonthIncome += transactionByMonth.Income.OneTime[i].Amount;
     }
+    IncomePresentFlag = true;
   }
   if(transactionByMonth.Income.Recurring.length > 0){
     for(i in transactionByMonth.Income.Recurring){
       totalMonthIncome += transactionByMonth.Income.Recurring[i].Amount;
     }
+
+    IncomePresentFlag = true;
   }
 }
 
-  let totalSpendingLimit = totalMonthIncome - totalMonthExpenses;
-
-
+if(IncomePresentFlag){
+  
+let totalSpendingLimit = totalMonthIncome - totalMonthExpenses;
     let output = {
       SpendingLimit:totalSpendingLimit,
       CurrentMonthExpenses:totalMonthExpenses,
       CurrentMonthIncome:totalMonthIncome
     }
+    return output;
 
+  }else{
+    let output={
+      SpendingLimit:0,
+      CurrentMonthExpenses:totalMonthExpenses,
+      CurrentMonthIncome:0
+    }
     return output;
   }
+
+    
+  },
+
+
+
+  async filterTransactionReportGeneration(userInfo,Name,from,till){
+
+    let expense = userInfo.Expenditure;
+	let OneTimeExpense = expense.OneTime;
+	let RecurringExpense = expense.Recurring;
+	let income = userInfo.Income;
+	let OneTimeIncome = income.OneTime;
+	let RecurringIncome = income.Recurring;
+
+	
+	let start = new Date(moment(from).format('MM/DD/YYYY'));
+	let end = new Date(moment(till).format('MM/DD/YYYY'));
+
+	let FinalExpense = [];
+	let FinalIncome = [];
+	let FinalTransactions = [];
+	FinalExpense = OneTimeExpense.concat(RecurringExpense);
+	for (let i in FinalExpense) {
+		FinalExpense[i].Type = 'Debit';
+	}
+	FinalIncome = OneTimeIncome.concat(RecurringIncome);
+	for (let i in FinalIncome) {
+		FinalIncome[i].Type = 'Credit';
+	}
+	FinalTransactions = FinalIncome.concat(FinalExpense);
+	for (let i in FinalTransactions) {
+		FinalTransactions[i].TranactionDate = new Date(
+			FinalTransactions[i].TranactionDate
+		);
+	}
+	const sortedActivities = FinalTransactions.sort(
+		(a, b) => a.TranactionDate - b.TranactionDate
+	);
+	let FilteredData = [];
+	for (let i in sortedActivities) {
+		if (
+			sortedActivities[i].TranactionDate >= start &&
+			sortedActivities[i].TranactionDate <= end
+		) {
+			FilteredData.push(sortedActivities[i]);
+		}
+	}
+	let Transactions = [];
+	for (i in FilteredData) {
+		FilteredData[i].TranactionDate = moment(
+			FilteredData[i].TranactionDate
+		).format('MM/DD/YYYY');
+		let element = {
+			Sr_no: parseFloat(i),
+			Transaction_Name: FilteredData[i].Name,
+			Amount: FilteredData[i].Amount,
+			Type: FilteredData[i].Type,
+			Date: FilteredData[i].TranactionDate,
+		};
+		Transactions.push(element);
+	}
+	const modeledData = {
+		Name: Name.Name,
+		From: moment(from).format('MM/DD/YYYY'),
+		Till: moment(till).format('MM/DD/YYYY'),
+		Transactions: Transactions,
+	};
+
+  return modeledData
+  }
 };
+
+

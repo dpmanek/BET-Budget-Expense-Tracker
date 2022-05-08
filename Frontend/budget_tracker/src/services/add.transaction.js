@@ -1,7 +1,8 @@
 import axios from "axios";
 import authHeader from "./auth-header";
-const API_URL = "http://localhost:8080/user/data";
-const Public_URL = "http://localhost:8080/public";
+import config from "../Config/envVariables";
+const API_URL = `${config.Server_url}/user/data`;
+const Public_URL = `${config.Server_url}/public`;
 
 const getUserIncome = (TransactionID) => {
   return axios

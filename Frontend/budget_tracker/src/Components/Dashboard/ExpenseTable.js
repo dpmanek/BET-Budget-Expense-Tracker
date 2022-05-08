@@ -106,11 +106,13 @@ const ExpenseTable = ({ updatePieState }) => {
         <React.Fragment>
           <table className="table table-border">
             <thead>
+              <tr>
               <th>Expense Name</th>
               <th>Amount</th>
               <th>Date</th>
               <th>Edit</th>
               <th>Delete</th>
+              </tr>
             </thead>
             <tbody>
               {oneTime.map((d) => {
@@ -147,11 +149,13 @@ const ExpenseTable = ({ updatePieState }) => {
         <React.Fragment>
           <table className="table table-border">
             <thead>
+              <tr>
               <th>Expense Name</th>
               <th>Amount</th>
               <th>Date</th>
               <th>Edit</th>
               <th>Delete</th>
+              </tr>
             </thead>
             <tbody>
               {data.map((d) => {
@@ -204,11 +208,13 @@ const ExpenseTable = ({ updatePieState }) => {
           <React.Fragment>
             <table className="table table-border">
               <thead>
+                <tr>
                 <th>Income Name</th>
                 <th>Amount</th>
                 <th>Date</th>
                 <th>Edit</th>
                 <th>Delete</th>
+                </tr>
               </thead>
               <tbody>
                 {incomeOneTime.map((d) => {
@@ -245,11 +251,13 @@ const ExpenseTable = ({ updatePieState }) => {
           <React.Fragment>
             <table className="table table-border">
               <thead>
+                <tr>
                 <th>Income Name</th>
                 <th>Amount</th>
                 <th>Date</th>
                 <th>Edit</th>
                 <th>Delete</th>
+                </tr>
               </thead>
               <tbody>
                 {incomeData.map((d) => {

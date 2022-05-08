@@ -1,7 +1,8 @@
 import axios from 'axios';
 import authHeader from './auth-header';
-const API_URL = 'http://localhost:8080/user/data';
-const Public_URL = 'http://localhost:8080/public';
+import config from "../Config/envVariables";
+const API_URL = `${config.Server_url}/user/data`;
+const Public_URL = `${config.Server_url}/public`;
 
 //can use this incase need to get public data from server eg reviews
 const getPublicContent = () => {
@@ -23,16 +24,6 @@ const getSpendingLimitAndMonthExpense = () => {
 		.then((response) => {
 			return response.data;
 		});
-};
-
-//using as an example
-//to get user information from server
-const getUserDOB = () => {
-	return axios
-		.get(API_URL + '/dob', { headers: authHeader() })
-		.then((response) => {
-			return response.data;
-		}); //  "/dob" is a route of the server
 };
 
 const getPieChartData = () => {
@@ -76,7 +67,6 @@ const trackComplaint = (body) => {
 const UserService = {
 	getPublicContent,
 	getUserTransactionData,
-	getUserDOB,
 	getPieChartData,
 	getmonthlyComparision,
 	getSpendingLimitAndMonthExpense,
