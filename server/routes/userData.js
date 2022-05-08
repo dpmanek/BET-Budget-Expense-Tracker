@@ -48,7 +48,6 @@ router.get("/review", async (req, res) => {
   res.send({ data: userInfo });
 });
 
-
 router.get("/alltransactions", async (req, res) => {
   let UserID = req.userId;
   //console.log('request recieved');
@@ -358,12 +357,13 @@ router.post("/trackComplaint", async (req, res) => {
   const filters = ["number=" + incident];
   const fields = ["number", "short_description", "urgency", "state"];
   await ServiceNow.getTableData(fields, filters, "incident", (response) => {
+    if (!response[0]) {
+      return res.send({ data: "Ticket with this ID does not exist" });
+    }
     res.send({ data: response[0] });
   });
   //let status = await ticketGeneration.fetchIncident(incident);
 });
-
-
 
 module.exports = router;
 /*
