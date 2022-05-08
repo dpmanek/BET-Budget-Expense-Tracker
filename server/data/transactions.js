@@ -17,7 +17,7 @@ const createIncome = async (
 	/*errorChecking*/
 
 	try {
-		await dataValidation.createExpense(
+		await dataValidation.createIncome(
 			UserId,
 			Name,
 			Description,
