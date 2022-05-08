@@ -142,7 +142,7 @@ const Createincome = () => {
                 <input
                   type="text"
                   name="description"
-                  placeholder="Description"
+                  placeholder="Description (Optional)"
                   className="form-control position"
                   value={formValues.description}
                   onChange={handleChange}
@@ -172,7 +172,9 @@ const Createincome = () => {
                 value={formValues.category}
                 onChange={handleChange}
               >
-                <option >Select your category</option>
+                <option value="" disabled selected>
+                  Select your option
+                </option>
                 <option value="Checks">Checks</option>
                 <option value="Coupons">Coupons</option>
                 <option value="Dues">Dues</option>

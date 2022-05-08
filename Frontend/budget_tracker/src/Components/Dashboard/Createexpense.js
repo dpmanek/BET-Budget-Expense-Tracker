@@ -114,7 +114,6 @@ const Createexpense = () => {
     }
   };
 
-  
   return (
     <div>
       {accessToken !== undefined ? (
@@ -143,7 +142,7 @@ const Createexpense = () => {
                 <input
                   type="text"
                   name="description"
-                  placeholder="Description"
+                  placeholder="Description (Optional)"
                   className="form-control position"
                   value={formValues.description}
                   onChange={handleChange}
@@ -156,6 +155,7 @@ const Createexpense = () => {
                 <input
                   type="number"
                   placeholder="Amount"
+                  step="0.01"
                   className="form-control position"
                   name="amount"
                   value={formValues.amount}
@@ -170,10 +170,13 @@ const Createexpense = () => {
                 className="form-select position"
                 aria-label="Default select example"
                 name="category"
+                placeholder="Select your category"
                 value={formValues.category}
                 onChange={handleChange}
               >
-                <option >Select your category</option>
+                <option value="" disabled selected>
+                  Select your option
+                </option>
                 <option value="Food and Drinks">Food and Drinks</option>
                 <option value="Shopping">Shopping</option>
                 <option value="Housing">Housing</option>

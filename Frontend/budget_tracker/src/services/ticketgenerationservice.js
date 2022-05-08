@@ -7,19 +7,24 @@ const createTicket = (body) => {
   return axios
     .post(
       API_URL + "/createComplaint",
-      { body: body },
+      { body: { incident: body } },
       { headers: authHeader() }
     )
     .then((response) => {
-      return response.data;
+      //   console.log(response, "response========");
+      return response.data.data;
     });
 };
 
 const postTicketID = (body) => {
   return axios
-    .post(API_URL + "/trackComplain", { body: body }, { headers: authHeader() })
+    .post(
+      API_URL + "/trackComplaint",
+      { body: body },
+      { headers: authHeader() }
+    )
     .then((response) => {
-      return response.data;
+      return response.data.data;
     });
 };
 
