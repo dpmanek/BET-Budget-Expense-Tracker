@@ -21,7 +21,7 @@ const Report = () => {
 	const [error, setError] = useState('');
 	const [success, setSuccess] = useState('');
 	const [formErrors, setFormErrors] = useState({});
-	const [isSubmit, setIsSubmit] = useState(false);
+	//const [isSubmit, setIsSubmit] = useState(false);
 
 	useEffect(() => {
 		setFormValues({ ...formValues, datetwo: '' });
@@ -71,7 +71,7 @@ const Report = () => {
 		setSuccess('');
 		event.preventDefault();
 		setFormErrors(validate(formValues));
-		setIsSubmit(true);
+		//setIsSubmit(true);
 
 		//if (validate.errors.length == 0) {
 		ReportService.getUserReportSpecificRange(formValues)
