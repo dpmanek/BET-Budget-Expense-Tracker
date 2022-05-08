@@ -14,11 +14,26 @@ const moment = require("moment");
 
 router.post("/review", async (req, res) => {
   let UserID = req.userId;
+  try {
+	if(req.body) data = req.body;
+	else throw 'No Request Body';
+	}
+catch(e){
+	return res.status(204).send({ Error: e});
+}
   let rating = xss(req.body.rating);
   let feedback = xss(req.body.feedback);
+try{
+	if(!rating) throw 'No Rating';
+	if(!feedback) throw 'No FeedBack';
 
-  // data validation ToDo
-  // user review added return message
+	rating = dataValidation.checkRating(rating);
+	feedback = dataValidation.checkName(lastName);
+}
+catch(e){
+	return res.status(400).send({ Error:e});
+}		
+
   let userInfo = await userDataFunctions.postReview(UserID, rating, feedback); //change to get user review
 
   res.send({ data: userInfo });

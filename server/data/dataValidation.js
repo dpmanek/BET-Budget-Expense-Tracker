@@ -33,6 +33,11 @@ const checkEmail = (email) => {
 		throw { code: 400, message: 'Email Not Valid' };
 	return email;
 };
+const checkRating = (rating) =>{
+	if (!rating) throw ' Please enter a Rating';
+
+	// if()
+};
 
 const checkPassword = (password) => {
 	// check if we have to trim
@@ -118,4 +123,5 @@ module.exports = {
 	checkEmail,
 	checkPassword,
 	createIncome,
+	checkRating,
 };

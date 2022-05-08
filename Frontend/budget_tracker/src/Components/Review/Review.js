@@ -45,7 +45,7 @@ const Review = () => {
     let error = await validate(formValues);
     await setFormErrors(error);
     if (Object.keys(error).length === 0) {
-      await reviewService
+       reviewService
         .postUserReview(formValues)
         .then((data) => {
           setSuccess("Review added successfully !");
