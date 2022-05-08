@@ -37,7 +37,7 @@ const checkIncidentID = (string) => {
 	if (!(result == string && typeof result === 'object'))
 	throw 'Incident ID Invalid';
 
-
+	return string;
 };
 
 
