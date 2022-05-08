@@ -347,7 +347,7 @@ router.post("/createComplaint", async (req, res) => {
 
 router.post("/trackComplaint", async (req, res) => {
   //pending errorchecking for incident number
-  let incident = xss(req.body.body.incident);
+  let incident = xss(req.body.body);
   const ServiceNow = new sn("dev92862", "admin", "$bWw-GBd5t4F");
 
   ServiceNow.Authenticate();
