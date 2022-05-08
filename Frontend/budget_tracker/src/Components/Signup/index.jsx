@@ -31,20 +31,18 @@ const Signup = () => {
 
 	const validate = (values) => {
 		let errors = {};
-		
-		const first = /^[a-zA-Z()]+$/.test(values.firstName);
-		const last = /^[a-zA-Z()]+$/.test(values.lastName);
-		const flag = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(values.email);
+
+		const first = /^[a-zA-Z]+$/.test(values.firstName);
+		const last = /^[a-zA-Z]+$/.test(values.lastName);
+		const flag = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+			values.email
+		);
 		if (flag === false) {
 			errors.email = 'Email ID is invalid!!';
 		}
 
 		if (values.password.length < 6) {
 			errors.password = 'Length of password should be greater than 6';
-		}
-
-		if (values.password.length > 10) {
-			errors.password = 'Length of password should be lesser than 10';
 		}
 
 		if (first === false) {

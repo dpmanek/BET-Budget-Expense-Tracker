@@ -354,7 +354,6 @@ const deleteExpense = async (UserId, transactionID) => {
 		};
 };
 
-
 const getIncome = async (UserId, transactionID) => {
 	if (!UserId) throw 'No Email';
 	UserId = dataValidation.checkEmail(UserId);
@@ -390,8 +389,7 @@ const getIncome = async (UserId, transactionID) => {
 		} else {
 			throw `No Transaction of ${transactionID} ID Exists`;
 		}
-	} else
-		throw 'User Not Found';
+	} else throw 'User Not Found';
 };
 
 const getExpense = async (UserId, transactionID) => {
@@ -429,18 +427,17 @@ const getExpense = async (UserId, transactionID) => {
 		} else {
 			throw `No Transaction of ${transactionID} ID Exists`;
 		}
-	} else
-		throw  'User Not Found'
-	
+	} else throw 'User Not Found';
 };
 
 const createSetAside = async (UserId, Amount, Purpose) => {
-	if (!UserId || !Amount || !Purpose)throw 'All input fields need to be a valid values';
+	if (!UserId || !Amount || !Purpose)
+		throw 'All input fields need to be a valid values';
 	//ask kevin to do data validations for UserId here
 	UserId = dataValidation.checkEmail(UserId);
 	UserId = UserId.toLowerCase();
 	Amount = dataValidation.checkAmountinDatafunction(Amount);
-	Purpose = dataValidation.checkFeedback(Purpose)
+	Purpose = dataValidation.checkFeedback(Purpose);
 
 	let UserCollection = await Users();
 	let setAside = {
@@ -466,7 +463,6 @@ const deleteSetAside = async (UserId, transactionID) => {
 	UserId = UserId.toLowerCase();
 	if (!transactionID) throw 'No Transaction ID';
 	transactionID = dataValidation.checkTransactionID(transactionID);
-	
 
 	let deletedflag = false;
 	let UserCollection = await Users();
@@ -516,14 +512,12 @@ const getSetAside = async (UserId) => {
 		if (SetAsideMoney && SetAsideMoney.length >= 1) {
 			for (i in SetAsideMoney) {
 				SetAsideMoney[i]._id = SetAsideMoney[i]._id.toString();
-					Transaction.push(SetAsideMoney[i]);
-					
-				}
+				Transaction.push(SetAsideMoney[i]);
 			}
-
-			return Transaction;
 		}
-	 else throw'User Not Found';
+
+		return Transaction;
+	} else throw 'User Not Found';
 };
 module.exports = {
 	createIncome,
@@ -532,8 +526,6 @@ module.exports = {
 	updateTotalExpense,
 	deleteIncome,
 	deleteExpense,
-	updateIncome,
-	updateExpense,
 	getIncome,
 	getExpense,
 	createSetAside,
