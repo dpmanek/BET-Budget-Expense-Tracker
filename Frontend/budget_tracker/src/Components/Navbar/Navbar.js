@@ -32,16 +32,16 @@ function Navbar(props) {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark custom-color py-0 ">
-      <div className="container-fluid co width-change">
+      <div className="container-fluid width-change">
         <Link className="navbar-brand hover-change" to="/">
           {/* <a className="navbar-brand hover-change"> */}
-            <img
-              src="/pigIllustration.png"
-              alt="BET Logo"
-              width="20"
-              height="20"
-            />
-            BET
+          <img
+            src="/pigIllustration.png"
+            alt="BET Logo"
+            width="20"
+            height="20"
+          />
+          BET
           {/* </a> */}
         </Link>
 
@@ -53,28 +53,28 @@ function Navbar(props) {
               </a>
 
               <button
-                className="btn btn-outline-success navbar-success"
+                className="btn btn-outline-success navbar-success button-fix"
                 type="button"
                 onClick={() => redirectRoute("/generateticket")} //Redirects to Review
               >
                 Generate Ticket
               </button>
               <button
-                className="btn btn-outline-success navbar-success"
+                className="btn btn-outline-success navbar-success button-fix"
                 type="button"
                 onClick={() => redirectRoute("/review")} //Redirects to Review
               >
-                Add a review
+                Sign up
               </button>
               <button
-                className="btn btn-outline-success navbar-success"
+                className="btn btn-outline-success navbar-success button-fix"
                 type="button"
                 onClick={() => redirectRoute("/dashboard")} //Redirects to DashBoard
               >
                 Dashboard
               </button>
               <button
-                className="btn btn-outline-success navbar-success"
+                className="btn btn-outline-success navbar-success button-fix"
                 type="button"
                 onClick={handleLogout} //Handle logout event
               >
@@ -83,13 +83,6 @@ function Navbar(props) {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              {/* <button
-                className="btn btn-outline-success navbar-success"
-                type="button"
-                onClick={() => redirectRoute("/about")}
-              >
-                About
-              </button> */}
               <div className="width-change">
                 <button
                   className="btn btn-outline-success navbar-success"
