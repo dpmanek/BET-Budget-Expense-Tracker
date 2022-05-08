@@ -5,8 +5,6 @@ import axios from "axios";
 import AuthService from "../../services/auth.service";
 import TicketService from "../../services/ticketgenerationservice";
 
-
-
 const Ticket = () => {
   const initialValuesGenTicket = {
     bug: "",
@@ -103,6 +101,7 @@ const Ticket = () => {
           if (data === "Ticket with this ID does not exist") {
             setError("Ticket with this ID does not exist");
           } else {
+            console.log(data);
             updateTicketStatus(data);
             setSuccess("Status Rendered successfully!!");
           }
