@@ -1,70 +1,71 @@
-const router = require("express").Router();
-const userDataFunctions = require("../data/getUserInfo");
-const transactionFunc = require("../data/transactions");
-const reportGenerator = require("../data/reportGenerator");
-const ticketGeneration = require("../data/ticketGeneration");
-const dataValidation = require("../data/dataValidation");
-const sn = require("servicenow-rest-api");
-const fs = require("fs");
-var path = require("path");
-var xss = require("xss");
-const moment = require("moment");
+const router = require('express').Router();
+const userDataFunctions = require('../data/getUserInfo');
+const transactionFunc = require('../data/transactions');
+const reportGenerator = require('../data/reportGenerator');
+const ticketGeneration = require('../data/ticketGeneration');
+const dataValidation = require('../data/dataValidation');
+const Mailer = require('../data/mail');
+const sn = require('servicenow-rest-api');
+const fs = require('fs');
+var path = require('path');
+var xss = require('xss');
+const moment = require('moment');
 // route will be used to get all the User specific data
 
-router.post("/review", async (req, res) => {
-  let UserID = req.userId;
-  try {
-    if (req.body) data = req.body.body;
-    else throw "No Request Body";
-  } catch (e) {
-    return res.status(204).send({ Error: e });
-  }
-  let rating = xss(data.rating);
-  let feedback = xss(data.feedback);
-  try {
-    if (!rating) throw "No Rating";
-    if (!feedback) throw "No FeedBack";
+router.post('/review', async (req, res) => {
+	let UserID = req.userId;
+	try {
+		if (req.body) data = req.body.body;
+		else throw 'No Request Body';
+	} catch (e) {
+		return res.status(204).send({ Error: e });
+	}
+	let rating = xss(data.rating);
+	let feedback = xss(data.feedback);
+	try {
+		if (!rating) throw 'No Rating';
+		if (!feedback) throw 'No FeedBack';
 
-    rating = dataValidation.checkRating(rating);
-    feedback = dataValidation.checkFeedback(feedback);
-  } catch (e) {
-    return res.status(400).send({ Error: e });
-  }
-  try {
-    let userInfo = await userDataFunctions.postReview(UserID, rating, feedback); //change to get user review
-    if (userInfo) {
-      res.status(200).send({ data: userInfo });
-    }
-  } catch (e) {
-    return res.status(400).send({ Error: e });
-  }
+		rating = dataValidation.checkRating(rating);
+		feedback = dataValidation.checkFeedback(feedback);
+	} catch (e) {
+		return res.status(400).send({ Error: e });
+	}
+	try {
+		let userInfo = await userDataFunctions.postReview(UserID, rating, feedback); //change to get user review
+		if (userInfo) {
+			res.status(200).send({ data: userInfo });
+		}
+	} catch (e) {
+		return res.status(400).send({ Error: e });
+	}
 });
 
-router.get("/review", async (req, res) => {
-  let UserID = req.userId;
+router.get('/review', async (req, res) => {
+	let UserID = req.userId;
 
-  try {
-    let userInfo = await userDataFunctions.getReview(UserID); //change to get user review
-    if (userInfo) {
-      res.status(200).send({ data: userInfo });
-    }
-  } catch (e) {
-    return res.status(400).send({ Error: e });
-  }
+	try {
+		let userInfo = await userDataFunctions.getReview(UserID); //change to get user review
+		if (userInfo) {
+			res.status(200).send({ data: userInfo });
+		}
+	} catch (e) {
+		return res.status(400).send({ Error: e });
+	}
 });
 
-router.get("/alltransactions", async (req, res) => {
-  let UserID = req.userId;
-  try {
-    let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
-      UserID
-    );
-    if (userInfo) {
-      res.status(200).send({ data: userInfo });
-    }
-  } catch (e) {
-    return res.status(400).send({ Error: e });
-  }
+router.get('/alltransactions', async (req, res) => {
+	let UserID = req.userId;
+	try {
+		let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
+			UserID
+		);
+		if (userInfo) {
+			res.status(200).send({ data: userInfo });
+		}
+	} catch (e) {
+		return res.status(400).send({ Error: e });
+	}
 });
 
 router.post("/addExpense", async (req, res) => {
@@ -323,56 +324,56 @@ router.get("/getExpense", async (req, res) => {
   }
 });
 
-router.get("/monthlyComparision", async (req, res) => {
-  let UserID = req.userId;
-  //console.log('request recieved');
-  // data validation ToDo
+router.get('/monthlyComparision', async (req, res) => {
+	let UserID = req.userId;
+	//console.log('request recieved');
+	// data validation ToDo
 
-  let userInfo = await userDataFunctions.getUserTransactions(UserID);
-  let expense = userInfo.Expenditure;
-  let OneTimeExpense = expense.OneTime;
-  let RecurringExpense = expense.Recurring;
+	let userInfo = await userDataFunctions.getUserTransactions(UserID);
+	let expense = userInfo.Expenditure;
+	let OneTimeExpense = expense.OneTime;
+	let RecurringExpense = expense.Recurring;
 
-  let income = userInfo.Income;
-  let OneTimeIncome = income.OneTime;
-  let RecurringIncome = income.Recurring;
+	let income = userInfo.Income;
+	let OneTimeIncome = income.OneTime;
+	let RecurringIncome = income.Recurring;
 
-  // let from ="05/01/2022"
-  // let till="05/05/2022"
-  // let start = new Date(moment(from).format("MM/DD/YYYY"));
-  // let end = new Date(moment(till).format("MM/DD/YYYY"));
+	// let from ="05/01/2022"
+	// let till="05/05/2022"
+	// let start = new Date(moment(from).format("MM/DD/YYYY"));
+	// let end = new Date(moment(till).format("MM/DD/YYYY"));
 
-  let FinalExpense = [];
-  let FinalIncome = [];
-  let Expensedata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  let Incomedata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  //	let thisMonth = parseInt(moment().format('mm'));
+	let FinalExpense = [];
+	let FinalIncome = [];
+	let Expensedata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	let Incomedata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	//	let thisMonth = parseInt(moment().format('mm'));
 
-  FinalExpense = OneTimeExpense.concat(RecurringExpense);
-  for (let i in FinalExpense) {
-    let date = moment(new Date(FinalExpense[i].TranactionDate)).format(
-      "MM/DD/YYYY"
-    );
-    let month = parseInt(moment(new Date(date)).format("MM"));
+	FinalExpense = OneTimeExpense.concat(RecurringExpense);
+	for (let i in FinalExpense) {
+		let date = moment(new Date(FinalExpense[i].TranactionDate)).format(
+			'MM/DD/YYYY'
+		);
+		let month = parseInt(moment(new Date(date)).format('MM'));
 
-    Expensedata[month - 1] = Expensedata[month - 1] + FinalExpense[i].Amount;
-  }
+		Expensedata[month - 1] = Expensedata[month - 1] + FinalExpense[i].Amount;
+	}
 
-  FinalIncome = OneTimeIncome.concat(RecurringIncome);
-  for (let i in FinalIncome) {
-    let date = moment(new Date(FinalIncome[i].TranactionDate)).format(
-      "MM/DD/YYYY"
-    );
-    let month = parseInt(moment(new Date(date)).format("MM"));
-    Incomedata[month - 1] = Incomedata[month - 1] + FinalIncome[i].Amount;
-  }
+	FinalIncome = OneTimeIncome.concat(RecurringIncome);
+	for (let i in FinalIncome) {
+		let date = moment(new Date(FinalIncome[i].TranactionDate)).format(
+			'MM/DD/YYYY'
+		);
+		let month = parseInt(moment(new Date(date)).format('MM'));
+		Incomedata[month - 1] = Incomedata[month - 1] + FinalIncome[i].Amount;
+	}
 
-  let data = {
-    TotalIncome: Incomedata,
-    TotalExpenditure: Expensedata,
-  };
-  //console.log('Request Processed Monthly Comparisn Sending');
-  res.send({ data: data });
+	let data = {
+		TotalIncome: Incomedata,
+		TotalExpenditure: Expensedata,
+	};
+	//console.log('Request Processed Monthly Comparisn Sending');
+	res.send({ data: data });
 });
 router.post("/reportGeneration", async (req, res) => {
   let UserID = req.userId;
@@ -429,63 +430,69 @@ router.get("/getSpendingLimitMonthExpense", async (req, res) => {
   }
 });
 
-router.post("/createComplaint", async (req, res) => {
-  let issue = xss(req.body.body.incident.bug);
+router.post('/createComplaint', async (req, res) => {
+	let UserID = req.userId;
+	let issue = xss(req.body.body.incident.bug);
 
-  //let complaintNumber = await ticketGeneration.createIncident(issue);
+	//let complaintNumber = await ticketGeneration.createIncident(issue);
 
-  const ServiceNow = new sn("dev92862", "admin", "$bWw-GBd5t4F");
+	const ServiceNow = new sn('dev92862', 'admin', '$bWw-GBd5t4F');
 
-  ServiceNow.Authenticate();
+	ServiceNow.Authenticate();
 
-  const data = {
-    short_description: issue,
-    urgency: "1",
-  };
+	const data = {
+		short_description: issue,
+		urgency: '1',
+	};
 
-  await ServiceNow.createNewTask(data, "incident", (response) => {
-    res.send({ data: response.number });
-  });
+	await ServiceNow.createNewTask(data, 'incident', (response) => {
+		Mailer.sendEmail(
+			UserID,
+			'BET - Your Complaint is Filed',
+			`Your complaint has been recorded. A specialist will be assigned to your case and the issue shall be resolved soon after that. Your Complaint Tracking Number is:${response.number}`
+		);
+		res.send({ data: response.number });
+	});
 });
 
-router.post("/trackComplaint", async (req, res) => {
-  //pending errorchecking for incident number
-  let incident = xss(req.body.body);
-  const ServiceNow = new sn("dev92862", "admin", "$bWw-GBd5t4F");
+router.post('/trackComplaint', async (req, res) => {
+	//pending errorchecking for incident number
+	let incident = xss(req.body.body);
+	const ServiceNow = new sn('dev92862', 'admin', '$bWw-GBd5t4F');
 
-  ServiceNow.Authenticate();
-  const filters = ["number=" + incident];
-  const fields = ["number", "short_description", "urgency", "state"];
-  await ServiceNow.getTableData(fields, filters, "incident", (response) => {
-    if (!response[0]) {
-      return res.send({ data: "Ticket with this ID does not exist" });
-    }
-    res.send({ data: response[0] });
-  });
-  //let status = await ticketGeneration.fetchIncident(incident);
+	ServiceNow.Authenticate();
+	const filters = ['number=' + incident];
+	const fields = ['number', 'short_description', 'urgency', 'state'];
+	await ServiceNow.getTableData(fields, filters, 'incident', (response) => {
+		if (!response[0]) {
+			return res.send({ data: 'Ticket with this ID does not exist' });
+		}
+		res.send({ data: response[0] });
+	});
+	//let status = await ticketGeneration.fetchIncident(incident);
 });
 
-router.post("/addSetAside", async (req, res) => {
-  let UserID = req.userId;
-  try {
-    if (req.body.body) {
-      data = req.body.body;
-    } else {
-      throw "No Request Body";
-    }
-  } catch (e) {
-    return res.status(204).send({ Error: e });
-  }
-  await transactionFunc.createSetAside(UserID, Amount, Purpose);
-  return res.status(200).send({});
+router.post('/addSetAside', async (req, res) => {
+	let UserID = req.userId;
+	try {
+		if (req.body.body) {
+			data = req.body.body;
+		} else {
+			throw 'No Request Body';
+		}
+	} catch (e) {
+		return res.status(204).send({ Error: e });
+	}
+	await transactionFunc.createSetAside(UserID, Amount, Purpose);
+	return res.status(200).send({});
 });
-router.delete("/removeSetAside", async (req, res) => {
-  let UserId = req.userId;
-  let transactionId = xss(req.body.TransactionID);
+router.delete('/removeSetAside', async (req, res) => {
+	let UserId = req.userId;
+	let transactionId = xss(req.body.TransactionID);
 
-  let userInfo = await transactionFunc.deleteSetAside(UserId, transactionId); //change to get user review
+	let userInfo = await transactionFunc.deleteSetAside(UserId, transactionId); //change to get user review
 
-  res.send({ data: userInfo });
+	res.send({ data: userInfo });
 });
 
 module.exports = router;

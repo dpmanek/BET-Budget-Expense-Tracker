@@ -45,9 +45,6 @@ const Setaside = () => {
     if (!values.goal) {
       errors.goal = "Goal is required";
     }
-    if (!values.name) {
-      errors.name = "Name is required";
-    }
     const flag = alpha.test(values.goal);
     if (flag === true) {
       errors.goal = "Goal cannot be just Numerical!";
@@ -63,16 +60,16 @@ const Setaside = () => {
     await setFormErrors(error);
     if (Object.keys(error).length === 0) {
       let id = formValues._id;
+      //   transactionService
+      //     .deleteSetAside(id)
+      //     .then((d) => {
+      //       setError("");
+      //     })
+      //     .catch((e) => {
+      //       setError("Opps, something went wrong :(");
+      //     });
       transactionService
-        .deleteUserIncome(id)
-        .then((d) => {
-          setError("");
-        })
-        .catch((e) => {
-          setError("Opps, something went wrong :(");
-        });
-      transactionService
-        .postUserIncome(formValues)
+        .createSetAside(formValues)
         .then((data) => {
           setSuccess("Goal added successfully!!");
           //   navigate("/dashboard");
@@ -88,7 +85,7 @@ const Setaside = () => {
       {accessToken !== undefined ? (
         <React.Fragment>
           <div className="row col-md-8 offset-md-4">
-            <h3 className="">Set a Goal</h3>
+            <h1 className="">Set a Goal</h1>
             <form className="" onSubmit={addGoal}>
               <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">

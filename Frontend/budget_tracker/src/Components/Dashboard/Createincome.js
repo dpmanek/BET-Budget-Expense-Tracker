@@ -127,6 +127,7 @@ const Createincome = () => {
                   Name
                 </label>
                 <input
+                  id="exampleInputEmail1"
                   type="text"
                   name="name"
                   placeholder="Name"
@@ -141,6 +142,7 @@ const Createincome = () => {
                   Description
                 </label>
                 <input
+                  id="exampleInputEmail1"
                   type="text"
                   name="description"
                   placeholder="Description (Optional)"
@@ -154,6 +156,7 @@ const Createincome = () => {
                   Amount
                 </label>
                 <input
+                  id="exampleInputEmail1"
                   type="number"
                   placeholder="Amount"
                   className="form-control position"
