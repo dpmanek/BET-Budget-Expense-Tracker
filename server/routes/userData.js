@@ -82,16 +82,16 @@ router.post("/addExpense", async (req, res) => {
 	if(!name) throw "Name Not Provided";
     amount = xss(req.body.body.amount);
 	if(!amount) throw "Amount Not Provided"
-	amount = parseFloat(amount);
     category = xss(req.body.body.category);
 	if(!category) throw "Category Not Provided"
     recurringType = xss(req.body.body.recurringType);
 	if(!recurringType) throw "RecurringType Not Provided";
 	if (recurringType == "yes") recurringType = "Recurring";
-    else recurringType = "OneTime";
-
+    else if(recurringType == "no")recurringType = "OneTime";
+	else recurringType = undefined;
     if (!req.body.body.description)  description = null;
-     else  description = xss(req.body.body.description);
+     else { description = xss(req.body.body.description);
+	description = dataValidation.checkTransactionDescription(description);}
 
     if (!req.body.body.date) {
       let TranactionDate = new Date();
@@ -100,22 +100,27 @@ router.post("/addExpense", async (req, res) => {
        date = moment(TranactionDate).format("MM/DD/YYYY");
     } else {
        date = xss(req.body.body.date);
+	   data = dataValidation.checkTransactionDate(date);
       date = moment(new Date(date)).format("MM/DD/YYYY");
     }
-  } else {
-    throw res.status(400).json({ error: "Bad Request" });
+} else {
+    throw "Req Body Not Present";
   }
 }
   catch(e){
 	return res.status(400).send({ Error:e}); 
   }
-//   try{
-// 	  name = dataValidation.
-//   }
-//   catch(e){
-// 	return res.status(400).send({ Error:e}); 
-//   }
+  try{
+	  if(!recurringType) throw "Recurring Type is Undefined"
+	  name = dataValidation.checkTransactionName(name);
+	  amount = dataValidation.checkTransactionAmount(amount);
+	  category = dataValidation.checkTransactionCategory(category);
 
+	  //date is validated
+  }
+  catch(e){
+	return res.status(400).send({ Error:e}); 
+  }
   //data function call
   try {
     let userInfo = await transactionFunc.createExpense(
@@ -126,57 +131,88 @@ router.post("/addExpense", async (req, res) => {
       amount,
       recurringType,
       date
-    ); //change to get user review
-    res.send({ data: userInfo });
+    ); 
+	if(userInfo){
+    res.status(200).send({ data: userInfo });
+	}
   } catch (e) {
-    console.log(`${e.code}::: ${e.message}`);
-    res.status(e.code).json({ error: e.message });
+    console.log(`400::: ${e}`);
+    res.status(400).send({ Error: e});
   }
 });
 
 router.post("/addIncome", async (req, res) => {
-  let UserID = req.userId;
-  let name = xss(req.body.body.name);
-  if (!req.body.body.description) {
-    var description = null;
-  } else var description = xss(req.body.body.description);
-  let amount = xss(req.body.body.amount);
-  amount = parseInt(amount);
-  let category = xss(req.body.body.category);
-  if (!req.body.body.date) {
-    let TranactionDate = new Date();
-    TranactionDate.toLocaleString("en-US", {
-      timeZone: "America/New_York",
-    });
-    var date = moment(TranactionDate).format("MM/DD/YYYY");
-  } else {
-    var date = xss(req.body.body.date);
-    date = moment(new Date(date)).format("MM/DD/YYYY");
+	let UserID = req.userId;
+  let name, amount, category, recurringType,description,date;
+	try{
+  if (req.body.body) {
+    name = xss(req.body.body.name);
+	if(!name) throw "Name Not Provided";
+    amount = xss(req.body.body.amount);
+	if(!amount) throw "Amount Not Provided"
+    category = xss(req.body.body.category);
+	if(!category) throw "Category Not Provided"
+    recurringType = xss(req.body.body.recurringType);
+	if(!recurringType) throw "RecurringType Not Provided";
+	if (recurringType == "yes") recurringType = "Recurring";
+    else if(recurringType == "no")recurringType = "OneTime";
+	else recurringType = undefined;
+    if (!req.body.body.description)  description = null;
+     else { description = xss(req.body.body.description);
+	description = dataValidation.checkTransactionDescription(description);}
+
+    if (!req.body.body.date) {
+      let TranactionDate = new Date();
+      TranactionDate.toLocaleString("en-US", {
+        timeZone: "America/New_York",});
+       date = moment(TranactionDate).format("MM/DD/YYYY");
+    } else {
+       date = xss(req.body.body.date);
+	   data = dataValidation.checkTransactionDate(date);
+      date = moment(new Date(date)).format("MM/DD/YYYY");
+    }
+} else {
+    throw "Req Body Not Present";
   }
-  let recurringType = xss(req.body.body.recurringType);
-  if (recurringType == "yes") recurringType = "Recurring";
-  else recurringType = "OneTime";
-  //console.log('request recieved');
-  // data validation ToDo
+}
+  catch(e){
+	return res.status(400).send({ Error:e}); 
+  }
+  try{
+	  if(!recurringType) throw "Recurring Type is Undefined"
+	  name = dataValidation.checkTransactionName(name);
+	  amount = dataValidation.checkTransactionAmount(amount);
+	  category = dataValidation.checkTransactionCategory(category);
 
-  let userInfo = await transactionFunc.createIncome(
-    UserID,
-    name,
-    description,
-    category,
-    amount,
-    recurringType,
-    date
-  ); //change to get user review
-
-  //console.log('Request Processed Expense Added');
-  res.send({ data: userInfo });
+	  //date is validated
+  }
+  catch(e){
+	return res.status(400).send({ Error:e}); 
+  }
+  //data function call
+	try {
+		let userInfo = await transactionFunc.createIncome(
+		  UserID,
+		  name,
+		  description,
+		  category,
+		  amount,
+		  recurringType,
+		  date
+		); 
+		if(userInfo){
+		res.status(200).send({ data: userInfo });
+		}
+	  } catch (e) {
+		console.log(`400::: ${e}`);
+		res.status(400).send({ Error: e});
+	  }
+  
 });
 
 router.get("/getPieChartData", async (req, res) => {
   let UserID = req.userId;
-  //console.log('request recieved');
-  // data validation ToDo
+
 
   let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
     UserID

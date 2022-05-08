@@ -55,6 +55,82 @@ const checkFeedback = (feedback) => {
 	return feedback;
 }
 
+
+const checkTransactionName = (String) =>{
+	if (!String) throw ' Please enter a Transaction Name';
+
+	if (typeof String != 'string') throw 'Transaction Name must be a string';
+	String= String.trim();
+	if(String.length === 0) throw 'Transaction Name cannot be empty';
+	return String;
+}
+const checkTransactionDescription = (String) =>{
+	if (!String) throw ' Please enter a Transaction Description';
+
+	if (typeof String != 'string') throw 'Transaction Description must be a string';
+	String= String.trim();
+	if(String.length === 0) throw 'Transaction Description cannot be empty';
+	return String;
+}
+const checkTransactionAmount = (Amount) =>{
+	if (!Amount) throw ' Please enter a Amount';
+
+	if (typeof Amount != 'string') throw 'Amount must be a string';
+	Amount= Amount.trim();
+	if(Amount.length === 0) throw 'Amount cannot be empty';
+	if (Amount.split(' ').length > 1) throw 'Amount has Spaces inside';
+	if (Amount.split('.').length > 2) throw 'Amount has Multiple Decimal Points';
+	Amount = parseFloat(Amount);
+	if (typeof Amount != 'number') throw 'Amount must be a Number';
+	return Amount
+}
+
+const checkAmountinDatafunction = (Amount) =>{
+	if (!Amount) throw ' Please enter a Amount';
+	Amount = parseFloat(Amount);
+	if (typeof Amount != 'number') throw 'Amount must be a Number';
+	return Amount
+}
+
+
+
+const checkTransactionCategory = (string) =>{
+	if (!string) throw 'Transaction Category Undefined';
+
+	if (typeof string != 'string') throw'Transaction Category must be a string Data Type';
+
+	string = string.trim();
+	if (string.length === 0) throw'Cannot have empty a Transaction Category';
+
+	var letterOnly = /^[a-zA-Z]+$/;
+	let result = string.match(letterOnly);
+
+	if (!(result == string && typeof result === 'object'))
+	throw 'Transaction Category should be Only Alphabets';
+	return string;
+}
+
+const checkTransactionDate = (date) =>{
+	if(!date) throw "Date not Provided"
+	if (typeof date != 'string') throw'Date not String type'
+	date = date.trim();
+	if (date.length === 0) throw'Cannot have empty Date';
+	if (Date(date) !== 'Invalid Date' && !isNaN(new Date(date))) {
+		let splitDate = date.split('/');
+		if (splitDate.length === 3) {
+			if (
+				(splitDate[0].length, splitDate[1].length !== 2) ||
+				splitDate[2].length !== 4
+			)
+				throw 'Release date need to be in the format of MM/DD/YYY';
+			if (splitDate[2] < 1900 || splitDate[2] > 2023)
+				throw 'Only years 1900-2023 are valid values';
+			return date;
+		}
+	} else throw 'Invalid Date Format needs to be MM/DD/YYYY';
+}
+
+
 const checkPassword = (password) => {
 	// check if we have to trim
 	if (!password) throw ' Please enter a password';
@@ -142,4 +218,10 @@ module.exports = {
 	createIncome,
 	checkRating,
 	checkFeedback,
+	checkTransactionName,
+	checkTransactionDescription,
+	checkTransactionAmount,
+	checkTransactionCategory,
+	checkTransactionDate,
+	checkAmountinDatafunction,
 };

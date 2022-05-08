@@ -234,15 +234,15 @@ module.exports = {
     if (IncomePresentFlag) {
       let totalSpendingLimit = totalMonthIncome - totalMonthExpenses;
       let output = {
-        SpendingLimit: totalSpendingLimit,
-        CurrentMonthExpenses: totalMonthExpenses,
-        CurrentMonthIncome: totalMonthIncome,
+        SpendingLimit: totalSpendingLimit.toFixed(2),
+        CurrentMonthExpenses: totalMonthExpenses.toFixed(2),
+        CurrentMonthIncome: totalMonthIncome.toFixed(2),
       };
       return output;
     } else {
       let output = {
         SpendingLimit: 0,
-        CurrentMonthExpenses: totalMonthExpenses,
+        CurrentMonthExpenses: totalMonthExpenses.toFixed(2),
         CurrentMonthIncome: 0,
       };
       return output;
