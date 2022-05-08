@@ -65,10 +65,8 @@ module.exports = {
         !data.acknowledged ||
         (data.matchedCount === 0 && data.modifiedCount === 0)
       )
-        throw {
-          code: 400,
-          message: "could not add album to band",
-        };
+        throw "could not add Review"
+        else return { ReviewInserted: true };
     } else throw "User with this email not found";
   },
   async getAllReviews() {

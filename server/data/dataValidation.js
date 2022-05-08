@@ -33,6 +33,27 @@ const checkEmail = (email) => {
 		throw { code: 400, message: 'Email Not Valid' };
 	return email;
 };
+const checkRating = (rating) =>{
+	if (!rating) throw ' Please enter a Rating';
+
+	if (typeof rating != 'string') throw 'Rating must be a string';
+	rating= rating.trim();
+	if(rating.length === 0) throw 'Rating cannot be empty';
+	if (rating.split(' ').length > 1) throw 'rating has Spaces inside';
+	if (rating.split('.').length > 2) throw 'rating has Multiple Decimal Points';
+	rating = parseFloat(rating);
+	if (typeof rating != 'number') throw 'Rating must be a Number';
+	return rating
+};
+
+const checkFeedback = (feedback) => {
+	if (!feedback) throw ' Please enter a feedback';
+
+	if (typeof feedback != 'string') throw 'feedback must be a string';
+	feedback= feedback.trim();
+	if(feedback.length === 0) throw 'feedback cannot be empty';
+	return feedback;
+}
 
 const checkPassword = (password) => {
 	// check if we have to trim
@@ -118,4 +139,6 @@ module.exports = {
 	checkEmail,
 	checkPassword,
 	createIncome,
+	checkRating,
+	checkFeedback,
 };
