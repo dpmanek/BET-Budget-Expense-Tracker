@@ -3,6 +3,7 @@ const userDataFunctions = require('../data/getUserInfo');
 const transactionFunc = require('../data/transactions');
 const reportGenerator = require('../data/reportGenerator');
 const ticketGeneration = require('../data/ticketGeneration');
+const dataValidation = require('../data/dataValidation');
 const sn = require('servicenow-rest-api');
 const fs = require('fs');
 var path = require('path');
@@ -57,41 +58,50 @@ router.get('/alltransactions', async (req, res) => {
 
 router.post('/addExpense', async (req, res) => {
 	let UserID = req.userId;
-	let name = xss(req.body.body.name);
-	if (!req.body.body.description) {
-		var description = null;
-	} else var description = xss(req.body.body.description);
-	let amount = xss(req.body.body.amount);
-	amount = parseInt(amount);
-	let category = xss(req.body.body.category);
-	if (!req.body.body.date) {
-		let TranactionDate = new Date();
-		TranactionDate.toLocaleString('en-US', {
-			timeZone: 'America/New_York',
-		});
-		var date = moment(TranactionDate).format('MM/DD/YYYY');
+	let name, amount, category, recurringType;
+	if (req.body.body) {
+		name = xss(req.body.body.name);
+		amount = xss(req.body.body.amount);
+		category = xss(req.body.body.category);
+		recurringType = xss(req.body.body.recurringType);
+
+		if (!req.body.body.description) {
+			var description = null;
+		} else var description = xss(req.body.body.description);
+
+		amount = parseInt(amount);
+		if (!req.body.body.date) {
+			let TranactionDate = new Date();
+			TranactionDate.toLocaleString('en-US', {
+				timeZone: 'America/New_York',
+			});
+			var date = moment(TranactionDate).format('MM/DD/YYYY');
+		} else {
+			var date = xss(req.body.body.date);
+			date = moment(new Date(date)).format('MM/DD/YYYY');
+		}
+		if (recurringType == 'yes') recurringType = 'Recurring';
+		else recurringType = 'OneTime';
 	} else {
-		var date = xss(req.body.body.date);
-		date = moment(new Date(date)).format('MM/DD/YYYY');
+		return res.status(400).json({ error: 'Bad Request' });
 	}
-	let recurringType = xss(req.body.body.recurringType);
-	if (recurringType == 'yes') recurringType = 'Recurring';
-	else recurringType = 'OneTime';
-	//console.log('request recieved');
-	// data validation ToDo
 
-	let userInfo = await transactionFunc.createExpense(
-		UserID,
-		name,
-		description,
-		category,
-		amount,
-		recurringType,
-		date
-	); //change to get user review
-
-	//console.log('Request Processed Expense Added');
-	res.send({ data: userInfo });
+	//data function call
+	try {
+		let userInfo = await transactionFunc.createExpense(
+			UserID,
+			name,
+			description,
+			category,
+			amount,
+			recurringType,
+			date
+		); //change to get user review
+		res.send({ data: userInfo });
+	} catch (e) {
+		console.log(`${e.code}::: ${e.message}`);
+		res.status(e.code).json({ error: e.message });
+	}
 });
 
 router.post('/addIncome', async (req, res) => {
@@ -288,14 +298,17 @@ router.post('/reportGeneration', async (req, res) => {
 	//console.log('request recieved');
 	// data validation ToDo
 	let Name = await userDataFunctions.getName(UserID);
-	let userInfo = await userDataFunctions.getUserTransactions(
-		UserID
-	);
+	let userInfo = await userDataFunctions.getUserTransactions(UserID);
 
 	let from = xss(req.body.body.dateone);
 	let till = xss(req.body.body.datetwo);
 
-	let modeledData = await userDataFunctions.filterTransactionReportGeneration(userInfo,Name,from,till)
+	let modeledData = await userDataFunctions.filterTransactionReportGeneration(
+		userInfo,
+		Name,
+		from,
+		till
+	);
 
 	let pdfFile = reportGenerator.createInvoice(modeledData);
 	pdfFile.pipe(res);

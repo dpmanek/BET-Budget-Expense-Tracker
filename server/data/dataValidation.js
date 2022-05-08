@@ -54,7 +54,7 @@ const checkPassword = (password) => {
 		throw 'Password should have atleast 6 characters';
 };
 
-const createExpense = (email, name, description, tags, amount, type, date) => {
+const createIncome = (email, name, description, tags, amount, type, date) => {
 	if (!email || !name || !description || !tags || !amount || !type || !date)
 		throw { code: 400, message: 'All fields need to have valid values' };
 
@@ -117,5 +117,5 @@ module.exports = {
 	checkName,
 	checkEmail,
 	checkPassword,
-	createExpense,
+	createIncome,
 };
