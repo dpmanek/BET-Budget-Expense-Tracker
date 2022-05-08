@@ -27,9 +27,11 @@ const Feedback = (props) => {
         {/* <div> */}
         {/* <table className="table table-border">
         <thead>
+          <tr>
           <th>Name</th>
           <th>Rating</th>
           <th>FeedBack</th>
+          </tr>
         </thead>
         <tbody>
           {feedback.map((d) => {
