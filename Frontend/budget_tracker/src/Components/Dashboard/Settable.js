@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import UserService from '../../services/user.service';
 import transactionService from '../../services/add.transaction';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Settable = () => {
 	let navigate = useNavigate();

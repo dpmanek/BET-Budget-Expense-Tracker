@@ -1,7 +1,7 @@
-import React, { useState, Fragment, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+//import { Link, useNavigate, useParams } from 'react-router-dom';
 import './Ticket.css';
-import axios from 'axios';
+//import axios from 'axios';
 import AuthService from '../../services/auth.service';
 import TicketService from '../../services/ticketgenerationservice';
 
@@ -117,13 +117,13 @@ const Ticket = () => {
 			{accessToken !== undefined ? (
 				<React.Fragment>
 					<form onSubmit={genTicket}>
-					<h1>Generate ticket</h1>
+						<h1>Generate ticket</h1>
 						<div className="posF3">
 							<label htmlFor="exampleInputEmail1" className="form-label">
 								Enter a Problem
 							</label>
 							<input
-							id="exampleInputEmail1"
+								id="exampleInputEmail1"
 								type="text"
 								name="bug"
 								placeholder="Problem"
@@ -173,12 +173,12 @@ const Ticket = () => {
 								<label>Ticket ID: </label>
 								{getTicketStatusTicketId} <br />
 								<label>Problem Description: </label>
-								{ticketStatus.short_description == ''
+								{ticketStatus.short_description === ''
 									? 'N/A'
 									: ticketStatus.short_description}
 								<br />
 								<label>Problem Status: </label>
-								{ticketStatus.state == '' ? 'N/A' : ticketStatus.state} <br />
+								{ticketStatus.state === '' ? 'N/A' : ticketStatus.state} <br />
 							</div>
 						)}
 						<div className="thisError">{error !== '' ? error : success}</div>
@@ -189,7 +189,10 @@ const Ticket = () => {
 					<div className="card posR3 posF3">
 						<h1>Restricted area</h1>
 						<h2>
-							<a href="/login" className="a12">Sign In</a> to Generate ticket
+							<a href="/login" className="a12">
+								Sign In
+							</a>{' '}
+							to Generate ticket
 						</h2>
 					</div>
 				</React.Fragment>
