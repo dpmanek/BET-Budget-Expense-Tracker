@@ -115,7 +115,7 @@ const ExpenseTable = ({ updatePieState }) => {
 					<option value="Recurring">Recurring</option>
 				</select>
 			</div>
-			{toggleTable != 'OneTime' ? (
+			{toggleTable !== 'OneTime' ? (
 				<React.Fragment>
 					<table className="table table-border">
 						<thead>
@@ -215,7 +215,7 @@ const ExpenseTable = ({ updatePieState }) => {
 						<option value="Recurring">Recurring</option>
 					</select>
 				</div>
-				{toggleIncomeTable != 'Recurring' ? (
+				{toggleIncomeTable !== 'Recurring' ? (
 					<React.Fragment>
 						<table className="table table-border">
 							<thead>

@@ -1,12 +1,10 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Manager from './Manager';
-import Pie from '../Graphs/piechart';
+// import Pie from '../Graphs/piechart';
 import ExpenseTable from './ExpenseTable';
 import AuthService from '../../services/auth.service';
-import './Dashboard.css'
-
-
+import './Dashboard.css';
 
 const Dashboard = () => {
 	//  const [content, setContent] = useState("");
@@ -44,7 +42,10 @@ const Dashboard = () => {
 					<div className="card posR posF">
 						<h1>Restricted area</h1>
 						<h2>
-							<a href="/login" className="a12">Sign In</a> to Access DashBoard
+							<a href="/login" className="a12">
+								Sign In
+							</a>{' '}
+							to Access DashBoard
 						</h2>
 					</div>
 				</React.Fragment>
