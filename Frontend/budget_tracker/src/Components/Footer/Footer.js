@@ -23,12 +23,14 @@ const Footer = () => {
               </p>
             </div>
             <div className="col item social">
+              <p>Connect over
               <a href="https://github.com/dpmanek/CS_546_C_Project">
-                <i className="icon ion-social-github"></i>
+               <p>Github <i className="l1 icon ion-social-github"></i></p>
               </a>
+              </p>
             </div>
           </div>
-          <p className="copyright c1">BET © 2022</p>
+          <p className="c1 ">BET © 2022</p>
         </div>
       </footer>
     </div>
