@@ -37,10 +37,10 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
   return (
     <div className="row col-md-12 page">
       <div className="col-md-4">
-        <h2 className="page-header__title">
+        <h1 className="page-header__title">
           This month's expenses:
           <span>{MonthExpense}</span>
-        </h2>
+        </h1>
         <div className="page-header__actions">
           <button
             className="btn btn-outline-success dash-success"
@@ -52,10 +52,10 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
         </div>
       </div>
       <div className="col-md-4">
-        <h2 className="page-header__title">
+        <h1 className="page-header__title">
           Spending Limit:
           <span>{SpendingLimit}</span>
-        </h2>
+        </h1>
         <div className="page-header__actions">
           <button
             className="btn btn-outline-success dash-success"
@@ -80,9 +80,9 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
       </div>
       <Pie reloader={reloader} />
       <div>
-        <h4>
+        <p className="h4">
           To view a customized report on your expense, click on the button below
-        </h4>
+        </p>
         <button
           className="btn btn-outline-success dash-success"
           type="button"
@@ -92,9 +92,9 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
         </button>
       </div>
       <div>
-        <h4>
+        <p className="h4">
           To view monthly comaprison of your expenses, click on the button below
-        </h4>
+        </p>
         <button
           className="btn btn-outline-success dash-success"
           type="button"
