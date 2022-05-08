@@ -18,8 +18,7 @@ module.exports = {
       return { Name: userFound.FirstName + " " + userFound.LastName };
     } else throw "User with this email not found";
   },
-  async getDOB(email) {
-    // this is just an example Function this needs to be modified
+  async getReview(email) {
     if (!email) throw "No Email";
     email = dataValidation.checkEmail(email);
     email = email.toLowerCase();
@@ -29,20 +28,7 @@ module.exports = {
     //checks if user with the same email already exists
     const userFound = await userCollection.findOne({ Email: email });
     if (userFound) {
-      return { UserName: userFound.FirstName, DOB: userFound.DOB };
-    } else throw "User with this email not found";
-  },
-  async getReview(email) {
-    if (!email) throw "No Email";
-    email = dataValidation.checkEmail(email);
-    email = email.toLowerCase();
-    //data validation
-
-    const userCollection = await allUsers();
-    //checks if user with the same email already exists
-    const userFound = await userCollection.findOne({ email: email });
-    if (userFound) {
-      return { userName: userFound.firstName, Review: userFound.review };
+      return { userName: userFound.FirstName, Review: userFound.Review};
     } else throw "User with this email not found";
   },
   async postReview(email, rating, feedback) {
@@ -138,7 +124,7 @@ module.exports = {
     console.log(currentDate);
     const userCollection = await allUsers();
     const userData = await userCollection.findOne({ Email: UserId });
-    if (userData === null) throw { code: 404, message: "User Not Found" };
+    if (userData === null) throw "User Not Found" ;
 
     let filteredUserData = {
       Money: {

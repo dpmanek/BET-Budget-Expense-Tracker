@@ -7,10 +7,9 @@ const dataValidation = require("../data/dataValidation");
 const sn = require("servicenow-rest-api");
 const fs = require("fs");
 var path = require("path");
-
 var xss = require("xss");
 const moment = require("moment");
-// route will be used to get all the specific data
+// route will be used to get all the User specific data
 
 router.post("/review", async (req, res) => {
   let UserID = req.userId;
@@ -24,9 +23,10 @@ catch(e){
   let rating = xss(data.rating);
   let feedback = xss(data.feedback);
 try{
+	
 	if(!rating) throw 'No Rating';
 	if(!feedback) throw 'No FeedBack';
-
+	
 	rating = dataValidation.checkRating(rating);
 	feedback = dataValidation.checkFeedback(feedback);
 }
@@ -47,52 +47,74 @@ catch(e){
 router.get("/review", async (req, res) => {
   let UserID = req.userId;
 
-  // data validation ToDo
+  try{
   let userInfo = await userDataFunctions.getReview(UserID); //change to get user review
-
-  res.send({ data: userInfo });
+  if(userInfo){
+	res.status(200).send({ data: userInfo });
+}
+  }
+  catch(e){
+	return res.status(400).send({ Error:e}); 
+  }
 });
 
 router.get("/alltransactions", async (req, res) => {
   let UserID = req.userId;
-  //console.log('request recieved');
-  // data validation ToDo
+	try{
   let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
     UserID
   );
-  //console.log('Request Processed');
-  res.send({ data: userInfo });
+  if(userInfo){
+	res.status(200).send({ data: userInfo });
+}
+  }
+  catch(e){
+	return res.status(400).send({ Error:e}); 
+  }
 });
 
 router.post("/addExpense", async (req, res) => {
   let UserID = req.userId;
-  let name, amount, category, recurringType;
+  let name, amount, category, recurringType,description,date;
+	try{
   if (req.body.body) {
     name = xss(req.body.body.name);
+	if(!name) throw "Name Not Provided";
     amount = xss(req.body.body.amount);
+	if(!amount) throw "Amount Not Provided"
+	amount = parseFloat(amount);
     category = xss(req.body.body.category);
+	if(!category) throw "Category Not Provided"
     recurringType = xss(req.body.body.recurringType);
+	if(!recurringType) throw "RecurringType Not Provided";
+	if (recurringType == "yes") recurringType = "Recurring";
+    else recurringType = "OneTime";
 
-    if (!req.body.body.description) {
-      var description = null;
-    } else var description = xss(req.body.body.description);
+    if (!req.body.body.description)  description = null;
+     else  description = xss(req.body.body.description);
 
-    amount = parseInt(amount);
     if (!req.body.body.date) {
       let TranactionDate = new Date();
       TranactionDate.toLocaleString("en-US", {
-        timeZone: "America/New_York",
-      });
-      var date = moment(TranactionDate).format("MM/DD/YYYY");
+        timeZone: "America/New_York",});
+       date = moment(TranactionDate).format("MM/DD/YYYY");
     } else {
-      var date = xss(req.body.body.date);
+       date = xss(req.body.body.date);
       date = moment(new Date(date)).format("MM/DD/YYYY");
     }
-    if (recurringType == "yes") recurringType = "Recurring";
-    else recurringType = "OneTime";
   } else {
-    return res.status(400).json({ error: "Bad Request" });
+    throw res.status(400).json({ error: "Bad Request" });
   }
+}
+  catch(e){
+	return res.status(400).send({ Error:e}); 
+  }
+//   try{
+// 	  name = dataValidation.
+//   }
+//   catch(e){
+// 	return res.status(400).send({ Error:e}); 
+//   }
 
   //data function call
   try {
