@@ -80,7 +80,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import UserService from '../../services/user.service';
 
-const Pie = ({reloader}) => {
+const Pie = ({ reloader }) => {
 	const [data, setdata] = useState([]);
 	useEffect(() => {
 		UserService.getPieChartData().then((response) => {
@@ -99,6 +99,9 @@ const Pie = ({reloader}) => {
 			plotBorderWidth: null,
 			plotShadow: false,
 			type: 'pie',
+		},
+		credits: {
+			enabled: false,
 		},
 		title: {
 			text: 'Expense Structure',

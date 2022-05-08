@@ -2,22 +2,20 @@ import React, { useState, useEffect } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import UserService from '../../services/user.service';
-import AuthService from "../../services/auth.service";
-import './Graph.css'
-
-
+import AuthService from '../../services/auth.service';
+import './Graph.css';
 
 const BarChart = () => {
-	const [accessToken, setAccessToken] = useState("");
+	const [accessToken, setAccessToken] = useState('');
 
-  useEffect(() => {
-    var data = AuthService.getCurrentUser();
-    if (data) {
-      setAccessToken(data.accessToken);
-    } else {
-      setAccessToken(undefined);
-    }
-})
+	useEffect(() => {
+		var data = AuthService.getCurrentUser();
+		if (data) {
+			setAccessToken(data.accessToken);
+		} else {
+			setAccessToken(undefined);
+		}
+	});
 	const [data, setdata] = useState([]);
 	useEffect(() => {
 		UserService.getmonthlyComparision().then((response) => {
@@ -32,6 +30,9 @@ const BarChart = () => {
 	const options = {
 		chart: {
 			type: 'column',
+		},
+		credits: {
+			enabled: false,
 		},
 		title: {
 			text: 'Monthly Expense Comparision',
@@ -87,25 +88,23 @@ const BarChart = () => {
 	};
 
 	return (
-		
 		<div>
 			{accessToken !== undefined ? (
-        		<React.Fragment>
+				<React.Fragment>
 					<div>
-			<HighchartsReact highcharts={Highcharts} options={options} />
-		</div>
+						<HighchartsReact highcharts={Highcharts} options={options} />
+					</div>
 				</React.Fragment>
 			) : (
 				<React.Fragment>
 					<div className="card posR posF">
-            <h1>Restricted area</h1>
-            <h2>
-              <a href="/login">Sign In</a> to Access DashBoard
-            </h2>
-          </div>
+						<h1>Restricted area</h1>
+						<h2>
+							<a href="/login">Sign In</a> to Access DashBoard
+						</h2>
+					</div>
 				</React.Fragment>
-			)
-		}
+			)}
 		</div>
 	);
 };
