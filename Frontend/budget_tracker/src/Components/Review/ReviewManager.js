@@ -41,7 +41,7 @@ const ReviewManager = () => {
             }}
           >
             <h1>
-              Want to add a review ? <a href="/login">Sign In</a>
+              Want to add a review ? <a href="/login" className="a12">Sign In</a>
             </h1>
           </div>
           <Feedback />

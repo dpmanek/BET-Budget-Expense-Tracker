@@ -31,7 +31,7 @@ const Review = () => {
     if (!values.feedback) {
       errors.feedback = "Feedback is required";
     }
-    const flag = alpha.test(values.name);
+    const flag = alpha.test(values.feedback);
     if (flag === true) {
       errors.feedback = "Feedback cannot be just Numerical!";
     }
@@ -45,7 +45,7 @@ const Review = () => {
     let error = await validate(formValues);
     await setFormErrors(error);
     if (Object.keys(error).length === 0) {
-       reviewService
+      reviewService
         .postUserReview(formValues)
         .then((data) => {
           setSuccess("Review added successfully !");
