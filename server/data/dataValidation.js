@@ -22,15 +22,16 @@ const checkName = (string) => {
 };
 
 const checkEmail = (email) => {
-	if (!email) throw { code: 400, message: 'Please provide an id. Id is missing' };
+	if (!email)
+		throw { code: 400, message: 'Please provide an id. Id is missing' };
 	email = email.trim();
-	if (email.length === 0) throw { code: 400, message: 'ID cannot be blank. Please enter a String' };
+	if (email.length === 0)
+		throw { code: 400, message: 'ID cannot be blank. Please enter a String' };
 	if (typeof email !== 'string')
 		throw { code: 400, message: 'Enter ID in string format' };
-	if (!emailvalidator.validate(email)) throw { code: 400, message: 'Email Not Valid' };
+	if (!emailvalidator.validate(email))
+		throw { code: 400, message: 'Email Not Valid' };
 	return email;
-
-
 };
 
 const checkPassword = (password) => {
@@ -53,8 +54,68 @@ const checkPassword = (password) => {
 		throw 'Password should have atleast 6 characters';
 };
 
+const createIncome = (email, name, description, tags, amount, type, date) => {
+	if (!email || !name || !description || !tags || !amount || !type || !date)
+		throw { code: 400, message: 'All fields need to have valid values' };
+
+	if (typeof name !== 'string')
+		throw { code: 400, message: 'Enter Expense name in a string format' };
+
+	if (name.trim().length === 0)
+		throw {
+			code: 400,
+			message: 'Expense name cannot be blank. Please enter a String',
+		};
+
+	if (typeof description !== 'string')
+		throw { code: 400, message: 'Enter description in a string format' };
+
+	if (description.trim().length === 0)
+		throw {
+			code: 400,
+			message: 'Description cannot be blank. Please enter a String',
+		};
+
+	if (typeof tags !== 'string')
+		throw { code: 400, message: 'Enter Category in a string format' };
+
+	if (tags.trim().length === 0)
+		throw {
+			code: 400,
+			message: 'Category cannot be blank. Please enter a String',
+		};
+
+	if (typeof type !== 'string')
+		throw {
+			code: 400,
+			message:
+				'Please select whether the Expense is recurring or not from the toggle button provided in the form',
+		};
+
+	if (tags.trim().length === 0)
+		throw {
+			code: 400,
+			message:
+				'Tags cannot be blank. Please select whether the Expense is recurring or not from the toggle button provided in the form',
+		};
+
+	if (typeof date !== 'string')
+		throw { code: 400, message: 'Enter date in a string format' };
+
+	if (date.trim().length === 0)
+		throw {
+			code: 400,
+			message:
+				'Date cannot be blank. Please enter a String in MM/DD/YYYY format',
+		};
+
+	if (typeof amount !== 'number') {
+		throw { code: 400, message: 'Enter amount in a number format' };
+	}
+};
 module.exports = {
 	checkName,
 	checkEmail,
 	checkPassword,
+	createIncome,
 };

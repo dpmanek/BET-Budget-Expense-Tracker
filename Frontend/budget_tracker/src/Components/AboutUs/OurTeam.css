@@ -65,4 +65,15 @@
   border-radius: 10%;
 
   }
+  .posR1{
+    margin-bottom: "190px";
+    height: 280;
+    width: 500;
+    font-weight: "bold" !important;
+    text-align: center;
+}
+.posF1{
+    margin-top: 10px;
+    margin-bottom: 150px !important;
+}
   

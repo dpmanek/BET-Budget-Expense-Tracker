@@ -6,15 +6,6 @@ import AuthService from "../../services/auth.service";
 import ReportService from "../../services/report.service";
 import moment from "moment";
 
-const posR = {
-  marginBottom: "190px",
-  boxShadow: "5px 6px 6px 2px #e9ecef",
-  alignItems: "center",
-  borderRadius: 20,
-  backgroundColor: "#6ecebc",
-  fontWeight: "bold",
-};
-
 const Report = () => {
   let navigate = useNavigate();
   const initialValues = {
@@ -178,7 +169,7 @@ const Report = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div className="card p-3 mt-2 " style={posR}>
+          <div className="card posR posF">
             <h1>Restricted area</h1>
             <h2>
               <a href="/login">Sign In</a> to Generate Report

@@ -311,7 +311,7 @@ module.exports = {
         FilteredData[i].TranactionDate
       ).format("MM/DD/YYYY");
       let element = {
-        Sr_no: parseFloat(i),
+        Sr_no: parseFloat(i) + 1,
         Transaction_Name: FilteredData[i].Name,
         Amount: FilteredData[i].Amount,
         Type: FilteredData[i].Type,

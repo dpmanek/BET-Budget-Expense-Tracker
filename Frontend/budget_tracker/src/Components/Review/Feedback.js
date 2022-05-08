@@ -24,7 +24,7 @@ const Feedback = (props) => {
     <div className="feedback-div">
       <div>
         <div className="mgb-40 padb-30 auto-invert line-b-4 align-center">
-          <h1 className="font-cond-b fg-text-d lts-md" contenteditable="false">
+          <h1 className="font-cond-b fg-text-d lts-md" contentEditable="false" suppressContentEditableWarning= "true">
             Customer Reviews
           </h1>
         </div>

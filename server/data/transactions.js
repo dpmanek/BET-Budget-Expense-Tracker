@@ -1,54 +1,36 @@
 const mongoCollections = require("../config/mongoCollections");
 const Users = mongoCollections.users;
-const moment = require("moment");
-//const bands = require('./bands');
-const users = require("./users");
-//const errorChecking = require('../errorChecking'); //create one for transactions
-const { ObjectId } = require("mongodb");
 const dataValidation = require("./dataValidation");
 
+//const errorChecking = require('../errorChecking'); //create one for transactions
+const { ObjectId } = require("mongodb");
+
 const createIncome = async (
-  userId,
-  name,
-  description,
-  tags,
-  amount,
-  type,
-  date
+  UserId,
+  Name,
+  Description,
+  Tags,
+  Amount,
+  Type,
+  Date
 ) => {
-  let UserId = !userId ? "kevin1@gmail.com" : userId;
-  let Name = !name ? "icecream" : name;
-  let Description = !description ? null : description;
-  let Tags = !tags ? "sometag" : tags;
-  let Amount = !amount ? 500 : amount;
-  let Type = !type ? "OneTime" : type;
   /*errorChecking*/
 
-  // try {
-  // 	await errorChecking.errorCreateAlbum(
-  // 		bandId,
-  // 		title,
-  // 		releaseDate,
-  // 		tracks,
-  // 		rating
-  // 	);
-  // } catch (e) {
-  // 	throw e;
-  // }
+  try {
+    await dataValidation.createIncome(
+      UserId,
+      Name,
+      Description,
+      Tags,
+      Amount,
+      Type,
+      Date
+    );
+  } catch (e) {
+    throw e;
+  }
 
-  /*Logic to trim and insert ----------------*/
-  // for (i in tracks) {
-  // 	tracks[i] = tracks[i].trim();
-  // }
-
-  //Trim all the string before inserting
-  // title = title.trim();
-  // releaseDate = releaseDate.trim();
-
-  //let albumCollection = await albums();
   let UserCollection = await Users();
-
-  // Transaction_Date: tracks,
 
   let income = {
     _id: ObjectId(),
@@ -56,8 +38,8 @@ const createIncome = async (
     Description: Description,
     Tags: Tags,
     Amount: Amount,
-    TranactionDate: date,
-    Type: type,
+    TranactionDate: Date,
+    Type: Type,
   };
 
   if (Type === "OneTime") {
@@ -71,13 +53,8 @@ const createIncome = async (
         code: 400,
         message: "could not add album to band",
       };
-    let totalincomeUpdated = await updateTotalIncome(UserId);
-    if (totalincomeUpdated) return "Done OneTime";
-    else
-      throw {
-        code: 400,
-        message: "total Income Not Updated",
-      };
+
+    return "Done OneTime";
   }
 
   if (Type === "Recurring") {
@@ -89,15 +66,9 @@ const createIncome = async (
     if (!data.acknowledged || data.modifiedCount === 0)
       throw {
         code: 400,
-        message: "total Income Not Updated",
+        message: "could not add album to band",
       };
-    let totalincomeUpdated = await updateTotalIncome(UserId);
-    if (totalincomeUpdated) return "Done Recurring";
-    else
-      throw {
-        code: 400,
-        message: "total Income Not Updated",
-      };
+    return "Done recurring";
   }
 };
 
@@ -114,7 +85,7 @@ const createExpense = async (
   let Name = !name ? "icecream" : name;
   let Description = !description ? null : description;
   let Tags = !tags ? "sometag" : tags;
-  date = !date ? undefined : date;
+  let Date = !date ? undefined : date;
   let Amount = !amount ? 500 : amount;
   let Type = !type ? "OneTime" : type;
 
@@ -151,7 +122,7 @@ const createExpense = async (
     Name: Name,
     Description: Description,
     Tags: Tags,
-    TranactionDate: date,
+    TranactionDate: Date,
     Amount: Amount,
   };
 
@@ -167,13 +138,7 @@ const createExpense = async (
         message: "could not add album to band",
       };
 
-    let totalincomeUpdated = await updateTotalExpense(UserId);
-    if (totalincomeUpdated) return "Done OneTime";
-    else
-      throw {
-        code: 400,
-        message: "total Income Not Updated",
-      };
+    return "Done OneTime";
   }
 
   if (type === "Recurring") {
@@ -187,13 +152,7 @@ const createExpense = async (
         code: 400,
         message: "could not add album to band",
       };
-    let totalincomeUpdated = await updateTotalExpense(UserId);
-    if (totalincomeUpdated) return "Done Recurring";
-    else
-      throw {
-        code: 400,
-        message: "total Income Not Updated",
-      };
+    return "Done recurring";
   }
 };
 
@@ -231,8 +190,12 @@ const updateTotalIncome = async (UserId) => {
         code: 400,
         message: "Could Not Update Total Income",
       };
-    return true;
-  } else false;
+    return "Total Income Updated";
+  } else
+    throw {
+      code: 400,
+      message: "User Not Found",
+    };
 };
 
 const updateTotalExpense = async (UserId) => {
@@ -489,7 +452,7 @@ const getIncome = async (UserId, transactionID) => {
     if (incomeRecurring && incomeRecurring.length >= 1) {
       for (i in incomeRecurring) {
         if (incomeRecurring[i]._id.toString() === transactionID) {
-          Transaction.push({ ...incomeRecurring[i], recurringType: "yes" });
+          Transaction.push(incomeRecurring[i]);
           Foundflag = true;
         }
       }
@@ -497,7 +460,7 @@ const getIncome = async (UserId, transactionID) => {
     if (incomeOneTime && incomeOneTime.length >= 1) {
       for (i in incomeOneTime) {
         if (incomeOneTime[i]._id.toString() === transactionID) {
-          Transaction.push({ ...incomeOneTime[i], recurringType: "no" });
+          Transaction.push(incomeOneTime[i]);
           Foundflag = true;
         }
       }
@@ -531,7 +494,7 @@ const getExpense = async (UserId, transactionID) => {
     if (expenseRecurring && expenseRecurring.length >= 1) {
       for (i in expenseRecurring) {
         if (expenseRecurring[i]._id.toString() === transactionID) {
-          Transaction.push({ ...expenseRecurring[i], recurringType: "yes" });
+          Transaction.push(expenseRecurring[i]);
           Foundflag = true;
         }
       }
@@ -539,7 +502,7 @@ const getExpense = async (UserId, transactionID) => {
     if (expenseOneTime && expenseOneTime.length >= 1) {
       for (i in expenseOneTime) {
         if (expenseOneTime[i]._id.toString() === transactionID) {
-          Transaction.push({ ...expenseOneTime[i], recurringType: "no" });
+          Transaction.push(expenseOneTime[i]);
           Foundflag = true;
         }
       }

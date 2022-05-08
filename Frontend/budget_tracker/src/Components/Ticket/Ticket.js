@@ -5,14 +5,7 @@ import axios from "axios";
 import AuthService from "../../services/auth.service";
 import TicketService from "../../services/ticketgenerationservice";
 
-const posR = {
-  marginBottom: "190px",
-  boxShadow: "5px 6px 6px 2px #e9ecef",
-  alignItems: "center",
-  borderRadius: 20,
-  backgroundColor: "#6ecebc",
-  fontWeight: "bold",
-};
+
 
 const Ticket = () => {
   const initialValuesGenTicket = {
@@ -125,7 +118,7 @@ const Ticket = () => {
       {accessToken !== undefined ? (
         <React.Fragment>
           <form onSubmit={genTicket}>
-            <div className="mb-3">
+            <div className="posF3">
               <label htmlFor="exampleInputEmail1" className="form-label">
                 Enter a Problem
               </label>
@@ -186,7 +179,7 @@ const Ticket = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div className="card p-3 mt-2 " style={posR}>
+          <div className="card posR3 posF3">
             <h1>Restricted area</h1>
             <h2>
               <a href="/login">Sign In</a> to Generate ticket
