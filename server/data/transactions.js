@@ -228,9 +228,9 @@ const updateTotalExpense = async (UserId) => {
 const deleteIncome = async (UserId, transactionID) => {
 	if (!UserId) throw 'No Email';
 	UserId = dataValidation.checkEmail(UserId);
-
+	UserId = UserId.toLowerCase();
 	if (!transactionID) throw 'No Transaction ID';
-	// write data function to check transaction ID
+	transactionID = dataValidation.checkTransactionID(transactionID);
 	let deletedflag = false;
 	let UserCollection = await Users();
 	const userFound = await UserCollection.findOne({ Email: UserId });
@@ -292,9 +292,9 @@ const deleteIncome = async (UserId, transactionID) => {
 const deleteExpense = async (UserId, transactionID) => {
 	if (!UserId) throw 'No Email';
 	UserId = dataValidation.checkEmail(UserId);
-
+	UserId = UserId.toLowerCase();
 	if (!transactionID) throw 'No Transaction ID';
-	// write data function to check transaction ID
+	transactionID = dataValidation.checkTransactionID(transactionID);
 	let deletedflag = false;
 	let UserCollection = await Users();
 	const userFound = await UserCollection.findOne({ Email: UserId });
