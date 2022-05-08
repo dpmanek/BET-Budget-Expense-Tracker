@@ -438,20 +438,35 @@ router.post('/createComplaint', async (req, res) => {
 });
 
 router.post('/trackComplaint', async (req, res) => {
-	//pending errorchecking for incident number
+	let incident
 	
-	let incident = xss(req.body.body);
+	try{
+		if(!req.body.body) throw 'No Req Body';
+		incident = xss(req.body.body);
+		if(!incident) throw "No Incident ID Provided";
+		incident = dataValidation.checkIncidentID(incident);
+	}
+	catch(e){
+		return res.status(400).send({ Error: e });
+	}
+
 	const ServiceNow = new sn('dev92862', 'admin', '$bWw-GBd5t4F');
 
 	ServiceNow.Authenticate();
 	const filters = ['number=' + incident];
 	const fields = ['number', 'short_description', 'urgency', 'state'];
+	try{
+	
 	await ServiceNow.getTableData(fields, filters, 'incident', (response) => {
 		if (!response[0]) {
 			return res.send({ data: 'Ticket with this ID does not exist' });
 		}
 		res.send({ data: response[0] });
 	});
+}
+catch(e){
+	return res.status(400).send({ Error: e });
+}
 	//let status = await ticketGeneration.fetchIncident(incident);
 });
 
@@ -471,11 +486,41 @@ router.post('/addSetAside', async (req, res) => {
 });
 router.delete('/removeSetAside', async (req, res) => {
 	let UserId = req.userId;
-	let transactionId = xss(req.body.TransactionID);
+	let transactionId,userInfo
+	try{
+	if(req.body){
+	transactionId = xss(req.body.TransactionID);
+	if(!transactionId) throw "ID Not Provided"
+	transactionId = dataValidation.checkTransactionID(transactionId);
+}
+else throw "Request Body Not Present"
+	}
+	catch(e){
+		return res.status(400).send({ Error: e });
+	}
+	try{
+		userInfo = await transactionFunc.deleteSetAside(UserId, transactionId); 
+		if(userInfo){
+		res.status(200).send({ data: userInfo });
+		}else throw "Something went wrong"
+	}
+	catch(e){
+		return res.status(400).send({ Error: e });
+	}
+});
 
-	let userInfo = await transactionFunc.deleteSetAside(UserId, transactionId); //change to get user review
-
-	res.send({ data: userInfo });
+router.get('/getSetAside', async (req, res) => {
+	let UserId = req.userId;
+	
+	try{
+		userInfo = await transactionFunc.getSetAside(UserId); 
+		if(userInfo){
+		res.status(200).send({ data: userInfo });
+		}else throw "Something went wrong"
+	}
+	catch(e){
+		return res.status(400).send({ Error: e });
+	}
 });
 
 module.exports = router;

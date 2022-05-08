@@ -105,6 +105,16 @@ const deleteSetAside = (TransactionID) => {
 		});
 };
 
+const getSetAside = (TransactionID) => {
+	return axios
+		.get(API_URL + '/removeSetAside', {
+			headers: authHeader(),
+		})
+		.then((response) => {
+			return response.data;
+		});
+};
+
 const transactionService = {
 	getUserIncome,
 	getUserExpense,
@@ -116,5 +126,6 @@ const transactionService = {
 	updateUserExpense,
 	createSetAside,
 	deleteSetAside,
+	getSetAside,
 };
 export default transactionService;

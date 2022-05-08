@@ -11,7 +11,7 @@ const checkName = (string) => {
 
 	if (string.split(' ').length > 1)throw 'Name cannot have spaces inside';
 
-	var letterOnly = /^[a-zA-Z]+$/;
+	var letterOnly = /INC[0-9]{7}/g;
 	let result = string.match(letterOnly);
 
 	if (!(result == string && typeof result === 'object'))
@@ -21,6 +21,25 @@ const checkName = (string) => {
 	if(!(string.split("").length >= 2))throw'Name should have atleast 2 characters';
 	return string;
 };
+
+const checkIncidentID = (string) => {
+	if (!string) throw 'String Undefined';
+
+	if (typeof string != 'string') throw'Name must be a string Data Type';
+
+	string = string.trim();
+	if (string.length === 0) throw'Cannot have empty a Name';
+
+	if (string.split(' ').length > 1)throw 'Name cannot have spaces inside';
+	var letterOnly = /INC[0-9]{7}/g;
+	let result = string.match(letterOnly);
+
+	if (!(result == string && typeof result === 'object'))
+	throw 'Incident ID Invalid';
+
+
+};
+
 
 const checkEmail = (email) => {
 	if (!email)
@@ -198,4 +217,5 @@ module.exports = {
 	checkAmountinDatafunction,
 	checkTransactionID,
 	checkTransactionDateReportGeneration,
+	checkIncidentID,
 };
