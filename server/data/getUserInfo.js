@@ -234,15 +234,15 @@ module.exports = {
     if (IncomePresentFlag) {
       let totalSpendingLimit = totalMonthIncome - totalMonthExpenses;
       let output = {
-        SpendingLimit: totalSpendingLimit,
-        CurrentMonthExpenses: totalMonthExpenses,
-        CurrentMonthIncome: totalMonthIncome,
+        SpendingLimit: totalSpendingLimit.toFixed(2),
+        CurrentMonthExpenses: totalMonthExpenses.toFixed(2),
+        CurrentMonthIncome: totalMonthIncome.toFixed(2),
       };
       return output;
     } else {
       let output = {
         SpendingLimit: 0,
-        CurrentMonthExpenses: totalMonthExpenses,
+        CurrentMonthExpenses: totalMonthExpenses.toFixed(2),
         CurrentMonthIncome: 0,
       };
       return output;
@@ -312,4 +312,43 @@ module.exports = {
 
     return modeledData;
   },
+
+  async filterDataPieChart(userInfo) {
+
+  let expense = userInfo.Expenditure;
+  let OneTime = expense.OneTime;
+  let Recurring = expense.Recurring;
+  let FinalExpense = [];
+  let Output = [];
+
+  FinalExpense = OneTime.concat(Recurring);
+  if (FinalExpense.length === 0) {
+    res.send({ data: [{ name: "No expense Added", y: 0 }] });
+  } else {
+    for (let i = 0; i < FinalExpense.length; i++) {
+      if (i === 0) {
+        Output.push({
+          name: FinalExpense[i].Tags,
+          y: FinalExpense[i].Amount,
+        });
+      } else {
+        let comparer = FinalExpense[i];
+        let tagnotfound = true;
+        for (let j = 0; j < Output.length; j++) {
+          if (Output[j].name === comparer.Tags) {
+            Output[j].y = Output[j].y + comparer.Amount;
+            tagnotfound = false;
+          }
+          if (j === Output.length - 1 && tagnotfound) {
+            Output.push({
+              name: comparer.Tags,
+              y: comparer.Amount,
+            });
+          }
+        }
+      }
+    }
+  }
+return Output;
+},
 };
