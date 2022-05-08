@@ -13,8 +13,9 @@ import Layout from "../Components/layout/layout";
 import ReviewManager from "../Components/Review/ReviewManager";
 import AboutUs from "../Components/AboutUs/AboutUs";
 import Report from "../Components/Dashboard/Report";
-import Errors from "../Components/Errors"
-import BarChart from "../Components/Graphs/barChart"
+import Errors from "../Components/Errors";
+import BarChart from "../Components/Graphs/barChart";
+import Ticket from "../Components/Ticket/Ticket";
 
 const Routesr = () => {
   return (
@@ -32,6 +33,7 @@ const Routesr = () => {
           <Routing exact path="/addincome" element={<Createincome />} />
           <Routing exact path="/report" element={<Report />} />
           <Routing exact path="/monthlyComparision" element={<BarChart />} />
+          <Routing exact path="/generateticket" element={<Ticket />} />
 
           {/* Public: All can use */}
           <Routing exact path="/review" element={<ReviewManager />} />
