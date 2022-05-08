@@ -1,7 +1,7 @@
-import React, { useState, Fragment, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+//import { Link, useNavigate, useParams } from 'react-router-dom';
 import "./Ticket.css";
-import axios from "axios";
+//import axios from 'axios';
 import AuthService from "../../services/auth.service";
 import TicketService from "../../services/ticketgenerationservice";
 

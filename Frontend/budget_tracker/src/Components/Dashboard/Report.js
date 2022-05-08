@@ -1,13 +1,13 @@
 import axios from 'axios';
-import React, { useState, Fragment, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+//import { useNavigate } from 'react-router-dom';
 import './Report.css';
 import AuthService from '../../services/auth.service';
 import ReportService from '../../services/report.service';
 import moment from 'moment';
 
 const Report = () => {
-	let navigate = useNavigate();
+	//	let navigate = useNavigate();
 	const initialValues = {
 		dateone: '',
 		datetwo: '',
@@ -38,7 +38,7 @@ const Report = () => {
 
 		let tmp = window.location.href.split('?');
 		if (tmp.length > 1) {
-			let id = tmp[1].split('=')[1];
+			//let id = tmp[1].split('=')[1];
 			axios
 				.get('')
 				.then((data) => {
@@ -157,7 +157,7 @@ const Report = () => {
 									Generate Report
 								</button>
 							</div>
-							<div>{error != '' ? error : success}</div>
+							<div>{error !== '' ? error : success}</div>
 						</form>
 					</div>
 				</React.Fragment>
@@ -166,7 +166,10 @@ const Report = () => {
 					<div className="card posR posF">
 						<h1>Restricted area</h1>
 						<h2>
-							<a href="/login" className="a12">Sign In</a> to Generate Report
+							<a href="/login" className="a12">
+								Sign In
+							</a>{' '}
+							to Generate Report
 						</h2>
 					</div>
 				</React.Fragment>

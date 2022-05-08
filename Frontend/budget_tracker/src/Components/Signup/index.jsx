@@ -1,54 +1,49 @@
 import React from 'react';
-import { useState, useEffect} from "react";
-import { Link, useNavigate } from "react-router-dom";
-import styles from "./styles.module.css";
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import styles from './styles.module.css';
 import AuthService from '../../services/auth.service';
 
 const Signup = () => {
 	const [formErrors, setFormErrors] = useState(null);
-	const [success, setSuccess] = useState(""); 
+	const [success, setSuccess] = useState('');
 	const [data, setData] = useState({
-		firstName: "",
-		lastName: "",
-		email: "",
-		password: "",
+		firstName: '',
+		lastName: '',
+		email: '',
+		password: '',
 	});
 	const [error, setError] = useState({});
 	let navigate = useNavigate();
-	
+
 	//redirect user to dashboard if already logged in
-	useEffect(() => { //checks only if current user is there major checking on dashboard
-		var currentUser = AuthService.getCurrentUser()
-		if(currentUser){
+	useEffect(() => {
+		//checks only if current user is there major checking on dashboard
+		var currentUser = AuthService.getCurrentUser();
+		if (currentUser) {
 			navigate('/dashboard');
 		}
-		
-	  }, []);
-
+	}, []);
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
 	};
 
 	const validate = (values) => {
-		
 		let errors = {};
-		const first = /^[a-zA-Z()]+$/.test(values.firstName)
-		const last = /^[a-zA-Z()]+$/.test(values.lastName)
-		const flag = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)
+		
 		const spec = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/;
     	const tog = spec.test(values.firstName);
 		const togg = spec.test(values.lastName);
+		const first = /^[a-zA-Z()]+$/.test(values.firstName);
+		const last = /^[a-zA-Z()]+$/.test(values.lastName);
+		const flag = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(values.email);
 		if (flag === false) {
-			errors.email = "Email ID is invalid!!";
-		  }
-		
-		if(values.password.length<6){
-			errors.password = "Length of password should be greater than 6";
+			errors.email = 'Email ID is invalid!!';
 		}
 
-		if(values.password.length>10){
-			errors.password = "Length of password should be lesser than 10";
+		if (values.password.length < 6) {
+			errors.password = 'Length of password should be greater than 6';
 		}
 		if (tog === true) {
 			errors.firstName = "Name cannot be just spcial characters!";
@@ -57,50 +52,59 @@ const Signup = () => {
 			errors.lastName = "Name cannot be just spcial characters!";
 		  }
 
-		if(first === false){
-			errors.firstName = "Name cannot contain numerical values";
+		if (values.password.length > 10) {
+			errors.password = 'Length of password should be lesser than 10';
 		}
-		if(last === false){
-			errors.lastName = "Name cannot contain numerical values";
+
+		if (first === false) {
+			errors.firstName = 'Name cannot contain numerical values';
+		}
+		if (last === false) {
+			errors.lastName = 'Name cannot contain numerical values';
 		}
 
 		if (!values.email) {
-		  errors.email = "Email ID is required";
+			errors.email = 'Email ID is required';
 		}
 		if (!values.password) {
-		  errors.password = "Password is required";
+			errors.password = 'Password is required';
 		}
 		if (!values.firstName) {
-			errors.firstName = "First Name is required";  
+			errors.firstName = 'First Name is required';
 		}
 
 		if (!values.lastName) {
-		errors.lastName = "Last Name is required";
+			errors.lastName = 'Last Name is required';
 		}
-	
+
 		return errors;
-	  };
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setError("");
-    	setSuccess("");
-		setFormErrors("")
+		setError('');
+		setSuccess('');
+		setFormErrors('');
 		let errorPage = await validate(data);
-        await setError(errorPage);
-    	
-   if (Object.keys(errorPage).length === 0) {
-      AuthService.signup(data.firstName,data.lastName,data.email,data.password).then(
-        (response) => {
-        //   setMessage(response.data.message);
-		  navigate("/login");
-		  setSuccess("Signed UP successfully!!");
-        })
-		.catch((e)=>{
-			setFormErrors("Something went wrong!!");
-		})
-	}
-  };
+		await setError(errorPage);
+
+		if (Object.keys(errorPage).length === 0) {
+			AuthService.signup(
+				data.firstName,
+				data.lastName,
+				data.email,
+				data.password
+			)
+				.then((response) => {
+					//   setMessage(response.data.message);
+					navigate('/login');
+					setSuccess('Signed UP successfully!!');
+				})
+				.catch((e) => {
+					setFormErrors('Something went wrong!!');
+				});
+		}
+	};
 	return (
 		<div className={styles.signup_container}>
 			<div className={styles.signup_form_container}>
@@ -117,7 +121,7 @@ const Signup = () => {
 						<h1>Create Account</h1>
 						<label htmlFor="firstName">First Name</label>
 						<input
-						id="firstName"
+							id="firstName"
 							type="text"
 							placeholder="First Name"
 							name="firstName"
@@ -126,10 +130,10 @@ const Signup = () => {
 							// required
 							className={styles.input}
 						/>
-						<p className="disError">{error ? error.firstName : ""}</p>
+						<p className="disError">{error ? error.firstName : ''}</p>
 						<label htmlFor="lastName">Last Name</label>
 						<input
-						id="lastName"
+							id="lastName"
 							type="text"
 							placeholder="Last Name"
 							name="lastName"
@@ -137,10 +141,10 @@ const Signup = () => {
 							value={data.lastName}
 							className={styles.input}
 						/>
-						<p className="disError">{error ? error.lastName : ""}</p>
+						<p className="disError">{error ? error.lastName : ''}</p>
 						<label htmlFor="email">Email</label>
 						<input
-						id="email"
+							id="email"
 							type="email"
 							placeholder="Email"
 							name="email"
@@ -148,10 +152,10 @@ const Signup = () => {
 							value={data.email}
 							className={styles.input}
 						/>
-						<p className="disError">{error ? error.email : ""}</p>
+						<p className="disError">{error ? error.email : ''}</p>
 						<label htmlFor="password">Password</label>
 						<input
-						id="password"
+							id="password"
 							type="password"
 							placeholder="Password"
 							name="password"
@@ -159,12 +163,14 @@ const Signup = () => {
 							value={data.password}
 							className={styles.input}
 						/>
-						<p className="disError">{error ? error.password : ""}</p>
+						<p className="disError">{error ? error.password : ''}</p>
 						<button type="submit" className={styles.green_btn}>
 							Sign Up
 						</button>
 					</form>
-					<div className="loginError">{formErrors !== "" ? formErrors : success}</div>
+					<div className="loginError">
+						{formErrors !== '' ? formErrors : success}
+					</div>
 				</div>
 			</div>
 		</div>
