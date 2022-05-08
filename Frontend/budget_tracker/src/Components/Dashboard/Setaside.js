@@ -129,7 +129,7 @@ const Setaside = () => {
           <div className="card posR posF">
             <h1>Restricted area</h1>
             <h2>
-              <a href="/login">Sign In</a> to Set Goals
+              <a href="/login" className="a12">Sign In</a> to Set Goals
             </h2>
           </div>
         </React.Fragment>

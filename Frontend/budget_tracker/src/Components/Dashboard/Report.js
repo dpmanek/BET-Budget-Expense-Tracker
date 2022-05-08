@@ -166,7 +166,7 @@ const Report = () => {
 					<div className="card posR posF">
 						<h1>Restricted area</h1>
 						<h2>
-							<a href="/login">Sign In</a> to Generate Report
+							<a href="/login" className="a12">Sign In</a> to Generate Report
 						</h2>
 					</div>
 				</React.Fragment>

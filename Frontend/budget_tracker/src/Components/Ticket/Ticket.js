@@ -189,7 +189,7 @@ const Ticket = () => {
 					<div className="card posR3 posF3">
 						<h1>Restricted area</h1>
 						<h2>
-							<a href="/login">Sign In</a> to Generate ticket
+							<a href="/login" className="a12">Sign In</a> to Generate ticket
 						</h2>
 					</div>
 				</React.Fragment>
