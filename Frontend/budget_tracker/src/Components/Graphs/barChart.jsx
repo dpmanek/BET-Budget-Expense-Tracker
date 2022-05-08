@@ -79,10 +79,12 @@ const BarChart = () => {
 			{
 				name: 'Total Income',
 				data: data.TotalIncome,
+				color: '#007dbc',
 			},
 			{
 				name: 'Total Expenditure',
 				data: data.TotalExpenditure,
+				color: '#434348',
 			},
 		],
 	};
