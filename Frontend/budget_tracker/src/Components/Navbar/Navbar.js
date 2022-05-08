@@ -64,7 +64,7 @@ function Navbar(props) {
                 type="button"
                 onClick={() => redirectRoute("/review")} //Redirects to Review
               >
-                Sign up
+                Add Review
               </button>
               <button
                 className="btn btn-outline-success navbar-success button-fix"
