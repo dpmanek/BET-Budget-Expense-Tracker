@@ -288,71 +288,14 @@ router.post('/reportGeneration', async (req, res) => {
 	//console.log('request recieved');
 	// data validation ToDo
 	let Name = await userDataFunctions.getName(UserID);
-	let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
+	let userInfo = await userDataFunctions.getUserTransactions(
 		UserID
 	);
 
-	let expense = userInfo.Expenditure;
-	let OneTimeExpense = expense.OneTime;
-	let RecurringExpense = expense.Recurring;
-	let income = userInfo.Income;
-	let OneTimeIncome = income.OneTime;
-	let RecurringIncome = income.Recurring;
+	let from = xss(req.body.body.dateone);
+	let till = xss(req.body.body.datetwo);
 
-	let from = '05/01/2022';
-	let till = '05/05/2022';
-	let start = new Date(moment(new Date(from)).format('MM/DD/YYYY'));
-	let end = new Date(moment(new Date(till)).format('MM/DD/YYYY'));
-
-	let FinalExpense = [];
-	let FinalIncome = [];
-	let FinalTransactions = [];
-	FinalExpense = OneTimeExpense.concat(RecurringExpense);
-	for (let i in FinalExpense) {
-		FinalExpense[i].Type = 'Debit';
-	}
-	FinalIncome = OneTimeIncome.concat(RecurringIncome);
-	for (let i in FinalIncome) {
-		FinalIncome[i].Type = 'Credit';
-	}
-	FinalTransactions = FinalIncome.concat(FinalExpense);
-	for (let i in FinalTransactions) {
-		FinalTransactions[i].TranactionDate = new Date(
-			FinalTransactions[i].TranactionDate
-		);
-	}
-	const sortedActivities = FinalTransactions.sort(
-		(a, b) => a.TranactionDate - b.TranactionDate
-	);
-	let FilteredData = [];
-	for (let i in sortedActivities) {
-		if (
-			sortedActivities[i].TranactionDate >= start &&
-			sortedActivities[i].TranactionDate <= end
-		) {
-			FilteredData.push(sortedActivities[i]);
-		}
-	}
-	let Transactions = [];
-	for (i in FilteredData) {
-		FilteredData[i].TranactionDate = moment(
-			new Date(FilteredData[i].TranactionDate)
-		).format('MM/DD/YYYY');
-		let element = {
-			Sr_no: parseFloat(i),
-			Transaction_Name: FilteredData[i].Name,
-			Amount: FilteredData[i].Amount,
-			Type: FilteredData[i].Type,
-			Date: FilteredData[i].TranactionDate,
-		};
-		Transactions.push(element);
-	}
-	const modeledData = {
-		Name: Name.Name,
-		From: moment(new Date(from)).format('MM/DD/YYYY'),
-		Till: moment(new Date(till)).format('MM/DD/YYYY'),
-		Transactions: Transactions,
-	};
+	let modeledData = await userDataFunctions.filterTransactionReportGeneration(userInfo,Name,from,till)
 
 	let pdfFile = reportGenerator.createInvoice(modeledData);
 	pdfFile.pipe(res);
