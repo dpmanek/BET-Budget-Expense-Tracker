@@ -31,11 +31,13 @@ const Signup = () => {
 
 	const validate = (values) => {
 		let errors = {};
+		
+		const spec = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/;
+    	const tog = spec.test(values.firstName);
+		const togg = spec.test(values.lastName);
 		const first = /^[a-zA-Z()]+$/.test(values.firstName);
 		const last = /^[a-zA-Z()]+$/.test(values.lastName);
-		const flag = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-			values.email
-		);
+		const flag = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(values.email);
 		if (flag === false) {
 			errors.email = 'Email ID is invalid!!';
 		}
@@ -43,6 +45,12 @@ const Signup = () => {
 		if (values.password.length < 6) {
 			errors.password = 'Length of password should be greater than 6';
 		}
+		if (tog === true) {
+			errors.firstName = "Name cannot be just spcial characters!";
+		  }
+		  if (togg === true) {
+			errors.lastName = "Name cannot be just spcial characters!";
+		  }
 
 		if (values.password.length > 10) {
 			errors.password = 'Length of password should be lesser than 10';
