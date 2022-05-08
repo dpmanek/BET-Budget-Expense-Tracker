@@ -92,6 +92,7 @@ const Setaside = () => {
                   Goal
                 </label>
                 <input
+                id="exampleInputEmail1"
                   type="text"
                   name="goal"
                   placeholder="Goal"
@@ -106,6 +107,7 @@ const Setaside = () => {
                   Amount
                 </label>
                 <input
+                  id="exampleInputEmail1"
                   type="number"
                   placeholder="Amount"
                   className="form-control position"
