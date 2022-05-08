@@ -208,6 +208,7 @@ module.exports = {
     let transactionByMonth = await this.getUserTransactionsByCurrentMonth(UserId);
     let totalMonthExpenses = 0;
     let totalMonthIncome = 0;
+    let IncomePresentFlag = false;
 
     if(transactionByMonth.Expenditure.OneTime.length > 0){
     for(i in transactionByMonth.Expenditure.OneTime){
@@ -220,33 +221,42 @@ module.exports = {
     }
   }
   //Checking if income is present
-  if(transactionByMonth.Income.OneTime.length > 0 || transactionByMonth.Income.OneTime.length > 0){
+  if(transactionByMonth.Income.OneTime.length > 0 || transactionByMonth.Income.Recurring.length > 0){
   if(transactionByMonth.Income.OneTime.length > 0){
-    for(i in transactionByMonth.Income.OneTime.length){
-      totalMonthIncome += transactionByMonth.Income.OneTime.length[i].Amount;
+    for(i in transactionByMonth.Income.OneTime){
+      totalMonthIncome += transactionByMonth.Income.OneTime[i].Amount;
     }
+    IncomePresentFlag = true;
   }
   if(transactionByMonth.Income.Recurring.length > 0){
     for(i in transactionByMonth.Income.Recurring){
       totalMonthIncome += transactionByMonth.Income.Recurring[i].Amount;
     }
+
+    IncomePresentFlag = true;
   }
-
 }
-else{
+
+if(IncomePresentFlag){
   
-}
-
-  let totalSpendingLimit = totalMonthIncome - totalMonthExpenses;
-
-
+let totalSpendingLimit = totalMonthIncome - totalMonthExpenses;
     let output = {
       SpendingLimit:totalSpendingLimit,
       CurrentMonthExpenses:totalMonthExpenses,
       CurrentMonthIncome:totalMonthIncome
     }
-
     return output;
+
+  }else{
+    let output={
+      SpendingLimit:0,
+      CurrentMonthExpenses:totalMonthExpenses,
+      CurrentMonthIncome:0
+    }
+    return output;
+  }
+
+    
   },
 
 
