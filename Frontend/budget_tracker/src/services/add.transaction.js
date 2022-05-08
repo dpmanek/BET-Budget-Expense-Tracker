@@ -107,7 +107,7 @@ const deleteSetAside = (TransactionID) => {
 
 const getSetAside = (TransactionID)=> {
   return axios
-    .get(API_URL + "/removeSetAside", {
+    .get(API_URL + "/getSetAside", {
       headers: authHeader(),
     })
     .then((response) => {
