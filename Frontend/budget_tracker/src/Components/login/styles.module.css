@@ -96,3 +96,7 @@
 	color: white;
 	margin: 10px;
 }
+
+.loginError{
+	color: red !important;
+}

@@ -36,7 +36,7 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
 
   return (
     <div className="row col-md-12 page">
-      <div className="col-md-6">
+      <div className="col-md-4">
         <h2 className="page-header__title">
           This month's expenses:
           <span>{MonthExpense}</span>
@@ -51,7 +51,7 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
           </button>
         </div>
       </div>
-      <div className="col-md-6">
+      <div className="col-md-4">
         <h2 className="page-header__title">
           Spending Limit:
           <span>{SpendingLimit}</span>
@@ -63,6 +63,18 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
             onClick={() => redirectRoute("/addincome")}
           >
             Add income
+          </button>
+        </div>
+      </div>
+      <div className="col-md-4">
+        <h2 className="page-header__title">Set a budget for your goals</h2>
+        <div className="page-header__actions">
+          <button
+            className="btn btn-outline-success dash-success"
+            type="button"
+            onClick={() => redirectRoute("/setaside")}
+          >
+            Add Goals
           </button>
         </div>
       </div>

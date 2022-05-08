@@ -14,107 +14,101 @@ const moment = require("moment");
 router.post("/review", async (req, res) => {
   let UserID = req.userId;
   try {
-	if(req.body) data = req.body.body;
-	else throw 'No Request Body';
-	}
-catch(e){
-	return res.status(204).send({ Error: e});
-}
+    if (req.body) data = req.body.body;
+    else throw "No Request Body";
+  } catch (e) {
+    return res.status(204).send({ Error: e });
+  }
   let rating = xss(data.rating);
   let feedback = xss(data.feedback);
-try{
-	
-	if(!rating) throw 'No Rating';
-	if(!feedback) throw 'No FeedBack';
-	
-	rating = dataValidation.checkRating(rating);
-	feedback = dataValidation.checkFeedback(feedback);
-}
-catch(e){
-	return res.status(400).send({ Error:e});
-}		
-try{
-  let userInfo = await userDataFunctions.postReview(UserID, rating, feedback); //change to get user review
-	if(userInfo){
-		res.status(200).send({ data: userInfo });
-	}
-}
-catch(e){
-	return res.status(400).send({ Error:e});
-}
+  try {
+    if (!rating) throw "No Rating";
+    if (!feedback) throw "No FeedBack";
+
+    rating = dataValidation.checkRating(rating);
+    feedback = dataValidation.checkFeedback(feedback);
+  } catch (e) {
+    return res.status(400).send({ Error: e });
+  }
+  try {
+    let userInfo = await userDataFunctions.postReview(UserID, rating, feedback); //change to get user review
+    if (userInfo) {
+      res.status(200).send({ data: userInfo });
+    }
+  } catch (e) {
+    return res.status(400).send({ Error: e });
+  }
 });
 
 router.get("/review", async (req, res) => {
   let UserID = req.userId;
 
-  try{
-  let userInfo = await userDataFunctions.getReview(UserID); //change to get user review
-  if(userInfo){
-	res.status(200).send({ data: userInfo });
-}
-  }
-  catch(e){
-	return res.status(400).send({ Error:e}); 
+  try {
+    let userInfo = await userDataFunctions.getReview(UserID); //change to get user review
+    if (userInfo) {
+      res.status(200).send({ data: userInfo });
+    }
+  } catch (e) {
+    return res.status(400).send({ Error: e });
   }
 });
 
 router.get("/alltransactions", async (req, res) => {
   let UserID = req.userId;
-	try{
-  let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
-    UserID
-  );
-  if(userInfo){
-	res.status(200).send({ data: userInfo });
-}
-  }
-  catch(e){
-	return res.status(400).send({ Error:e}); 
+  try {
+    let userInfo = await userDataFunctions.getUserTransactionsByCurrentMonth(
+      UserID
+    );
+    if (userInfo) {
+      res.status(200).send({ data: userInfo });
+    }
+  } catch (e) {
+    return res.status(400).send({ Error: e });
   }
 });
 
 router.post("/addExpense", async (req, res) => {
   let UserID = req.userId;
-  let name, amount, category, recurringType,description,date;
-	try{
-  if (req.body.body) {
-    name = xss(req.body.body.name);
-	if(!name) throw "Name Not Provided";
-    amount = xss(req.body.body.amount);
-	if(!amount) throw "Amount Not Provided"
-	amount = parseFloat(amount);
-    category = xss(req.body.body.category);
-	if(!category) throw "Category Not Provided"
-    recurringType = xss(req.body.body.recurringType);
-	if(!recurringType) throw "RecurringType Not Provided";
-	if (recurringType == "yes") recurringType = "Recurring";
-    else recurringType = "OneTime";
+  let name, amount, category, recurringType, description, date;
+  try {
+    if (req.body.body) {
+      name = xss(req.body.body.name);
+      if (!name) throw "Name Not Provided";
+      amount = xss(req.body.body.amount);
+      if (!amount) throw "Amount Not Provided";
+      amount = parseFloat(amount);
+      category = xss(req.body.body.category);
+      if (!category) throw "Category Not Provided";
+      recurringType = xss(req.body.body.recurringType);
+      if (!recurringType) throw "RecurringType Not Provided";
+      if (recurringType == "yes") recurringType = "Recurring";
+      else recurringType = "OneTime";
 
-    if (!req.body.body.description)  description = null;
-     else  description = xss(req.body.body.description);
+      if (!req.body.body.description) description = null;
+      else description = xss(req.body.body.description);
 
-    if (!req.body.body.date) {
-      let TranactionDate = new Date();
-      TranactionDate.toLocaleString("en-US", {
-        timeZone: "America/New_York",});
-       date = moment(TranactionDate).format("MM/DD/YYYY");
+      if (!req.body.body.date) {
+        let TranactionDate = new Date();
+        TranactionDate.toLocaleString("en-US", {
+          timeZone: "America/New_York",
+        });
+        date = moment(TranactionDate).format("MM/DD/YYYY");
+      } else {
+        date = xss(req.body.body.date);
+        date = moment(new Date(date)).format("MM/DD/YYYY");
+      }
     } else {
-       date = xss(req.body.body.date);
-      date = moment(new Date(date)).format("MM/DD/YYYY");
+      throw res.status(400).json({ error: "Bad Request" });
     }
-  } else {
-    throw res.status(400).json({ error: "Bad Request" });
+  } catch (e) {
+    return res.status(400).send({ Error: e });
   }
-}
-  catch(e){
-	return res.status(400).send({ Error:e}); 
-  }
-//   try{
-// 	  name = dataValidation.
-//   }
-//   catch(e){
-// 	return res.status(400).send({ Error:e}); 
-//   }
+  //   try{
+  // 	  name = dataValidation.
+  //   }
+  //   catch(e){
+  // 	return res.status(400).send({ Error:e});
+  //   }
 
   //data function call
   try {
@@ -390,6 +384,29 @@ router.post("/trackComplaint", async (req, res) => {
     res.send({ data: response[0] });
   });
   //let status = await ticketGeneration.fetchIncident(incident);
+});
+
+router.post("/addSetAside", async (req, res) => {
+  let UserID = req.userId;
+  try {
+    if (req.body.body) {
+      data = req.body.body;
+    } else {
+      throw "No Request Body";
+    }
+  } catch (e) {
+    return res.status(204).send({ Error: e });
+  }
+  await transactionFunc.createSetAside(UserID, Amount, Purpose);
+  return res.status(200).send({});
+});
+router.delete("/removeSetAside", async (req, res) => {
+  let UserId = req.userId;
+  let transactionId = xss(req.body.TransactionID);
+
+  let userInfo = await transactionFunc.deleteSetAside(UserId, transactionId); //change to get user review
+
+  res.send({ data: userInfo });
 });
 
 module.exports = router;
