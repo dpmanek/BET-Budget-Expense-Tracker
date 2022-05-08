@@ -69,7 +69,13 @@ const Review = () => {
               htmlFor="star5"
               title="Awesome - 5 stars"
             ></label>
-            <input type="radio" id="star4half" name="rating" value="4.5" />
+            <input
+              type="radio"
+              id="star4half"
+              name="rating"
+              step="0.01"
+              value="4.5"
+            />
             <label
               className="half"
               htmlFor="star4half"
@@ -88,7 +94,11 @@ const Review = () => {
               title="Meh - 3.5 stars"
             ></label>
             <input type="radio" id="star3" name="rating" value="3" />
-            <label className="full" htmlFor="star3" title="Meh - 3 stars"></label>
+            <label
+              className="full"
+              htmlFor="star3"
+              title="Meh - 3 stars"
+            ></label>
             <input type="radio" id="star2half" name="rating" value="2.5" />
             <label
               className="half"

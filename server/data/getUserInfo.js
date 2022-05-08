@@ -1,8 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const allUsers = mongoCollections.users;
-const dataValidation = require("./dataValidation")
+const dataValidation = require("./dataValidation");
 const moment = require("moment");
-
 
 module.exports = {
   async getName(email) {
@@ -52,7 +51,7 @@ module.exports = {
     email = dataValidation.checkEmail(email);
     email = email.toLowerCase();
     //data validation
-    rating = parseInt(rating);
+    rating = parseFloat(rating);
     const userCollection = await allUsers();
     //checks if user with the same email already exists
     const userFound = await userCollection.findOne({ Email: email });
@@ -102,9 +101,6 @@ module.exports = {
     const userData = await userCollection.findOne({ Email: UserId });
     if (userData === null) throw { code: 404, message: "User Not Found" };
 
-    
-
-
     let userOneTimeIncome = userData.Money.Income.OneTime;
     let userRecurringIncome = userData.Money.Income.Recurring;
     let userOneTimeExpenditure = userData.Money.Expenditure.OneTime;
@@ -132,14 +128,14 @@ module.exports = {
           userOneTimeExpenditure[i]._id.toString();
       }
     }
-   
+
     return userData.Money;
   },
   async getUserTransactionsByCurrentMonth(UserId) {
     if (!UserId) throw "No Email";
     UserId = dataValidation.checkEmail(UserId);
     UserId = UserId.toLowerCase();
-    let currentDate = moment().format('MM/DD/YYYY')
+    let currentDate = moment().format("MM/DD/YYYY");
     let currentMonth = currentDate.split("/");
     console.log(currentDate);
     const userCollection = await allUsers();
@@ -147,17 +143,17 @@ module.exports = {
     if (userData === null) throw { code: 404, message: "User Not Found" };
 
     let filteredUserData = {
-        Money:{
-            Income:{
-                OneTime:[],
-                Recurring:[],
-            },
-            Expenditure:{
-                OneTime:[],
-                Recurring:[],
-            },
-        }
-    }
+      Money: {
+        Income: {
+          OneTime: [],
+          Recurring: [],
+        },
+        Expenditure: {
+          OneTime: [],
+          Recurring: [],
+        },
+      },
+    };
 
     let userOneTimeIncome = userData.Money.Income.OneTime;
     let userRecurringIncome = userData.Money.Income.Recurring;
@@ -168,164 +164,168 @@ module.exports = {
       for (i in userOneTimeIncome) {
         userOneTimeIncome[i]._id = userOneTimeIncome[i]._id.toString();
         let transactionMonth = userOneTimeIncome[i].TranactionDate.split("/");
-        if(transactionMonth[0] === currentMonth[0]){
-            filteredUserData.Money.Income.OneTime.push(userOneTimeIncome[i]);
+        if (transactionMonth[0] === currentMonth[0]) {
+          filteredUserData.Money.Income.OneTime.push(userOneTimeIncome[i]);
         }
       }
     }
-    if (userRecurringIncome && userRecurringIncome.length > 0) { //recurring is a monthly thing
-        for (i in userRecurringIncome) {
-            userRecurringIncome[i]._id = userRecurringIncome[i]._id.toString();
-            //let transactionMonth = userRecurringIncome[i].TranactionDate.split("/");
-            //if(transactionMonth[0] === currentMonth[0]){
-               filteredUserData.Money.Income.Recurring.push(userRecurringIncome[i]);
-            //}
-          }
+    if (userRecurringIncome && userRecurringIncome.length > 0) {
+      //recurring is a monthly thing
+      for (i in userRecurringIncome) {
+        userRecurringIncome[i]._id = userRecurringIncome[i]._id.toString();
+        //let transactionMonth = userRecurringIncome[i].TranactionDate.split("/");
+        //if(transactionMonth[0] === currentMonth[0]){
+        filteredUserData.Money.Income.Recurring.push(userRecurringIncome[i]);
+        //}
+      }
     }
     if (userRecurringExpenditure && userRecurringExpenditure.length > 0) {
-        for (i in userRecurringExpenditure) {
-            userRecurringExpenditure[i]._id = userRecurringExpenditure[i]._id.toString();
-            // let transactionMonth = userRecurringExpenditure[i].TranactionDate.split("/");
-            // if(transactionMonth[0] === currentMonth[0]){
-                filteredUserData.Money.Expenditure.Recurring.push(userRecurringExpenditure[i]);
-            // }
-          }
+      for (i in userRecurringExpenditure) {
+        userRecurringExpenditure[i]._id =
+          userRecurringExpenditure[i]._id.toString();
+        // let transactionMonth = userRecurringExpenditure[i].TranactionDate.split("/");
+        // if(transactionMonth[0] === currentMonth[0]){
+        filteredUserData.Money.Expenditure.Recurring.push(
+          userRecurringExpenditure[i]
+        );
+        // }
+      }
     }
     if (userOneTimeExpenditure && userOneTimeExpenditure.length > 0) {
-        for (i in userOneTimeExpenditure) {
-            userOneTimeExpenditure[i]._id = userOneTimeExpenditure[i]._id.toString();
-            let transactionMonth = userOneTimeExpenditure[i].TranactionDate.split("/");
-            if(transactionMonth[0] === currentMonth[0]){
-                filteredUserData.Money.Expenditure.OneTime.push(userOneTimeExpenditure[i]);
-            }
-          }
+      for (i in userOneTimeExpenditure) {
+        userOneTimeExpenditure[i]._id =
+          userOneTimeExpenditure[i]._id.toString();
+        let transactionMonth =
+          userOneTimeExpenditure[i].TranactionDate.split("/");
+        if (transactionMonth[0] === currentMonth[0]) {
+          filteredUserData.Money.Expenditure.OneTime.push(
+            userOneTimeExpenditure[i]
+          );
+        }
+      }
     }
-   
+
     return filteredUserData.Money;
   },
 
-  async getSpendingLimitAndMonthExpense(UserId){
-    let transactionByMonth = await this.getUserTransactionsByCurrentMonth(UserId);
+  async getSpendingLimitAndMonthExpense(UserId) {
+    let transactionByMonth = await this.getUserTransactionsByCurrentMonth(
+      UserId
+    );
     let totalMonthExpenses = 0;
     let totalMonthIncome = 0;
     let IncomePresentFlag = false;
 
-    if(transactionByMonth.Expenditure.OneTime.length > 0){
-    for(i in transactionByMonth.Expenditure.OneTime){
-      totalMonthExpenses += transactionByMonth.Expenditure.OneTime[i].Amount;
+    if (transactionByMonth.Expenditure.OneTime.length > 0) {
+      for (i in transactionByMonth.Expenditure.OneTime) {
+        totalMonthExpenses += transactionByMonth.Expenditure.OneTime[i].Amount;
+      }
     }
-  }
-  if(transactionByMonth.Expenditure.Recurring.length > 0){
-    for(i in transactionByMonth.Expenditure.Recurring){
-      totalMonthExpenses += transactionByMonth.Expenditure.Recurring[i].Amount;
+    if (transactionByMonth.Expenditure.Recurring.length > 0) {
+      for (i in transactionByMonth.Expenditure.Recurring) {
+        totalMonthExpenses +=
+          transactionByMonth.Expenditure.Recurring[i].Amount;
+      }
     }
-  }
-  //Checking if income is present
-  if(transactionByMonth.Income.OneTime.length > 0 || transactionByMonth.Income.Recurring.length > 0){
-  if(transactionByMonth.Income.OneTime.length > 0){
-    for(i in transactionByMonth.Income.OneTime){
-      totalMonthIncome += transactionByMonth.Income.OneTime[i].Amount;
-    }
-    IncomePresentFlag = true;
-  }
-  if(transactionByMonth.Income.Recurring.length > 0){
-    for(i in transactionByMonth.Income.Recurring){
-      totalMonthIncome += transactionByMonth.Income.Recurring[i].Amount;
+    //Checking if income is present
+    if (
+      transactionByMonth.Income.OneTime.length > 0 ||
+      transactionByMonth.Income.Recurring.length > 0
+    ) {
+      if (transactionByMonth.Income.OneTime.length > 0) {
+        for (i in transactionByMonth.Income.OneTime) {
+          totalMonthIncome += transactionByMonth.Income.OneTime[i].Amount;
+        }
+        IncomePresentFlag = true;
+      }
+      if (transactionByMonth.Income.Recurring.length > 0) {
+        for (i in transactionByMonth.Income.Recurring) {
+          totalMonthIncome += transactionByMonth.Income.Recurring[i].Amount;
+        }
+
+        IncomePresentFlag = true;
+      }
     }
 
-    IncomePresentFlag = true;
-  }
-}
-
-if(IncomePresentFlag){
-  
-let totalSpendingLimit = totalMonthIncome - totalMonthExpenses;
-    let output = {
-      SpendingLimit:totalSpendingLimit,
-      CurrentMonthExpenses:totalMonthExpenses,
-      CurrentMonthIncome:totalMonthIncome
+    if (IncomePresentFlag) {
+      let totalSpendingLimit = totalMonthIncome - totalMonthExpenses;
+      let output = {
+        SpendingLimit: totalSpendingLimit,
+        CurrentMonthExpenses: totalMonthExpenses,
+        CurrentMonthIncome: totalMonthIncome,
+      };
+      return output;
+    } else {
+      let output = {
+        SpendingLimit: 0,
+        CurrentMonthExpenses: totalMonthExpenses,
+        CurrentMonthIncome: 0,
+      };
+      return output;
     }
-    return output;
-
-  }else{
-    let output={
-      SpendingLimit:0,
-      CurrentMonthExpenses:totalMonthExpenses,
-      CurrentMonthIncome:0
-    }
-    return output;
-  }
-
-    
   },
 
-
-
-  async filterTransactionReportGeneration(userInfo,Name,from,till){
-
+  async filterTransactionReportGeneration(userInfo, Name, from, till) {
     let expense = userInfo.Expenditure;
-	let OneTimeExpense = expense.OneTime;
-	let RecurringExpense = expense.Recurring;
-	let income = userInfo.Income;
-	let OneTimeIncome = income.OneTime;
-	let RecurringIncome = income.Recurring;
+    let OneTimeExpense = expense.OneTime;
+    let RecurringExpense = expense.Recurring;
+    let income = userInfo.Income;
+    let OneTimeIncome = income.OneTime;
+    let RecurringIncome = income.Recurring;
 
-	
-	let start = new Date(moment(from).format('MM/DD/YYYY'));
-	let end = new Date(moment(till).format('MM/DD/YYYY'));
+    let start = new Date(moment(from).format("MM/DD/YYYY"));
+    let end = new Date(moment(till).format("MM/DD/YYYY"));
 
-	let FinalExpense = [];
-	let FinalIncome = [];
-	let FinalTransactions = [];
-	FinalExpense = OneTimeExpense.concat(RecurringExpense);
-	for (let i in FinalExpense) {
-		FinalExpense[i].Type = 'Debit';
-	}
-	FinalIncome = OneTimeIncome.concat(RecurringIncome);
-	for (let i in FinalIncome) {
-		FinalIncome[i].Type = 'Credit';
-	}
-	FinalTransactions = FinalIncome.concat(FinalExpense);
-	for (let i in FinalTransactions) {
-		FinalTransactions[i].TranactionDate = new Date(
-			FinalTransactions[i].TranactionDate
-		);
-	}
-	const sortedActivities = FinalTransactions.sort(
-		(a, b) => a.TranactionDate - b.TranactionDate
-	);
-	let FilteredData = [];
-	for (let i in sortedActivities) {
-		if (
-			sortedActivities[i].TranactionDate >= start &&
-			sortedActivities[i].TranactionDate <= end
-		) {
-			FilteredData.push(sortedActivities[i]);
-		}
-	}
-	let Transactions = [];
-	for (i in FilteredData) {
-		FilteredData[i].TranactionDate = moment(
-			FilteredData[i].TranactionDate
-		).format('MM/DD/YYYY');
-		let element = {
-			Sr_no: parseFloat(i) + 1,
-			Transaction_Name: FilteredData[i].Name,
-			Amount: FilteredData[i].Amount,
-			Type: FilteredData[i].Type,
-			Date: FilteredData[i].TranactionDate,
-		};
-		Transactions.push(element);
-	}
-	const modeledData = {
-		Name: Name.Name,
-		From: moment(from).format('MM/DD/YYYY'),
-		Till: moment(till).format('MM/DD/YYYY'),
-		Transactions: Transactions,
-	};
+    let FinalExpense = [];
+    let FinalIncome = [];
+    let FinalTransactions = [];
+    FinalExpense = OneTimeExpense.concat(RecurringExpense);
+    for (let i in FinalExpense) {
+      FinalExpense[i].Type = "Debit";
+    }
+    FinalIncome = OneTimeIncome.concat(RecurringIncome);
+    for (let i in FinalIncome) {
+      FinalIncome[i].Type = "Credit";
+    }
+    FinalTransactions = FinalIncome.concat(FinalExpense);
+    for (let i in FinalTransactions) {
+      FinalTransactions[i].TranactionDate = new Date(
+        FinalTransactions[i].TranactionDate
+      );
+    }
+    const sortedActivities = FinalTransactions.sort(
+      (a, b) => a.TranactionDate - b.TranactionDate
+    );
+    let FilteredData = [];
+    for (let i in sortedActivities) {
+      if (
+        sortedActivities[i].TranactionDate >= start &&
+        sortedActivities[i].TranactionDate <= end
+      ) {
+        FilteredData.push(sortedActivities[i]);
+      }
+    }
+    let Transactions = [];
+    for (i in FilteredData) {
+      FilteredData[i].TranactionDate = moment(
+        FilteredData[i].TranactionDate
+      ).format("MM/DD/YYYY");
+      let element = {
+        Sr_no: parseFloat(i) + 1,
+        Transaction_Name: FilteredData[i].Name,
+        Amount: FilteredData[i].Amount,
+        Type: FilteredData[i].Type,
+        Date: FilteredData[i].TranactionDate,
+      };
+      Transactions.push(element);
+    }
+    const modeledData = {
+      Name: Name.Name,
+      From: moment(from).format("MM/DD/YYYY"),
+      Till: moment(till).format("MM/DD/YYYY"),
+      Transactions: Transactions,
+    };
 
-  return modeledData
-  }
+    return modeledData;
+  },
 };
-
-

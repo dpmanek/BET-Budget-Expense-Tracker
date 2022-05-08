@@ -3,15 +3,9 @@ import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import UserService from '../../services/user.service';
 import AuthService from "../../services/auth.service";
+import './Graph.css'
 
-const posR = {
-	marginBottom: "190px",
-	boxShadow: "5px 6px 6px 2px #e9ecef",
-	alignItems: "center",
-	borderRadius: 20,
-	backgroundColor: "#6ecebc",
-	fontWeight: "bold",
-  };
+
 
 const BarChart = () => {
 	const [accessToken, setAccessToken] = useState("");
@@ -103,7 +97,7 @@ const BarChart = () => {
 				</React.Fragment>
 			) : (
 				<React.Fragment>
-					<div className="card p-3 mt-2 " style={posR}>
+					<div className="card posR posF">
             <h1>Restricted area</h1>
             <h2>
               <a href="/login">Sign In</a> to Access DashBoard

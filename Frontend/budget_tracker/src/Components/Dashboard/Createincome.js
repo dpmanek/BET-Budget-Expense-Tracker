@@ -6,14 +6,7 @@ import AuthService from "../../services/auth.service";
 import "./backbutton.css";
 import transactionService from "../../services/add.transaction";
 
-const posR = {
-  marginBottom: "190px",
-  boxShadow: "5px 6px 6px 2px #e9ecef",
-  alignItems: "center",
-  borderRadius: 20,
-  backgroundColor: "#6ecebc",
-  fontWeight: "bold",
-};
+
 
 const Createincome = () => {
   let navigate = useNavigate();
@@ -149,7 +142,7 @@ const Createincome = () => {
                 <input
                   type="text"
                   name="description"
-                  placeholder="Description"
+                  placeholder="Description (Optional)"
                   className="form-control position"
                   value={formValues.description}
                   onChange={handleChange}
@@ -179,7 +172,9 @@ const Createincome = () => {
                 value={formValues.category}
                 onChange={handleChange}
               >
-                <option >Select your category</option>
+                <option value="" disabled selected>
+                  Select your option
+                </option>
                 <option value="Checks">Checks</option>
                 <option value="Coupons">Coupons</option>
                 <option value="Dues">Dues</option>
@@ -253,7 +248,7 @@ const Createincome = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div className="card p-3 mt-2 " style={posR}>
+          <div className="card posR posF">
             <h1>Restricted area</h1>
             <h2>
               <a href="/login">Sign In</a> to Access DashBoard
