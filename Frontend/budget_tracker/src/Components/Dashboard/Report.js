@@ -104,9 +104,6 @@ const Report = () => {
                 Select Starting Date
               </label>
               <div className="mb-3 position">
-                <label htmlFor="dateone" className="col-form-label">
-                  Date
-                </label>
                 <div className="input-group date position" id="datepicker">
                   <input
                     type="date"
@@ -128,9 +125,6 @@ const Report = () => {
                 Select Ending Date
               </label>
               <div className="mb-3 position">
-                <label htmlFor="datetwo" className="col-form-label">
-                  Date
-                </label>
                 <div className="input-group date position" id="datepicker">
                   <input
                     type="date"

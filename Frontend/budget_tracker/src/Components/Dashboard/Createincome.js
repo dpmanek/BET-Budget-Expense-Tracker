@@ -6,8 +6,6 @@ import AuthService from "../../services/auth.service";
 import "./backbutton.css";
 import transactionService from "../../services/add.transaction";
 
-
-
 const Createincome = () => {
   let navigate = useNavigate();
 
@@ -69,6 +67,9 @@ const Createincome = () => {
     let errors = {};
     if (!values.amount) {
       errors.amount = "Amount is required";
+    }
+    if (!values.date) {
+      errors.date = "Date is required";
     }
     if (!values.name) {
       errors.name = "Name is required";
@@ -191,10 +192,10 @@ const Createincome = () => {
                 <option value="Salary">Salary</option>
                 <option value="Other">Other</option>
               </select>
-              <p className="disError">
-                {formErrors ? formErrors.category : ""}
-              </p>
               <div className="mb-3 position">
+                <p className="disError">
+                  {formErrors ? formErrors.category : ""}
+                </p>
                 <label htmlFor="date" className="col-form-label">
                   Date
                 </label>
