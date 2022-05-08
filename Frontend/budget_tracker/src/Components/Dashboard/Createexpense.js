@@ -64,8 +64,6 @@ const Createexpense = () => {
 
   const validate = (values) => {
     const alpha = /^[0-9]+$/;
-    const spec = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/;
-    const tog = spec.test(values.name);
 
     let errors = {};
     if (!values.amount) {
@@ -73,9 +71,6 @@ const Createexpense = () => {
     }
     if (!values.date) {
       errors.date = "Date is required";
-    }
-    if (tog === true) {
-      errors.name = "Name cannot be just special charcters";
     }
     if (!values.name) {
       errors.name = "Name is required";
