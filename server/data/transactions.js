@@ -15,20 +15,22 @@ const createIncome = async (
 	Date
 ) => {
 	/*errorChecking*/
-
-	try {
-		await dataValidation.createIncome(
-			UserId,
-			Name,
-			Description,
-			Tags,
-			Amount,
-			Type,
-			Date
-		);
-	} catch (e) {
-		throw e;
-	}
+	if(!UserId) throw "No Email";
+	if(!Name) throw "No Name";
+	if(!Tags) throw "No Tags";
+	if(!Amount) throw "No Amount";
+	if(!Type) throw "type";
+	if(!Date) throw "No Date";
+	
+	if(Description) Description = dataValidation.checkTransactionDescription;
+	else Description = null;
+	UserId = dataValidation.checkEmail(UserId);
+	Name = dataValidation.checkTransactionName(Name);
+	Tags = dataValidation.checkTransactionCategory(Tags);
+	Date = dataValidation.checkTransactionDate(Date);
+	
+	if(!Type === "Recurring" && !Type === "Recurring" ) throw "type is Invalid"
+	Amount = dataValidation.checkAmountinDatafunction(Amount);
 
 	let UserCollection = await Users();
 
@@ -73,49 +75,35 @@ const createIncome = async (
 };
 
 const createExpense = async (
-	userId,
-	name,
-	description,
-	tags,
-	amount,
+	UserId,
+	Name,
+	Description,
+	Tags,
+	Amount,
 	type,
-	date
+	Date
 ) => {
-	let UserId = !userId ? 'kevin1@gmail.com' : userId;
-	let Name = !name ? 'icecream' : name;
-	let Description = !description ? null : description;
-	let Tags = !tags ? 'sometag' : tags;
-	let Date = !date ? undefined : date;
-	let Amount = !amount ? 500 : amount;
-	let Type = !type ? 'OneTime' : type;
 
-	/*errorChecking*/
+	if(!UserId) throw "No Email";
+	if(!Name) throw "No Name";
+	if(!Tags) throw "No Tags";
+	if(!Amount) throw "No Amount";
+	if(!type) throw "type";
+	if(!Date) throw "No Date";
+	
+	if(Description) Description = dataValidation.checkTransactionDescription;
+	else Description = null;
+	UserId = dataValidation.checkEmail(UserId);
+	Name = dataValidation.checkTransactionName(Name);
+	Tags = dataValidation.checkTransactionCategory(Tags);
+	Date = dataValidation.checkTransactionDate(Date);
+	
+	if(!type === "Recurring" && !type === "Recurring" ) throw "type is Invalid"
+	Amount = dataValidation.checkAmountinDatafunction(Amount);
 
-	// try {
-	// 	await errorChecking.errorCreateAlbum(
-	// 		bandId,
-	// 		title,
-	// 		releaseDate,
-	// 		tracks,
-	// 		rating
-	// 	);
-	// } catch (e) {
-	// 	throw e;
-	// }
 
-	/*Logic to trim and insert ----------------*/
-	// for (i in tracks) {
-	// 	tracks[i] = tracks[i].trim();
-	// }
-
-	//Trim all the string before inserting
-	// title = title.trim();
-	// releaseDate = releaseDate.trim();
-
-	//let albumCollection = await albums();
 	let UserCollection = await Users();
 
-	// Transaction_Date: tracks,
 
 	let expense = {
 		_id: ObjectId(),
