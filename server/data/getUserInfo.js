@@ -33,10 +33,14 @@ module.exports = {
   },
   async postReview(email, rating, feedback) {
     if (!email) throw "No Email";
+    if(!rating) throw 'No Rating';
+    if(!feedback) throw 'No FeedBack';
     email = dataValidation.checkEmail(email);
     email = email.toLowerCase();
+    rating = dataValidation.checkRatingInDataFunction(rating);
+    feedback = dataValidation.checkFeedback(feedback);
     //data validation
-    rating = parseFloat(rating);
+     
     const userCollection = await allUsers();
     //checks if user with the same email already exists
     const userFound = await userCollection.findOne({ Email: email });
@@ -82,7 +86,7 @@ module.exports = {
 
     const userCollection = await allUsers();
     const userData = await userCollection.findOne({ Email: UserId });
-    if (userData === null) throw { code: 404, message: "User Not Found" };
+    if (userData === null) throw "User Not Found";
 
     let userOneTimeIncome = userData.Money.Income.OneTime;
     let userRecurringIncome = userData.Money.Income.Recurring;
@@ -120,7 +124,6 @@ module.exports = {
     UserId = UserId.toLowerCase();
     let currentDate = moment().format("MM/DD/YYYY");
     let currentMonth = currentDate.split("/");
-    console.log(currentDate);
     const userCollection = await allUsers();
     const userData = await userCollection.findOne({ Email: UserId });
     if (userData === null) throw "User Not Found" ;
@@ -192,6 +195,9 @@ module.exports = {
   },
 
   async getSpendingLimitAndMonthExpense(UserId) {
+    if (!UserId) throw "No Email";
+    UserId = dataValidation.checkEmail(UserId);
+    UserId = UserId.toLowerCase();
     let transactionByMonth = await this.getUserTransactionsByCurrentMonth(
       UserId
     );

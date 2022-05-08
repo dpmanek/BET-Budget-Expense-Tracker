@@ -353,79 +353,14 @@ const deleteExpense = async (UserId, transactionID) => {
 			message: 'User Not Found',
 		};
 };
-const updateIncome = async (UserId, transactionID) => {};
 
-const updateExpense = async (
-	UserId,
-	transactionID,
-	Name,
-	Description,
-	Tags,
-	payment,
-	Amount
-) => {
-	if (!UserId) throw 'No Email';
-	UserId = dataValidation.checkEmail(UserId);
-
-	if (!transactionID) throw 'No Transaction ID';
-	// write data function to check transaction ID
-	let deletedflag = false;
-	let UserCollection = await Users();
-	const userFound = await UserCollection.findOne({ Email: UserId });
-	if (userFound) {
-		let expenseRecurring = userFound.Money.Expenditure.Recurring;
-		let expenseOneTime = userFound.Money.Expenditure.OneTime;
-
-		if (expenseRecurring && expenseRecurring.length >= 1) {
-			for (i in expenseRecurring) {
-				if (expenseRecurring[i]._id.str === transactionID) {
-					const data = await UserCollection.updateOne(
-						{ Email: UserId },
-						{ $set: { 'Money.Expenditure.Recurring': { _id: transactionID } } }
-					);
-					if (!data.acknowledged || data.modifiedCount === 0)
-						throw {
-							code: 400,
-							message: `Could Not Delete Transaction:${transactionID} `,
-						};
-					deletedflag = true;
-				}
-			}
-		}
-		if (expenseOneTime && expenseOneTime.length >= 1) {
-			for (i in expenseOneTime) {
-				if (expenseOneTime[i]._id === transactionID) {
-					const data = await UserCollection.updateOne(
-						{ Email: UserId },
-						{ $set: { 'Money.Expenditure.OneTime': { _id: transactionID } } }
-					);
-					if (!data.acknowledged || data.modifiedCount === 0)
-						throw {
-							code: 400,
-							message: `Could Not Delete Transaction:${transactionID} `,
-						};
-					deletedflag = true;
-				}
-			}
-		}
-		if (deletedflag === true) {
-			return 'Deleted Transaction';
-		} else {
-			throw `No Transaction of ${transactionID} ID Exists`;
-		}
-	} else
-		throw {
-			code: 400,
-			message: 'User Not Found',
-		};
-};
 
 const getIncome = async (UserId, transactionID) => {
 	if (!UserId) throw 'No Email';
 	UserId = dataValidation.checkEmail(UserId);
-
+	UserId = UserId.toLowerCase();
 	if (!transactionID) throw 'No Transaction ID';
-	// write data function to check transaction ID
+	transactionID = dataValidation.checkTransactionID(transactionID);
 	let Foundflag = false;
 	let Transaction = [];
 	let UserCollection = await Users();
@@ -456,18 +391,15 @@ const getIncome = async (UserId, transactionID) => {
 			throw `No Transaction of ${transactionID} ID Exists`;
 		}
 	} else
-		throw {
-			code: 400,
-			message: 'User Not Found',
-		};
+		throw 'User Not Found';
 };
 
 const getExpense = async (UserId, transactionID) => {
 	if (!UserId) throw 'No Email';
 	UserId = dataValidation.checkEmail(UserId);
-
+	UserId = UserId.toLowerCase();
 	if (!transactionID) throw 'No Transaction ID';
-	// write data function to check transaction ID
+	transactionID = dataValidation.checkTransactionID(transactionID);
 	let Foundflag = false;
 	let Transaction = [];
 	let UserCollection = await Users();
@@ -498,15 +430,17 @@ const getExpense = async (UserId, transactionID) => {
 			throw `No Transaction of ${transactionID} ID Exists`;
 		}
 	} else
-		throw {
-			code: 400,
-			message: 'User Not Found',
-		};
+		throw  'User Not Found'
+	
 };
 
 const createSetAside = async (UserId, Amount, Purpose) => {
 	if (!UserId || !Amount || !Purpose)throw 'All input fields need to be a valid values';
 	//ask kevin to do data validations for UserId here
+	UserId = dataValidation.checkEmail(UserId);
+	UserId = UserId.toLowerCase();
+	Amount = dataValidation.checkAmountinDatafunction(Amount);
+	Purpose = dataValidation.checkFeedback(Purpose)
 
 	let UserCollection = await Users();
 	let setAside = {
@@ -521,10 +455,7 @@ const createSetAside = async (UserId, Amount, Purpose) => {
 	);
 
 	if (!data.acknowledged || data.modifiedCount === 0)
-		throw {
-			code: 400,
-			message: 'could not add set Aside to Money',
-		};
+		throw 'could not add set Aside to Money';
 
 	return 'Done set Aside';
 };
@@ -532,9 +463,11 @@ const createSetAside = async (UserId, Amount, Purpose) => {
 const deleteSetAside = async (UserId, transactionID) => {
 	if (!UserId) throw 'No Email';
 	UserId = dataValidation.checkEmail(UserId);
-
+	UserId = UserId.toLowerCase();
 	if (!transactionID) throw 'No Transaction ID';
-	// write data function to check transaction ID
+	transactionID = dataValidation.checkTransactionID(transactionID);
+	
+
 	let deletedflag = false;
 	let UserCollection = await Users();
 	const userFound = await UserCollection.findOne({ Email: UserId });
@@ -567,17 +500,13 @@ const deleteSetAside = async (UserId, transactionID) => {
 		} else {
 			throw `No Transaction of ${transactionID} ID Exists`;
 		}
-	} else
-		throw {
-			code: 400,
-			message: 'User Not Found',
-		};
+	} else throw 'User Not Found';
 };
 
 const getSetAside = async (UserId) => {
 	if (!UserId) throw 'No Email';
 	UserId = dataValidation.checkEmail(UserId);
-
+	UserId = UserId.toLowerCase();
 	let Transaction = [];
 	let UserCollection = await Users();
 	const userFound = await UserCollection.findOne({ Email: UserId });
