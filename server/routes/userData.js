@@ -326,54 +326,23 @@ router.get("/getExpense", async (req, res) => {
 
 router.get('/monthlyComparision', async (req, res) => {
 	let UserID = req.userId;
-	//console.log('request recieved');
-	// data validation ToDo
-
-	let userInfo = await userDataFunctions.getUserTransactions(UserID);
-	let expense = userInfo.Expenditure;
-	let OneTimeExpense = expense.OneTime;
-	let RecurringExpense = expense.Recurring;
-
-	let income = userInfo.Income;
-	let OneTimeIncome = income.OneTime;
-	let RecurringIncome = income.Recurring;
-
-	// let from ="05/01/2022"
-	// let till="05/05/2022"
-	// let start = new Date(moment(from).format("MM/DD/YYYY"));
-	// let end = new Date(moment(till).format("MM/DD/YYYY"));
-
-	let FinalExpense = [];
-	let FinalIncome = [];
-	let Expensedata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	let Incomedata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	//	let thisMonth = parseInt(moment().format('mm'));
-
-	FinalExpense = OneTimeExpense.concat(RecurringExpense);
-	for (let i in FinalExpense) {
-		let date = moment(new Date(FinalExpense[i].TranactionDate)).format(
-			'MM/DD/YYYY'
-		);
-		let month = parseInt(moment(new Date(date)).format('MM'));
-
-		Expensedata[month - 1] = Expensedata[month - 1] + FinalExpense[i].Amount;
+	let userInfo,data;
+try{
+	userInfo = await userDataFunctions.getUserTransactions(UserID);
+}
+catch(e){
+	return res.status(400).send({ Error: e });	
+}
+try{
+	data = await userDataFunctions.filterDataMonthlyComparisn(userInfo);
+	if(data){
+	res.status(200).send({ data: data });
 	}
-
-	FinalIncome = OneTimeIncome.concat(RecurringIncome);
-	for (let i in FinalIncome) {
-		let date = moment(new Date(FinalIncome[i].TranactionDate)).format(
-			'MM/DD/YYYY'
-		);
-		let month = parseInt(moment(new Date(date)).format('MM'));
-		Incomedata[month - 1] = Incomedata[month - 1] + FinalIncome[i].Amount;
-	}
-
-	let data = {
-		TotalIncome: Incomedata,
-		TotalExpenditure: Expensedata,
-	};
-	//console.log('Request Processed Monthly Comparisn Sending');
-	res.send({ data: data });
+}
+catch(e){
+	return res.status(400).send({ Error: e });	
+}
+	
 });
 router.post("/reportGeneration", async (req, res) => {
   let UserID = req.userId;
@@ -432,31 +401,45 @@ router.get("/getSpendingLimitMonthExpense", async (req, res) => {
 
 router.post('/createComplaint', async (req, res) => {
 	let UserID = req.userId;
-	let issue = xss(req.body.body.incident.bug);
-
-	//let complaintNumber = await ticketGeneration.createIncident(issue);
-
+	let issue
 	const ServiceNow = new sn('dev92862', 'admin', '$bWw-GBd5t4F');
+	
+	try{
+	if(!req.body.body.incident) throw "req Body Incident is empty";
+	issue = xss(req.body.body.incident.bug);
+	if(!issue) throw "Issue Not Provided";
+	issue = dataValidation.checkFeedback(issue);
 
+	}
+	catch(e){
+		return res.status(400).send({ Error: e });
+	}
+	//let complaintNumber = await ticketGeneration.createIncident(issue);
 	ServiceNow.Authenticate();
-
 	const data = {
 		short_description: issue,
 		urgency: '1',
 	};
 
-	await ServiceNow.createNewTask(data, 'incident', (response) => {
-		Mailer.sendEmail(
-			UserID,
-			'BET - Your Complaint is Filed',
-			`Your complaint has been recorded. A specialist will be assigned to your case and the issue shall be resolved soon after that. Your Complaint Tracking Number is:${response.number}`
-		);
-		res.send({ data: response.number });
-	});
+	try{
+		await ServiceNow.createNewTask(data, 'incident', (response) => {
+			Mailer.sendEmail(
+				UserID,
+				'BET - Your Complaint is Filed',
+				`Your complaint has been recorded. A specialist will be assigned to your case and the issue shall be resolved soon after that. Your Complaint Tracking Number is:${response.number}`
+			);
+			res.send({ data: response.number });
+		});
+	}
+	catch(e){
+		return res.status(400).send({ Error: e });
+	}
+	
 });
 
 router.post('/trackComplaint', async (req, res) => {
 	//pending errorchecking for incident number
+	
 	let incident = xss(req.body.body);
 	const ServiceNow = new sn('dev92862', 'admin', '$bWw-GBd5t4F');
 
