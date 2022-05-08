@@ -505,8 +505,7 @@ const getExpense = async (UserId, transactionID) => {
 };
 
 const createSetAside = async (UserId, Amount, Purpose) => {
-	if (!UserId || Amount || Purpose)
-		throw { code: 400, message: 'All input fields need to be a valid values' };
+	if (!UserId || !Amount || !Purpose)throw 'All input fields need to be a valid values';
 	//ask kevin to do data validations for UserId here
 
 	let UserCollection = await Users();

@@ -1,6 +1,6 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import "./Review.css";
-import axios from "axios";
+//import axios from "axios";
 import reviewService from "../../services/review.service";
 import Feedback from "./Feedback";
 
