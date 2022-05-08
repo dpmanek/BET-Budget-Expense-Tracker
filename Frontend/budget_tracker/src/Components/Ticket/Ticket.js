@@ -45,17 +45,12 @@ const Ticket = () => {
   const validateGenerateTicket = (values) => {
     const alpha = /^[0-9]+$/;
     let errorsTicket = {};
-    const spec = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/;
-    const tog = spec.test(values.bug);
     if (!values.bug) {
       errorsTicket.bug = "Problem is required";
     }
     const flag = alpha.test(values.bug);
     if (flag === true) {
-      errorsTicket.bug = "Problem cannot be just Numerical!";
-    }
-    if (tog === true) {
-      errorsTicket.bug = "Problem cannot be just Numerical!";
+      errorsTicket.bug = "Problem cannot be just Numerical!!!!!";
     }
     return errorsTicket;
   };
@@ -145,7 +140,7 @@ const Ticket = () => {
             {getTicketID && (
               <div className="ticket-msg">
                 Your newly created Ticket ID is <i>{getTicketID}</i>. <br />
-                <div className="thisError">
+                <div className="ticket-status">
                   An email has also been sent with your complaint number which
                   can be used to further track this complaint.
                 </div>
