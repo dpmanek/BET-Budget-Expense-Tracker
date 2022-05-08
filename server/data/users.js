@@ -21,7 +21,7 @@ const createUser = async (newFirstName, newLastName, newEmail, newPassword) => {
 
 	const userCollection = await allUsers();
 	//checks if user with the same email already exists
-	const userFound = await userCollection.findOne({ email: newEmail });
+	const userFound = await userCollection.findOne({ Email: newEmail });
 	if (userFound)
 		throw 'User with this Email already exists Please Try another Email';
 
@@ -64,7 +64,8 @@ const createUser = async (newFirstName, newLastName, newEmail, newPassword) => {
 		let UserCreatedSubject = `BET: New Account Created!!`
 		let UserCreatedBody = `New Account Created Name: ${newFirstName} ${newLastName} Email: ${newEmail} Welcome To BET, Thank you for Registering. Saving Money Just Got Easier!!!.`
 		Mailer.sendEmail(newEmail,UserCreatedSubject,UserCreatedBody);
-		return { userInserted: true };}
+		return { userInserted: true };
+	}
 };
 
 const checkUser = async (email, password) => {

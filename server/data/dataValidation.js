@@ -1,23 +1,23 @@
 const emailvalidator = require('email-validator');
 
 const checkName = (string) => {
-	if (!string) throw {code: 204,message:'String Undefined'};
+	if (!string) throw 'String Undefined';
 
-	if (typeof string != 'string') throw {code: 400,message:'Name must be a string Data Type'};
+	if (typeof string != 'string') throw'Name must be a string Data Type';
 
 	string = string.trim();
-	if (string.length === 0) throw {code: 400,message:'Cannot have empty a Name'};
+	if (string.length === 0) throw'Cannot have empty a Name';
 
-	if (string.split(' ').length > 1) throw {code: 400,message:'Name cannot have spaces inside'};
+	if (string.split(' ').length > 1)throw 'Name cannot have spaces inside';
 
 	var letterOnly = /^[a-zA-Z]+$/;
 	let result = string.match(letterOnly);
 
 	if (!(result == string && typeof result === 'object'))
-	throw {code: 400,message:'Name should be Only Alphabets'};
+	throw 'Name should be Only Alphabets';
 
-	if(string.split("").length >= 20) throw {code: 400,message:'Name should have atmost 20 characters'};
-	if(!(string.split("").length >= 2))throw {code: 400,message:'Name should have atleast 2 characters'};
+	if(string.split("").length >= 20) throw'Name should have atmost 20 characters';
+	if(!(string.split("").length >= 2))throw'Name should have atleast 2 characters';
 	return string;
 };
 

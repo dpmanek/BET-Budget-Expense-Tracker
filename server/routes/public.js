@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const userDataFunctions = require('../data/getUserInfo')
 
 
 router.get('/allReviews', async (req, res) => {

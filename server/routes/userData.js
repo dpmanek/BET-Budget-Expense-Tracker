@@ -33,17 +33,6 @@ router.get("/review", async (req, res) => {
   res.send({ data: userInfo });
 });
 
-//test
-router.get("/totalIncome", async (req, res) => {
-  let UserID = req.userId;
-  ////console.log('request recieved');
-  // data validation ToDo
-  let userInfo = await userDataFunctions.getSpendingLimitAndMonthExpense(
-    UserID
-  ); //change to get user review
-  //console.log('Request Processed');
-  res.send({ data: userInfo });
-});
 
 router.get("/alltransactions", async (req, res) => {
   let UserID = req.userId;
