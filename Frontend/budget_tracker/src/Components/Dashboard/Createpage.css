@@ -38,7 +38,7 @@
 }
 
 .posR{
-    margin-bottom: "190px";
+    /* margin-bottom: 200px; */
     box-shadow: "5px 6px 6px 2px #e9ecef" !important;
     border-radius: 20 !important;
     background-color: #6ECEBC !important;
@@ -47,6 +47,9 @@
 }
 .posF{
     margin-top: 10px;
-    margin-bottom: 150px !important;
+    margin-bottom: 200px !important;
+}
+.a12{
+    color: #005fdf;
 }
 
