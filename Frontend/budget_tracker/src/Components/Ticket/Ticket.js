@@ -117,11 +117,13 @@ const Ticket = () => {
 			{accessToken !== undefined ? (
 				<React.Fragment>
 					<form onSubmit={genTicket}>
+					<h1>Generate ticket</h1>
 						<div className="posF3">
 							<label htmlFor="exampleInputEmail1" className="form-label">
 								Enter a Problem
 							</label>
 							<input
+							id="exampleInputEmail1"
 								type="text"
 								name="bug"
 								placeholder="Problem"
@@ -151,6 +153,7 @@ const Ticket = () => {
 								Enter Ticket ID
 							</label>
 							<input
+								id="exampleInputEmail1"
 								type="text"
 								name="status"
 								placeholder="Ticket ID"

@@ -61,7 +61,7 @@ const Review = () => {
     <React.Fragment>
       <div className="col-md-6">
         <form className="" onSubmit={addReview}>
-          <h3 className="pl">Like our app? Leave a feedback</h3>
+          <h1 className="pl">Like our app? Leave a feedback</h1>
           <fieldset className="rating" onChange={handleChange}>
             <input type="radio" id="star5" name="rating" value="5" />
             <label
@@ -132,6 +132,7 @@ const Review = () => {
             <p className="disError">{formErrors ? formErrors.rating : ""}</p>
           </fieldset>
           <div className="mb-3">
+            <label htmlFor="msg"></label>
             <input
               id="msg"
               type="text"

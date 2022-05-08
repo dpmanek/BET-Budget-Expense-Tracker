@@ -9,7 +9,7 @@ const OurTeam= ()=>{
                 <div className="col-md-3 profile-card">
                     <div className="img"><img src="Nirav.jpg" alt="Nirav"/></div>
                     <div className="caption">
-                        <h3>Nirav Jain</h3>
+                        <h2>Nirav Jain</h2>
                         <div className="link">
                             <a href="https://www.linkedin.com/in/niravjain98" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                         </div>
@@ -19,7 +19,7 @@ const OurTeam= ()=>{
                 <div className="col-md-3 profile-card">
                     <div className="img"><img src="DeepM.jpg" alt="Deep"/></div>
                     <div className="caption">
-                        <h3>Deep Manek</h3>
+                        <h2>Deep Manek</h2>
                         <div className="link">
                             <a href="https://www.linkedin.com/in/deepmanek" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                         </div>
@@ -29,7 +29,7 @@ const OurTeam= ()=>{
                 <div className="col-md-3 profile-card">
                     <div className="img"><img src="Kevin.jpeg" alt="Kevin"/></div>
                     <div className="caption">
-                        <h3>Kevin D'sa</h3>
+                        <h2>Kevin D'sa</h2>
                         <div className="link">
                             <a href="https://www.linkedin.com/in/kevindsa2017" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                         </div>
@@ -39,7 +39,7 @@ const OurTeam= ()=>{
                 <div className="col-md-3 profile-card">
                     <div className="img"><img src="Amisha.jpg" alt="Amisha"/></div>
                     <div className="caption">
-                        <h3>Amisha Antiya</h3>
+                        <h2>Amisha Antiya</h2>
                         <a href="https://www.linkedin.com/in/amisha-antiya" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                     </div>
                 </div>
