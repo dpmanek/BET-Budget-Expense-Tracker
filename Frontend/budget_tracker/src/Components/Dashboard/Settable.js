@@ -4,19 +4,6 @@ import transactionService from '../../services/add.transaction';
 import { useNavigate } from 'react-router-dom';
 
 const Settable = () => {
-<<<<<<< HEAD
-  let navigate = useNavigate();
-  const [data, setdata] = useState([]);
-  useEffect(() => {
-    transactionService.getSetAside().then((response) => {
-      console.log(response, "====//===");
-      if (response.data) {
-        // setdata(response.data.getUserGoal);
-        console.log(response.data, "==========");
-      }
-    });
-  }, []);
-=======
 	let navigate = useNavigate();
 	const [data, setdata] = useState([]);
 	useEffect(() => {
@@ -26,7 +13,6 @@ const Settable = () => {
 			}
 		});
 	}, []);
->>>>>>> 1283750b3a5521bd9f4d7681bf2c348851a4dbd1
 
 	const handleDelete = (event) => {
 		event.preventDefault();
