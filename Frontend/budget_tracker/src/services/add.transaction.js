@@ -86,6 +86,25 @@ const updateUserIncome = (TransactionID) => {
     });
 };
 
+const createSetAside = (body) => {
+  return axios
+    .post(API_URL + "/addSetAside", { body: body }, { headers: authHeader() })
+    .then((response) => {
+      return response.data;
+    });
+};
+
+const deleteSetAside = (TransactionID) => {
+  return axios
+    .delete(API_URL + "/removeSetAside", {
+      headers: authHeader(),
+      data: { TransactionID: TransactionID },
+    })
+    .then((response) => {
+      return response.data;
+    });
+};
+
 const transactionService = {
   getUserIncome,
   getUserExpense,
@@ -95,5 +114,7 @@ const transactionService = {
   deleteUserExpense,
   updateUserIncome,
   updateUserExpense,
+  createSetAside,
+  deleteSetAside,
 };
 export default transactionService;
