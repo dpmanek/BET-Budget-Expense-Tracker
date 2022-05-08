@@ -50,8 +50,8 @@ h1 { font-size: 1.5em; margin: 10px; }
 .btn-primary{
   text-align: center !important;
   margin-left: 125px  !important;
-  background-color: #3bb19b !important;
-  border-color:#3bb19b !important;
+  background-color: #008765  !important;
+  border-color:#008765 !important;
 }
 
 .place1{
@@ -68,8 +68,8 @@ h1 { font-size: 1.5em; margin: 10px; }
 }
 
 .des{
-  background-color: #3bb19b !important;
-  border-color: #3bb19b !important;
+  background-color: #008765 !important;
+  border-color: #008765  !important;
 }
 
 .feedback-input{

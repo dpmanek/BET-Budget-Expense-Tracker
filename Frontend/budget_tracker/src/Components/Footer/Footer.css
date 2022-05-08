@@ -6,6 +6,7 @@
     position: relative;
     bottom: 0;
     margin-top: 5em;
+    
   }
   
   .footer-dark h3 {
@@ -92,8 +93,23 @@
     font-size:13px;
     margin-bottom:0;
   }
-
+  .f2{
+    font-weight: bold !important ;
+    font-size:larger !important;
+    text-decoration-color: #fff !important;
+  }
 
 .adjust{
   margin-left: 100px !important;
+}
+
+.f1{
+  font-weight: bold !important ;
+  font-size:larger !important;
+  text-decoration-color: #fff;
+}
+
+.c1{
+  background-color: #282d32 ;
+  color: #909497;
 }
