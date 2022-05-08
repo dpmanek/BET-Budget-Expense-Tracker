@@ -351,4 +351,50 @@ module.exports = {
   }
 return Output;
 },
+async filterDataMonthlyComparisn(userInfo) {
+  let expense = userInfo.Expenditure;
+	let OneTimeExpense = expense.OneTime;
+	let RecurringExpense = expense.Recurring;
+
+	let income = userInfo.Income;
+	let OneTimeIncome = income.OneTime;
+	let RecurringIncome = income.Recurring;
+
+	// let from ="05/01/2022"
+	// let till="05/05/2022"
+	// let start = new Date(moment(from).format("MM/DD/YYYY"));
+	// let end = new Date(moment(till).format("MM/DD/YYYY"));
+
+	let FinalExpense = [];
+	let FinalIncome = [];
+	let Expensedata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	let Incomedata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	//	let thisMonth = parseInt(moment().format('mm'));
+
+	FinalExpense = OneTimeExpense.concat(RecurringExpense);
+	for (let i in FinalExpense) {
+		let date = moment(new Date(FinalExpense[i].TranactionDate)).format(
+			'MM/DD/YYYY'
+		);
+		let month = parseInt(moment(new Date(date)).format('MM'));
+
+		Expensedata[month - 1] = Expensedata[month - 1] + FinalExpense[i].Amount;
+	}
+
+	FinalIncome = OneTimeIncome.concat(RecurringIncome);
+	for (let i in FinalIncome) {
+		let date = moment(new Date(FinalIncome[i].TranactionDate)).format(
+			'MM/DD/YYYY'
+		);
+		let month = parseInt(moment(new Date(date)).format('MM'));
+		Incomedata[month - 1] = Incomedata[month - 1] + FinalIncome[i].Amount;
+	}
+
+	let data = {
+		TotalIncome: Incomedata,
+		TotalExpenditure: Expensedata,
+	};
+  return data;
+},
+
 };
