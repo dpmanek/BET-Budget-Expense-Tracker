@@ -110,6 +110,11 @@
 }
 
 .c1{
-  background-color: #282d32 ;
-  color: #909497;
+  background-color: #282d32 !important;
+  color: #909497 !important;
+  text-align: center;
+}
+.l1{
+  background-color: #282d32 !important;
+  color:#668dff !important;
 }
