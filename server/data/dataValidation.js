@@ -11,7 +11,7 @@ const checkName = (string) => {
 
 	if (string.split(' ').length > 1)throw 'Name cannot have spaces inside';
 
-	var letterOnly = /INC[0-9]{7}/g;
+	var letterOnly = /^[a-zA-Z]+$/;
 	let result = string.match(letterOnly);
 
 	if (!(result == string && typeof result === 'object'))
@@ -65,6 +65,13 @@ const checkRating = (rating) =>{
 	if (typeof rating != 'number') throw 'Rating must be a Number';
 	return rating
 };
+
+const checkRatingInDataFunction = (rating) =>{
+	if (!rating) throw ' Please enter a Rating';
+	if (typeof rating != 'number') throw 'Rating must be a Number';
+	return rating
+};
+
 
 const checkFeedback = (feedback) => {
 	if (!feedback) throw ' Please enter a feedback';
@@ -218,4 +225,5 @@ module.exports = {
 	checkTransactionID,
 	checkTransactionDateReportGeneration,
 	checkIncidentID,
+	checkRatingInDataFunction,
 };

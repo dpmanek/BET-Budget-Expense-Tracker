@@ -24,8 +24,7 @@ const Review = () => {
 
 	const validate = (values) => {
 		const alpha = /^[0-9]+$/;
-		const spec = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/;
-		const tog = spec.test(values.feedback);
+		
 		let errors = {};
 		if (!values.rating) {
 			errors.rating = 'Rating is required';
@@ -37,9 +36,7 @@ const Review = () => {
 		if (flag === true) {
 			errors.feedback = 'Feedback cannot be just Numerical!';
 		}
-		if (tog === true) {
-			errors.feedback = 'Feedback cannot be just special Characters!';
-		}
+		
 		return errors;
 	};
 
