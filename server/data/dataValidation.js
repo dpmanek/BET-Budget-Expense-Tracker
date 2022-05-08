@@ -117,4 +117,5 @@ module.exports = {
 	checkName,
 	checkEmail,
 	checkPassword,
+	createExpense,
 };

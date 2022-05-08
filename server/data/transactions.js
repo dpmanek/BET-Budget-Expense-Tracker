@@ -1,51 +1,35 @@
 const mongoCollections = require('../config/mongoCollections');
 const Users = mongoCollections.users;
-const moment = require('moment');
-//const bands = require('./bands');
-const users = require('./users');
-//const errorChecking = require('../errorChecking'); //create one for transactions
-const { ObjectId } = require('mongodb');
 const dataValidation = require('./dataValidation');
 
+//const errorChecking = require('../errorChecking'); //create one for transactions
+const { ObjectId } = require('mongodb');
+
 const createIncome = async (
-	userId,
-	name,
-	description,
-	tags,
-	amount,
-	type,
-	date
+	UserId,
+	Name,
+	Description,
+	Tags,
+	Amount,
+	Type,
+	Date
 ) => {
-	let UserId = !userId ? 'kevin1@gmail.com' : userId;
-	let Name = !name ? 'icecream' : name;
-	let Description = !description ? null : description;
-	let Tags = !tags ? 'sometag' : tags;
-	let Amount = !amount ? 500 : amount;
-	let Type = !type ? 'OneTime' : type;
 	/*errorChecking*/
 
-	// try {
-	// 	await errorChecking.errorCreateAlbum(
-	// 		bandId,
-	// 		title,
-	// 		releaseDate,
-	// 		tracks,
-	// 		rating
-	// 	);
-	// } catch (e) {
-	// 	throw e;
-	// }
+	try {
+		await dataValidation.createExpense(
+			UserId,
+			Name,
+			Description,
+			Tags,
+			Amount,
+			Type,
+			Date
+		);
+	} catch (e) {
+		throw e;
+	}
 
-	/*Logic to trim and insert ----------------*/
-	// for (i in tracks) {
-	// 	tracks[i] = tracks[i].trim();
-	// }
-
-	//Trim all the string before inserting
-	// title = title.trim();
-	// releaseDate = releaseDate.trim();
-
-	//let albumCollection = await albums();
 	let UserCollection = await Users();
 
 	let income = {
@@ -54,8 +38,8 @@ const createIncome = async (
 		Description: Description,
 		Tags: Tags,
 		Amount: Amount,
-		TranactionDate: date,
-		Type: type,
+		TranactionDate: Date,
+		Type: Type,
 	};
 
 	if (Type === 'OneTime') {
