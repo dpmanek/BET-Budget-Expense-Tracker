@@ -32,7 +32,6 @@ module.exports = {
     } else throw "User with this email not found";
   },
   async postReview(email, rating, feedback) {
-    //test
     if (!email) throw "No Email";
     email = dataValidation.checkEmail(email);
     email = email.toLowerCase();

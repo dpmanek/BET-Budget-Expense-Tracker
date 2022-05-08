@@ -64,12 +64,17 @@ const Createincome = () => {
 
   const validate = (values) => {
     const alpha = /^[0-9]+$/;
+    const spec = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/;
+    const tog = spec.test(values.name);
     let errors = {};
     if (!values.amount) {
       errors.amount = "Amount is required";
     }
     if (!values.date) {
       errors.date = "Date is required";
+    }
+    if (tog === true) {
+      errors.name = "Name cannot be just special charcters";
     }
     if (!values.name) {
       errors.name = "Name is required";
@@ -255,7 +260,10 @@ const Createincome = () => {
           <div className="card posR posF">
             <h1>Restricted area</h1>
             <h2>
-              <a href="/login" className="a12">Sign In</a> to Access DashBoard
+              <a href="/login" className="a12">
+                Sign In
+              </a>{" "}
+              to Access DashBoard
             </h2>
           </div>
         </React.Fragment>

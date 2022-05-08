@@ -105,14 +105,14 @@ const deleteSetAside = (TransactionID) => {
 		});
 };
 
-const getSetAside = (TransactionID) => {
-	return axios
-		.get(API_URL + '/removeSetAside', {
-			headers: authHeader(),
-		})
-		.then((response) => {
-			return response.data;
-		});
+const getSetAside = ()=> {
+  return axios
+    .get(API_URL + "/getSetAside", {
+      headers: authHeader(),
+    })
+    .then((response) => {
+      return response.data;
+    });
 };
 
 const transactionService = {

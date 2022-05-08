@@ -472,17 +472,32 @@ catch(e){
 
 router.post('/addSetAside', async (req, res) => {
 	let UserID = req.userId;
+	let Amount,Purpose,data,userInfo;
 	try {
 		if (req.body.body) {
 			data = req.body.body;
 		} else {
 			throw 'No Request Body';
 		}
+		Amount = data.amount;
+		Purpose = data.goal;
+		if(!Amount) throw "Amount Not Provided";
+		if(!Purpose) throw " Purpose Not Provided";
+		Amount = dataValidation.checkTransactionAmount(Amount);
+		Purpose = dataValidation.checkFeedback(Purpose)
 	} catch (e) {
 		return res.status(204).send({ Error: e });
 	}
-	await transactionFunc.createSetAside(UserID, Amount, Purpose);
-	return res.status(200).send({});
+	try{
+	userInfo =	await transactionFunc.createSetAside(UserID, Amount, Purpose);
+	if(userInfo){
+		res.status(200).send({ data: userInfo });
+	}
+	else throw "Something Went Wrong"
+}
+	catch(e){
+		return res.status(400).send({ Error: e });
+	}
 });
 router.delete('/removeSetAside', async (req, res) => {
 	let UserId = req.userId;
