@@ -12,7 +12,7 @@ const Banner = (props) => {
       <div className="div-class">
         <div className="row col-md-12 page">
           <div className="col-md-6">
-            <img src="/capture.png" className="card-img" alt=""/>
+          <img src={props.url} alt=" " className="img"/>
           </div>
           <div className="col-md-6" id="center">
             <h5 className="card-title">{props.title}</h5>
@@ -30,7 +30,7 @@ const Banner = (props) => {
             <p className="card-text">{props.description}</p>
           </div>
           <div className="col-md-6">
-            <img src="/capture.png" className="card-img" alt=""/>
+          <img src={props.url} alt=" " className="img"/>
           </div>
         </div>
       </div>
