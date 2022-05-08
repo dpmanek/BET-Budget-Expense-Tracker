@@ -8,14 +8,29 @@ var xss = require("xss");
 
 
 router.post("/newuser", async (req, res) => { //route used to create a new user from the signup page in frontend
+	let data = undefined
+	
 	try {
-		const data = req.body;
+		if(req.body) data = xss(req.body);
+		else throw {
+			code: 204,
+			message:
+			  'No Request Body',
+		  };
+		}
+	catch(e){
+		return res.status(e.code).send({ Message:e.message});
+	}
+	let firstName = xss(data.firstName);
+	let lastName = xss(data.lastName);
+	let email = xss(data.email);
+	let password = xss(data.password);
 
-		let firstName = xss(data.firstName);
-		let lastName = xss(data.lastName);
-		let email = xss(data.email);
-		let password = xss(data.password);
-
+	try{
+		if(!firstName) throw {code: 204,message:'No FirstName'};
+		if(!lastName) throw {code: 204,message:'No LastName'};
+		if(!email) throw {code: 204,message:'No Email'};
+		if(!password) throw {code: 204,message:'No Password'}
 		console.log(`${email} is trying to create a new Account`);
 		
 		//Data Validation
@@ -31,9 +46,10 @@ router.post("/newuser", async (req, res) => { //route used to create a new user 
 		console.log(`${data.email} created new account Successfully`);
 		res.status(201).send({data:insertedBool, message: "User created successfully" });
 
-	
-	} catch (error) {
-		res.status(500).send({ message: `Internal Server Error: ${error}` });
+
+	}
+	catch(e){
+		return res.status(e.code).json({ Message:e.message});
 	}
 });
 

@@ -5,8 +5,9 @@ const jwtkey = require("./config/authconfig");
 const static = express.static(__dirname + "/public");
 const cors = require("cors");
 const configRoutes = require("./routes");
-//var hour = 86400000;
 let port = 8080;
+var xss = require("xss");
+
 
 const whitelist = ["http://localhost:3000"]; //Refrence: https://www.codingdeft.com/posts/nodejs-react-cors-error/
 const corsOptions = {
@@ -34,41 +35,52 @@ app.use("/users", (req, res, next) => {
 
 // verify token
 app.use("/user/data", (req, res, next) => {
-  let token = req.headers["x-access-token"];
-
-  try {
-    var tokeninBody = req.body.headers["x-access-token"];
-  } catch (e) {
-    tokeninBody = undefined;
-  }
-
-  //let token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtldmluQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoia2V2aW4iLCJpYXQiOjE2NTE1OTk4OTksImV4cCI6MTY1MTY4NjI5OX0.5ahbrHoNt9Y2aT4LxeKijqYwgbePqkbJIO5iewYvGkE"
-   //let token ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtldmluMDEwOGRzYUBnbWFpbC5jb20iLCJ1c2VyTmFtZSI6ImtldmluIiwiaWF0IjoxNjUxOTczNjY1LCJleHAiOjE2NTIwNjAwNjV9.uiGvdX5NUSFZO1qBUJsRFnKAI1n_RAtzDVVF4-esHRY';
-  if (!token && !tokeninBody) {
-    return res.status(403).send({ message: "No token provided!" });
-  }
+  let token = undefined;
+  let tokeninbody = undefined;
+    if(req.headers)token = xss(req.headers["x-access-token"]);
+    if(req.body.header) tokeninbody = xss(req.body.headers["x-access-token"])
+  try{
+  if (token || tokeninbody) {
   if (token) {
     jwt.verify(token, jwtkey.secret, (err, decoded) => {
       if (err) {
-        return res.status(401).send({ message: "Unauthorized!" });
+       throw {
+          code: 401,
+          message:"Unauthorized!",
+        };
       }
       if (decoded) {
         req.userId = decoded.email;
         console.log("Access Token Verified");
+        
       }
       next();
     });
-  } else if (tokeninBody) {
-    jwt.verify(tokeninBody, jwtkey.secret, (err, decoded) => {
+  } else if (tokeninbody) {
+    jwt.verify(tokeninbody, jwtkey.secret, (err, decoded) => {
       if (err) {
-        return res.status(401).send({ message: "Unauthorized!" });
-      }
+        throw {
+           code: 401,
+           message:"Unauthorized!",
+         };
+       }
       if (decoded) {
         req.userId = decoded.email;
         console.log("Access Token Verified");
+        
       }
       next();
     });
+  }
+}
+else throw {
+    code: 403,
+    message:
+      'AccessToken Not Provided',
+  };
+  }
+  catch(e){
+    return res.status(e.code).send({ Message:e.message});
   }
 });
 
@@ -77,21 +89,20 @@ app.use(async (req, res, next) => {
   let currentTime = new Date().toUTCString();
   let method = req.method;
   let route = req.originalUrl;
-
-  let authenticated = false; //change this once jwt verified
-  //Un Comment this part once Sessions are done
-  //if (req.session.user) authenticated = true;
-  //else authenticated = false;
-
+  if (req.userId) authenticated = true;
+  else authenticated = false;
   console.log(
-    `Time: ${currentTime}, Method: ${method}, Route: ${route}, userAuth Status: ${authenticated}`
+    `Time: ${currentTime}, Method: ${method}, Route: ${route}, userAuth: ${authenticated}`
   );
-
   next();
 });
 
 configRoutes(app);
 
 app.listen(port, () => {
-  console.log(`Your routes will be running on port ${port}`);
+  console.log(`Your routes will be running on port http://localhost/${port}`);
 });
+
+
+try{}
+	catch(e){}

@@ -1,18 +1,24 @@
 const router = require('express').Router();
-const bcrypt = require('bcryptjs');
-const jwtkey = require('../config/authconfig');
-const dataFunctions = require('../data/users');
-const dataValidation = require('../data/dataValidation');
-const userDataFunctions = require('../data/getUserInfo');
-var jwt = require('jsonwebtoken');
-var xss = require('xss');
+
 
 router.get('/allReviews', async (req, res) => {
-	let allReviews = await userDataFunctions.getAllReviews();
+	let allReviews = undefined;
+	try{
+	 allReviews = await userDataFunctions.getAllReviews();
+	}
+	catch(e){
+		return res.status(400).send({ Message: 'Something Went Wrong'});
+	}
+	try{
 	if (allReviews) {
 		// console.log("Request Processed Sending All Reviews")
-		res.send({ data: allReviews });
+		res.status(200).send({ data: allReviews });
 	}
-});
+}
+catch(e){
+	res.status(400).send({ Message: 'Something Went Wrong'});
+}
+}
+);
 
 module.exports = router;

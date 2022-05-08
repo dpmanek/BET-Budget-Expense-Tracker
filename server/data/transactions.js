@@ -16,7 +16,7 @@ const createIncome = async (
 ) => {
 	/*errorChecking*/
 
-	try {
+	
 		await dataValidation.createIncome(
 			UserId,
 			Name,
@@ -26,9 +26,7 @@ const createIncome = async (
 			Type,
 			Date
 		);
-	} catch (e) {
-		throw e;
-	}
+	
 
 	let UserCollection = await Users();
 
