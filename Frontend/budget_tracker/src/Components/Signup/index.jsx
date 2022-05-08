@@ -36,6 +36,9 @@ const Signup = () => {
 		const first = /^[a-zA-Z()]+$/.test(values.firstName)
 		const last = /^[a-zA-Z()]+$/.test(values.lastName)
 		const flag = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)
+		const spec = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/;
+    	const tog = spec.test(values.firstName);
+		const togg = spec.test(values.lastName);
 		if (flag === false) {
 			errors.email = "Email ID is invalid!!";
 		  }
@@ -47,6 +50,12 @@ const Signup = () => {
 		if(values.password.length>10){
 			errors.password = "Length of password should be lesser than 10";
 		}
+		if (tog === true) {
+			errors.firstName = "Name cannot be just spcial characters!";
+		  }
+		  if (togg === true) {
+			errors.lastName = "Name cannot be just spcial characters!";
+		  }
 
 		if(first === false){
 			errors.firstName = "Name cannot contain numerical values";

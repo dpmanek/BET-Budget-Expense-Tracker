@@ -39,12 +39,17 @@ const Setaside = () => {
 
   const validate = (values) => {
     const alpha = /^[0-9]+$/;
+    const spec = /^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]+$/;
+    const tog = spec.test(values.goal);
     let errors = {};
     if (!values.amount) {
       errors.amount = "Amount is required";
     }
     if (!values.goal) {
       errors.goal = "Goal is required";
+    }
+    if (tog === true) {
+      errors.goal = "Goal cannot be just special characters!";
     }
     const flag = alpha.test(values.goal);
     if (flag === true) {
@@ -123,7 +128,10 @@ const Setaside = () => {
           <div className="card posR posF">
             <h1>Restricted area</h1>
             <h2>
-              <a href="/login" className="a12">Sign In</a> to Set Goals
+              <a href="/login" className="a12">
+                Sign In
+              </a>{" "}
+              to Set Goals
             </h2>
           </div>
         </React.Fragment>

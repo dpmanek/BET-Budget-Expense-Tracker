@@ -8,8 +8,10 @@ const Settable = () => {
   const [data, setdata] = useState([]);
   useEffect(() => {
     transactionService.getSetAside().then((response) => {
+      console.log(response, "====//===");
       if (response.data) {
-        setdata(response.data.getUserGoal);
+        // setdata(response.data.getUserGoal);
+        console.log(response.data, "==========");
       }
     });
   }, []);
