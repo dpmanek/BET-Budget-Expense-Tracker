@@ -575,13 +575,10 @@ const deleteSetAside = async (UserId, transactionID) => {
 		};
 };
 
-const getSetAside = async (UserId, transactionID) => {
+const getSetAside = async (UserId) => {
 	if (!UserId) throw 'No Email';
 	UserId = dataValidation.checkEmail(UserId);
 
-	if (!transactionID) throw 'No Transaction ID';
-	// write data function to check transaction ID
-	let Foundflag = false;
 	let Transaction = [];
 	let UserCollection = await Users();
 	const userFound = await UserCollection.findOne({ Email: UserId });
@@ -590,23 +587,15 @@ const getSetAside = async (UserId, transactionID) => {
 
 		if (SetAsideMoney && SetAsideMoney.length >= 1) {
 			for (i in SetAsideMoney) {
-				if (SetAsideMoney[i]._id.toString() === transactionID) {
+				SetAsideMoney[i]._id = SetAsideMoney[i]._id.toString();
 					Transaction.push(SetAsideMoney[i]);
-					Foundflag = true;
+					
 				}
 			}
-		}
 
-		if (Foundflag === true) {
 			return Transaction;
-		} else {
-			throw `No Transaction of ${transactionID} ID Exists`;
 		}
-	} else
-		throw {
-			code: 400,
-			message: 'User Not Found',
-		};
+	 else throw'User Not Found';
 };
 module.exports = {
 	createIncome,
