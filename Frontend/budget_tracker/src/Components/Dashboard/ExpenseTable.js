@@ -103,7 +103,7 @@ const ExpenseTable = ({ updatePieState }) => {
 
   return (
     <div className="table-top">
-      <h4>Expense Table</h4>
+      <p className="h4">Expense Table</p>
       <div className="table-margin">
         <select
           className="form-select position"
@@ -203,7 +203,7 @@ const ExpenseTable = ({ updatePieState }) => {
         </React.Fragment>
       )}
       <div className="table-top">
-        <h4>Income Table</h4>
+        <p className="h4">Income Table</p>
         <div className="table-margin">
           <select
             className="form-select position"

@@ -24,7 +24,7 @@ const Footer = () => {
             </div>
             <div className="col item social">
               <p>Connect over
-              <a href="https://github.com/dpmanek/CS_546_C_Project">
+              <a href="https://github.com/dpmanek/CS_546_C_Project" className="a1">
                <p>Github <i className="l1 icon ion-social-github"></i></p>
               </a>
               </p>
