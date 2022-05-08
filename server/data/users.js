@@ -5,7 +5,6 @@ const dataValidation = require('./dataValidation');
 const { ObjectId } = require('mongodb');
 const Mailer = require('./mail');
 
-
 const createUser = async (newFirstName, newLastName, newEmail, newPassword) => {
 	if (!newFirstName) throw 'No FirstName';
 	if (!newLastName) throw 'No LastName';
@@ -49,11 +48,12 @@ const createUser = async (newFirstName, newLastName, newEmail, newPassword) => {
 				totalExpenditure: null,
 			},
 			TotalSpendingLimit: null,
+			SetAsideMoney: [],
 		},
 		Review: {
 			Rating: null,
-			Feedback: "",
-		}
+			Feedback: '',
+		},
 	};
 
 	const insertInfo = await userCollection.insertOne(newUser);
@@ -61,9 +61,9 @@ const createUser = async (newFirstName, newLastName, newEmail, newPassword) => {
 	if (!insertInfo.acknowledged || !insertInfo.insertedId)
 		throw ' User was unable to Sign up MongoDB Server Error'; // Not sure about this part confirm once
 	else {
-		let UserCreatedSubject = `BET: New Account Created!!`
-		let UserCreatedBody = `New Account Created Name: ${newFirstName} ${newLastName} Email: ${newEmail} Welcome To BET, Thank you for Registering. Saving Money Just Got Easier!!!.`
-		Mailer.sendEmail(newEmail,UserCreatedSubject,UserCreatedBody);
+		let UserCreatedSubject = `BET: New Account Created!!`;
+		let UserCreatedBody = `New Account Created Name: ${newFirstName} ${newLastName} Email: ${newEmail} Welcome To BET, Thank you for Registering. Saving Money Just Got Easier!!!.`;
+		Mailer.sendEmail(newEmail, UserCreatedSubject, UserCreatedBody);
 		return { userInserted: true };
 	}
 };
@@ -96,10 +96,7 @@ const checkUser = async (email, password) => {
 	else throw 'Either the username or password is invalid';
 };
 
-
-
 module.exports = {
 	createUser,
 	checkUser,
-	
 };

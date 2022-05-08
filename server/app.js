@@ -7,6 +7,7 @@ const cors = require("cors");
 const configRoutes = require("./routes");
 let port = 8080;
 var xss = require("xss");
+const dataValidation = require("./data/dataValidation");
 
 
 const whitelist = ["http://localhost:3000"]; //Refrence: https://www.codingdeft.com/posts/nodejs-react-cors-error/
@@ -50,7 +51,9 @@ app.use("/user/data", (req, res, next) => {
         };
       }
       if (decoded) {
-        req.userId = decoded.email;
+        let email = decoded.email;
+        email = dataValidation.checkEmail(email);
+        req.userId = email;
         console.log("Access Token Verified");
         
       }
@@ -65,7 +68,9 @@ app.use("/user/data", (req, res, next) => {
          };
        }
       if (decoded) {
-        req.userId = decoded.email;
+        let email = decoded.email;
+        email = dataValidation.checkEmail(email);
+        req.userId = email;
         console.log("Access Token Verified");
         
       }
