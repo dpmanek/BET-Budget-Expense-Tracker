@@ -1,5 +1,7 @@
 import axios from "axios";
-const API_URL = "http://localhost:8080/users";
+import config from "../Config/envVariables";
+const API_URL = `${config.Server_url}/users`;
+
 
 //axios call to server
 

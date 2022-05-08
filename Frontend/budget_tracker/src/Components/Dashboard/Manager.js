@@ -84,7 +84,7 @@ export const Manager = ({ spendingTotal, expenseTotal, reloader }) => {
         <button
           className="btn btn-outline-success dash-success"
           type="button"
-          onClick={() => redirectRoute("/report")}
+          onClick={() => redirectRoute("/monthlyComparision")}
         >
           Monthly Comparison
         </button>
