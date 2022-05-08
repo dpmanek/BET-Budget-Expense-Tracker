@@ -511,20 +511,9 @@ else throw "Request Body Not Present"
 
 router.get('/getSetAside', async (req, res) => {
 	let UserId = req.userId;
-	let transactionId,userInfo
+	
 	try{
-	if(req.body){
-	transactionId = xss(req.body.TransactionID);
-	if(!transactionId) throw "ID Not Provided"
-	transactionId = dataValidation.checkTransactionID(transactionId);
-}
-else throw "Request Body Not Present"
-	}
-	catch(e){
-		return res.status(400).send({ Error: e });
-	}
-	try{
-		userInfo = await transactionFunc.getSetAside(UserId, transactionId); 
+		userInfo = await transactionFunc.getSetAside(UserId); 
 		if(userInfo){
 		res.status(200).send({ data: userInfo });
 		}else throw "Something went wrong"

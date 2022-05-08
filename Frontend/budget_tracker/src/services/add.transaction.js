@@ -109,7 +109,6 @@ const getSetAside = (TransactionID)=> {
   return axios
     .get(API_URL + "/removeSetAside", {
       headers: authHeader(),
-      data: { TransactionID: TransactionID },
     })
     .then((response) => {
       return response.data;

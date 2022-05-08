@@ -7,7 +7,7 @@ const Settable = () => {
   let navigate = useNavigate();
   const [data, setdata] = useState([]);
   useEffect(() => {
-    UserService.getUserGoal().then((response) => {
+    transactionService.getSetAside().then((response) => {
       if (response.data) {
         setdata(response.data.getUserGoal);
       }
