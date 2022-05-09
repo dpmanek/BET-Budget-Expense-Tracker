@@ -92,3 +92,9 @@ input:focus, .feedback-input:focus {
   color: #005fdf;
 }
 
+.rm1{
+    align-content: "center" !important;
+    border-radius: 20;
+    background-color: #6ecebc !important;
+    font-weight: "bold";
+}

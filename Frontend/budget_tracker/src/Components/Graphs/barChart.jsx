@@ -99,7 +99,7 @@ const BarChart = () => {
 				</React.Fragment>
 			) : (
 				<React.Fragment>
-					<div className="card posR posF">
+					<div className="card posBP">
 						<h1>Restricted area</h1>
 						<h2>
 							<a href="/login" className="a12">Sign In</a> to Access DashBoard
