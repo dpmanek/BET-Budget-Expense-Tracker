@@ -98,7 +98,7 @@ router.post('/addExpense', async (req, res) => {
 				date = moment(TranactionDate).format('MM/DD/YYYY');
 			} else {
 				date = xss(req.body.body.date);
-				data = dataValidation.checkTransactionDate(date);
+				date = dataValidation.checkTransactionDateReportGeneration(date);
 				date = moment(new Date(date)).format('MM/DD/YYYY');
 			}
 		} else {
