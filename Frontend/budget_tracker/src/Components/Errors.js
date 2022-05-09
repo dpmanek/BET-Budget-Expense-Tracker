@@ -6,7 +6,7 @@ import "./Errors.css"
 const Errors=()=>{
     return(
         
-        <div className="card posR2 posF2 e1" >
+        <div className="card posE" >
             <h1>Error: 404</h1>
             <h2>Lost your track?</h2>
             <h3>No worries. You can track the flow of your money</h3>
