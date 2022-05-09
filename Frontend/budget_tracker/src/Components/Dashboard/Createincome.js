@@ -252,13 +252,13 @@ const Createincome = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div className="card posR posF">
+          <div className="card posIE">
             <h1>Restricted area</h1>
             <h2>
               <a href="/login" className="a12">
                 Sign In
               </a>{" "}
-              to Access DashBoard
+              to Access Dashboard
             </h2>
           </div>
         </React.Fragment>

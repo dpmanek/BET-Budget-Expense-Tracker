@@ -39,7 +39,7 @@ const Dashboard = () => {
 				</React.Fragment>
 			) : (
 				<React.Fragment>
-					<div className="card posR posF">
+					<div className="card posD">
 						<h1>Restricted area</h1>
 						<h2>
 							<a href="/login" className="a12">
