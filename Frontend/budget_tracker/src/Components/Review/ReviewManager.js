@@ -4,6 +4,7 @@ import Review from "./Review";
 import Feedback from "./Feedback";
 // import Footer from "../Footer/Footer";
 import AuthService from "../../services/auth.service";
+import './Review.css'
 
 const ReviewManager = () => {
   const [accessToken, setAccessToken] = useState("");
@@ -32,13 +33,7 @@ const ReviewManager = () => {
       ) : (
         <React.Fragment>
           <div
-            className="card p-3 mt-2"
-            style={{
-              alignItems: "center",
-              borderRadius: 20,
-              backgroundColor: "#6ecebc",
-              fontWeight: "bold",
-            }}
+            className="card p-3 mt-2 rm1"
           >
             <h1>
               Want to add a review ? <a href="/login" className="a12">Sign In</a>

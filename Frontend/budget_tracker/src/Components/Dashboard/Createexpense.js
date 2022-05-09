@@ -256,7 +256,7 @@ const Createexpense = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div className="card posR posF">
+          <div className="card posEI">
             <h1>Restricted area</h1>
             <h2>
               <a href="/login" className="a12">

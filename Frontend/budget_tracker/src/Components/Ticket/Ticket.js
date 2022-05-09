@@ -187,7 +187,7 @@ const Ticket = () => {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <div className="card posR3 posF3">
+          <div className="card posT">
             <h1>Restricted area</h1>
             <h2>
               <a href="/login" className="a12">
