@@ -114,7 +114,7 @@ const Ticket = () => {
   };
 
   return (
-    <div className="row col-md-8">
+    <div className="row col-md-8 offset-md-4 div-fix">
       {accessToken !== undefined ? (
         <React.Fragment>
           <form onSubmit={genTicket}>
