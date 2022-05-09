@@ -4,42 +4,43 @@ const { ObjectId } = require('mongodb');
 const checkName = (string) => {
 	if (!string) throw 'String Undefined';
 
-	if (typeof string != 'string') throw'Name must be a string Data Type';
+	if (typeof string != 'string') throw 'Name must be a string Data Type';
 
 	string = string.trim();
-	if (string.length === 0) throw'Cannot have empty a Name';
+	if (string.length === 0) throw 'Cannot have empty a Name';
 
-	if (string.split(' ').length > 1)throw 'Name cannot have spaces inside';
+	if (string.split(' ').length > 1) throw 'Name cannot have spaces inside';
 
 	var letterOnly = /^[a-zA-Z]+$/;
 	let result = string.match(letterOnly);
 
 	if (!(result == string && typeof result === 'object'))
-	throw 'Name should be Only Alphabets';
+		throw 'Name should be Only Alphabets';
 
-	if(string.split("").length >= 20) throw'Name should have atmost 20 characters';
-	if(!(string.split("").length >= 2))throw'Name should have atleast 2 characters';
+	if (string.split('').length >= 20)
+		throw 'Name should have atmost 20 characters';
+	if (!(string.split('').length >= 2))
+		throw 'Name should have atleast 2 characters';
 	return string;
 };
 
 const checkIncidentID = (string) => {
 	if (!string) throw 'String Undefined';
 
-	if (typeof string != 'string') throw'Name must be a string Data Type';
+	if (typeof string != 'string') throw 'Name must be a string Data Type';
 
 	string = string.trim();
-	if (string.length === 0) throw'Cannot have empty a Name';
+	if (string.length === 0) throw 'Cannot have empty a Name';
 
-	if (string.split(' ').length > 1)throw 'Name cannot have spaces inside';
+	if (string.split(' ').length > 1) throw 'Name cannot have spaces inside';
 	var letterOnly = /INC[0-9]{7}/g;
 	let result = string.match(letterOnly);
 
 	if (!(result == string && typeof result === 'object'))
-	throw 'Incident ID Invalid';
+		throw 'Incident ID Invalid';
 
 	return string;
 };
-
 
 const checkEmail = (email) => {
 	if (!email)
@@ -53,95 +54,93 @@ const checkEmail = (email) => {
 		throw { code: 400, message: 'Email Not Valid' };
 	return email;
 };
-const checkRating = (rating) =>{
+const checkRating = (rating) => {
 	if (!rating) throw ' Please enter a Rating';
 
 	if (typeof rating != 'string') throw 'Rating must be a string';
-	rating= rating.trim();
-	if(rating.length === 0) throw 'Rating cannot be empty';
+	rating = rating.trim();
+	if (rating.length === 0) throw 'Rating cannot be empty';
 	if (rating.split(' ').length > 1) throw 'rating has Spaces inside';
 	if (rating.split('.').length > 2) throw 'rating has Multiple Decimal Points';
 	rating = parseFloat(rating);
 	if (typeof rating != 'number') throw 'Rating must be a Number';
-	return rating
+	return rating;
 };
 
-const checkRatingInDataFunction = (rating) =>{
+const checkRatingInDataFunction = (rating) => {
 	if (!rating) throw ' Please enter a Rating';
 	if (typeof rating != 'number') throw 'Rating must be a Number';
-	return rating
+	return rating;
 };
-
 
 const checkFeedback = (feedback) => {
 	if (!feedback) throw ' Please enter a feedback';
 
 	if (typeof feedback != 'string') throw 'feedback must be a string';
-	feedback= feedback.trim();
-	if(feedback.length === 0) throw 'feedback cannot be empty';
+	feedback = feedback.trim();
+	if (feedback.length === 0) throw 'feedback cannot be empty';
 	return feedback;
-}
+};
 
-
-const checkTransactionName = (String) =>{
+const checkTransactionName = (String) => {
 	if (!String) throw ' Please enter a Transaction Name';
 
 	if (typeof String != 'string') throw 'Transaction Name must be a string';
-	String= String.trim();
-	if(String.length === 0) throw 'Transaction Name cannot be empty';
+	String = String.trim();
+	if (String.length === 0) throw 'Transaction Name cannot be empty';
 	return String;
-}
-const checkTransactionDescription = (String) =>{
+};
+const checkTransactionDescription = (String) => {
 	if (!String) throw ' Please enter a Transaction Description';
 
-	if (typeof String != 'string') throw 'Transaction Description must be a string';
-	String= String.trim();
-	if(String.length === 0) throw 'Transaction Description cannot be empty';
+	if (typeof String != 'string')
+		throw 'Transaction Description must be a string';
+	String = String.trim();
+	if (String.length === 0) throw 'Transaction Description cannot be empty';
 	return String;
-}
-const checkTransactionAmount = (Amount) =>{
+};
+const checkTransactionAmount = (Amount) => {
 	if (!Amount) throw ' Please enter a Amount';
 
 	if (typeof Amount != 'string') throw 'Amount must be a string';
-	Amount= Amount.trim();
-	if(Amount.length === 0) throw 'Amount cannot be empty';
+	Amount = Amount.trim();
+	if (Amount.length === 0) throw 'Amount cannot be empty';
 	if (Amount.split(' ').length > 1) throw 'Amount has Spaces inside';
 	if (Amount.split('.').length > 2) throw 'Amount has Multiple Decimal Points';
 	Amount = parseFloat(Amount);
 	if (typeof Amount != 'number') throw 'Amount must be a Number';
-	return Amount
-}
+	return Amount;
+};
 
-const checkAmountinDatafunction = (Amount) =>{
+const checkAmountinDatafunction = (Amount) => {
 	if (!Amount) throw ' Please enter a Amount';
 	Amount = parseFloat(Amount);
 	if (typeof Amount != 'number') throw 'Amount must be a Number';
-	return Amount
-}
+	return Amount;
+};
 
-
-
-const checkTransactionCategory = (string) =>{
+const checkTransactionCategory = (string) => {
 	if (!string) throw 'Transaction Category Undefined';
 
-	if (typeof string != 'string') throw'Transaction Category must be a string Data Type';
+	if (typeof string != 'string')
+		throw 'Transaction Category must be a string Data Type';
 
 	string = string.trim();
-	if (string.length === 0) throw'Cannot have empty a Transaction Category';
+	if (string.length === 0) throw 'Cannot have empty a Transaction Category';
 
-	var letterOnly = /^[a-zA-Z]+$/;
-	let result = string.match(letterOnly);
+	// var letterOnly = /^[a-zA-Z]+$/;
+	// let result = string.match(letterOnly);
 
-	if (!(result == string && typeof result === 'object'))
-	throw 'Transaction Category should be Only Alphabets';
+	// if (!(result == string && typeof result === 'object'))
+	// throw 'Transaction Category should be Only Alphabets';
 	return string;
-}
+};
 
-const checkTransactionDate = (date) =>{
-	if(!date) throw "Date not Provided"
-	if (typeof date != 'string') throw'Date not String type'
+const checkTransactionDate = (date) => {
+	if (!date) throw 'Date not Provided';
+	if (typeof date != 'string') throw 'Date not String type';
 	date = date.trim();
-	if (date.length === 0) throw'Cannot have empty Date';
+	if (date.length === 0) throw 'Cannot have empty Date';
 	if (Date(date) !== 'Invalid Date' && !isNaN(new Date(date))) {
 		let splitDate = date.split('/');
 		if (splitDate.length === 3) {
@@ -155,12 +154,12 @@ const checkTransactionDate = (date) =>{
 			return date;
 		}
 	} else throw 'Invalid Date Format needs to be MM/DD/YYYY';
-}
-const checkTransactionDateReportGeneration = (date) =>{
-	if(!date) throw "Date not Provided"
-	if (typeof date != 'string') throw'Date not String type'
+};
+const checkTransactionDateReportGeneration = (date) => {
+	if (!date) throw 'Date not Provided';
+	if (typeof date != 'string') throw 'Date not String type';
 	date = date.trim();
-	if (date.length === 0) throw'Cannot have empty Date';
+	if (date.length === 0) throw 'Cannot have empty Date';
 	if (Date(date) !== 'Invalid Date' && !isNaN(new Date(date))) {
 		let splitDate = date.split('-');
 		if (splitDate.length === 3) {
@@ -174,8 +173,7 @@ const checkTransactionDateReportGeneration = (date) =>{
 			return date;
 		}
 	} else throw 'Invalid Date Format';
-}
-
+};
 
 const checkPassword = (password) => {
 	// check if we have to trim
@@ -197,7 +195,7 @@ const checkPassword = (password) => {
 		throw 'Password should have atleast 6 characters';
 };
 
-const checkTransactionID = (id)=>{
+const checkTransactionID = (id) => {
 	if (!id) throw `Error: You must provide a valid ID`;
 	if (typeof id !== 'string') throw 'Id must be a string';
 	if (id.trim().length === 0)
@@ -205,10 +203,7 @@ const checkTransactionID = (id)=>{
 	id = id.trim();
 	if (!ObjectId.isValid(id)) throw 'invalid object ID';
 	return id;
-}
-
-
-
+};
 
 module.exports = {
 	checkName,
