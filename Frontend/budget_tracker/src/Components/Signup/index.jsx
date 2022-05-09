@@ -46,10 +46,12 @@ const Signup = () => {
 		}
 
 		if (first === false) {
-			errors.firstName = 'Name cannot contain numerical values';
+			errors.firstName =
+				'Name cannot contain numerical values or spaces in this field';
 		}
 		if (last === false) {
-			errors.lastName = 'Name cannot contain numerical values';
+			errors.lastName =
+				'Name cannot contain numerical values or spaces in this field';
 		}
 
 		if (!values.email) {
@@ -90,7 +92,8 @@ const Signup = () => {
 					setSuccess('Signed UP successfully!!');
 				})
 				.catch((e) => {
-					setFormErrors('Something went wrong!!');
+					console.log(e);
+					setFormErrors(e);
 				});
 		}
 	};
