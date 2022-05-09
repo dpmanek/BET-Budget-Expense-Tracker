@@ -92,7 +92,7 @@ const Signup = () => {
 					setSuccess('Signed UP successfully!!');
 				})
 				.catch((e) => {
-					console.log(e);
+					//console.log(e);
 					setFormErrors(e);
 				});
 		}
