@@ -1,6 +1,6 @@
 {
 	"mongoConfig": {
-		"serverUrl": "mongodb://localhost:27017/",
+		"serverUrl": "mongodb+srv://kevin:Kevin46dsa@cluster01.y00kz.mongodb.net/test",
 		"database": "Budget_tracker"
 	}
 }
