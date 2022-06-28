@@ -1,0 +1,12 @@
+// {
+// 	"mongoConfig": {
+// 		"serverUrl": "mongodb+srv://kevin:Kevin46dsa@cluster01.y00kz.mongodb.net/test",
+// 		"database": "Budget_tracker"
+// 	}
+// }
+{
+	"mongoConfig": {
+		"serverUrl": "mongodb+srv://admin:admin@cluster0.3o4dolc.mongodb.net/test",
+		"database": "Budget_tracker"
+	}
+}
