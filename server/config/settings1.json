@@ -1,6 +1,7 @@
- {
- 	"mongoConfig": {
- 		"serverUrl": "mongodb+srv://kevin:Kevin46dsa@cluster01.y00kz.mongodb.net/test",
- 		"database": "Budget_tracker"
- 	}
- }
+{
+	"mongoConfig": {
+		"serverUrl": "mongodb+srv://dpmanek:betpassword@budgetexpensetracker.ocvj2qr.mongodb.net/test",
+		"serverUrl2": "mongodb+srv://kevin:Kevin46dsa@cluster01.y00kz.mongodb.net/test",
+		"database": "Budget_tracker"
+	}
+}
